@@ -4,9 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 
-import { provideStore } from '@ngrx/store';
-import { currentView } from './reducer';
-
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideStore({MainView: currentView})]
+  providers: [provideRouter(routes), provideClientHydration()]
 };

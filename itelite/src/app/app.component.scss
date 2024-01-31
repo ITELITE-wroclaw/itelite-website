@@ -1,0 +1,32 @@
+
+header{
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    
+    ::ng-deep div{
+        display: flex;
+        flex-direction: column;
+        width: 763.836px;
+        height: 367px;
+        flex-shrink: 0;
+        gap: 30px;
+
+        h1{
+            color: #1A2C3D;
+            font-size: 56.164px;
+            font-weight: 700;
+        }
+
+        p{
+            max-width: 622px;
+        }
+
+        button{
+            width: 148px;
+            height: 46px;
+            flex-shrink: 0;
+        }
+    }
+    
+}
