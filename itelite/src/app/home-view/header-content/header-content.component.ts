@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
   templateUrl: './header-content.component.html',
   styleUrl: './header-content.component.scss'
 })
-export class HeaderContentComponent {
-
-}
+export class HeaderContentComponent {}
