@@ -9,6 +9,9 @@ import { HomeViewComponent } from "./home-view/home-view.component";
 
 import { sendMainViewElements } from './reducer';
 
+import { files } from '@files';
+import { View } from '@types';
+
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -21,12 +24,17 @@ export class AppComponent implements AfterViewInit{
 
   title = 'itelite';
 
-  @ViewChild('headerView', { read: ViewContainerRef, static: true }) headerViewEl!: ViewContainerRef;
-  @ViewChild('mainView', { read: ViewContainerRef, static: true }) mainViewEl!: ViewContainerRef;
+  protected readonly logo: string = files.nav;
 
-  constructor( private store: Store<{provideHomeView: {view: any} }> ){}
+  @ViewChild('headerView', { read: ViewContainerRef, static: true }) private headerViewEl!: ViewContainerRef;
+  @ViewChild('mainView', { read: ViewContainerRef, static: true }) private mainViewEl!: ViewContainerRef;
+
+  constructor( private store: Store<{provideHomeView: {view: View} }> ){}
 
   ngAfterViewInit(): void {
-    this.store.dispatch( sendMainViewElements( {view: {header: Object.freeze(this.headerViewEl), main: Object.freeze(this.mainViewEl)} } ) );
+    this.store.dispatch( 
+      sendMainViewElements( {view: {header: Object.freeze(this.headerViewEl), main: Object.freeze(this.mainViewEl)} } ) 
+    );
   }
+  
 }

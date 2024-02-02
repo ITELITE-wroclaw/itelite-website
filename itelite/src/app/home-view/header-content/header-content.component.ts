@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { files } from '@files';
 
 @Component({
   selector: 'app-header-content',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './header-content.component.html',
   styleUrl: './header-content.component.scss'
 })
-export class HeaderContentComponent {}
+export class HeaderContentComponent {
+  protected readonly files = files;
+}
