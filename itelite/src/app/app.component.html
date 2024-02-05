@@ -1,8 +1,8 @@
 <nav>
     <img class="logo" [src]="logo" alt="Logo of ITELITE company">
-    <div class="burger-menu"></div>
-
-    <div class="list">
+    <div #burgerMenu class="burger-menu" (click)="toggleList()"><i class="fa-solid fa-bars"></i></div>
+    
+    <div class="list" *ngIf="displayMenu.flag">
         <ul>
             <li>Home</li>
             <li>Products</li>

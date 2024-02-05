@@ -1,36 +1,37 @@
-import { Component, AfterViewInit, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, AfterViewInit, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { HeaderContentComponent } from './header-content/header-content.component';
 
 import { Store } from '@ngrx/store';
 import { View } from '@types';
+
+import { AppService } from '../app.service';
+import { MainContentComponent } from './main-content/main-content.component';
 
 @Component({
   selector: 'app-home-view',
   standalone: true,
   templateUrl: './home-view.component.html',
   styleUrls: ['./home-view.component.scss'],
-  imports: [ HeaderContentComponent ]
+  imports: [ HeaderContentComponent ],
+  providers: [ AppService ]
 })
-export class HomeViewComponent implements AfterViewInit {
+export class HomeViewComponent implements AfterViewInit, OnInit{
   
   constructor( 
     private componentFactory: ComponentFactoryResolver, 
-    private store: Store<{provideHomeView: {view: View } }>
-  ){}
+    private store: Store<{provideHomeView: {view: View } }>,
+    private appService: AppService
+  ){
+    appService.componentsList = [HeaderContentComponent, MainContentComponent];
+    appService.init();
+  }
+
+  ngOnInit(): void {
+    
+
+  }
 
   ngAfterViewInit(): void {
-    this.store.select("provideHomeView")
-    .subscribe((data: {view: {header: ViewContainerRef, main: ViewContainerRef} }) => {
-
-      const {header, main} = {header: data.view.header, main: data.view.main};
-      if(!header || !main) return;
-
-      // header component
-      const _componentFactory = this.componentFactory.resolveComponentFactory(HeaderContentComponent);
-      header.createComponent(_componentFactory);
-
-      //main component
-
-    })
+    this.appService.scrollEvent()
   }
 }

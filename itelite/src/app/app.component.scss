@@ -1,4 +1,5 @@
 $nav-list-height: 48px;
+$burger-menu-size: 40px;
 
 nav{
     position: fixed;
@@ -13,6 +14,15 @@ nav{
 
     div.burger-menu{
       display: none;
+      color: #fff;
+      font-size: 24px;
+
+      i{
+        line-height: $burger-menu-size;
+        margin: auto;
+        width: min-content;
+        display: block;
+      }
     }
 
     img.logo{
@@ -83,6 +93,7 @@ header {
       img {
         max-width: 560px;
         width: 100%;
+        
       }
     }
   }
@@ -124,15 +135,43 @@ header {
 
     div.burger-menu{
       display: block;
-      width: 40px;
-      height: 40px;
+      width: $burger-menu-size;
+      height: $burger-menu-size;
       background-color: #1a2c3d;
       border-radius: 10px;
       margin-top: calc( ($nav-list-height - 40px) / 2);
     }
 
     div.list{
-      display: none;
+      position: fixed;
+      top: 55%;
+      left: 50%;
+      background-color: #1a2c3d;
+      transform: translate(-50%, -50%);
+      flex-direction: column;
+      gap: 0px;
+      padding: 15px 65px 25px 65px;
+      -webkit-box-shadow: 16px 15px 30px -9px rgb(0 0 0);
+      -moz-box-shadow: 16px 15px 30px -9px rgb(0 0 0);
+      box-shadow: 16px 15px 30px -9px rgb(0 0 0);
+
+      ul{
+        flex-direction: column;
+        height: fit-content;
+        width: fit-content;
+        color: #fff;
+
+        li{
+          text-align: center;
+          border-bottom: 1px solid white;
+        }
+      }
+
+      button{
+        border-radius: 0;
+        margin-top: 7px;
+        border-bottom: 1px solid white;
+      }
     }
   }
 }
