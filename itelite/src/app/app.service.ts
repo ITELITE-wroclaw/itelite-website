@@ -2,7 +2,7 @@ import { ChangeDetectorRef, ComponentFactoryResolver, Inject, Injectable, PLATFO
 import { Store } from '@ngrx/store';
 
 import { View } from '@types';
-import { fromEvent } from 'rxjs';
+import { from, fromEvent, merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,8 @@ export class AppService {
 
   public currentComponentID: number = 0;
   public componentsList: any[] = [];
+
+  private availedComponents: any = {};
 
   private main: ViewContainerRef | undefined;
   private header: ViewContainerRef | undefined;
@@ -38,6 +40,7 @@ export class AppService {
       const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
       header.createComponent(_componentFactory);
 
+      this.availedComponents['0'] = true;
       //main component
 
     })
@@ -65,16 +68,23 @@ export class AppService {
 
   public scrollEvent()
   {
-    fromEvent(window, "wheel")
+    merge(
+      fromEvent(window, "wheel"),
+      fromEvent(window, "touchmove"),
+      fromEvent(window, "scroll")
+    )
     .subscribe((e: WheelEvent | any) => {
+      console.log(e)
       const id = e.deltaY > 0? this.currentComponentID + 1: this.currentComponentID - 1;
-      this.renderComponent(id)
+      this.renderComponent(id < 0? 0: id)
     })
+
   }
 
   private renderComponent(id: number)
   {
-    if(!id) return;
+    if(!id || this.availedComponents[`${id}`]) return;
+    this.availedComponents[`${id}`] = true;
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
     this.main?.createComponent(_componentFactory);
