@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { HomeViewComponent } from './home-view/home-view.component';
@@ -26,7 +26,7 @@ import { AppService } from './app.service';
   providers: [Store, AppService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [CommonModule, RouterOutlet, HomeViewComponent],
+  imports: [CommonModule, RouterOutlet, HomeViewComponent, RouterModule ],
 })
 export class AppComponent implements AfterViewInit {
   title = 'itelite';
@@ -38,8 +38,12 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('headerView', { read: ViewContainerRef, static: true })
   private headerViewEl!: ViewContainerRef;
+
   @ViewChild('mainView', { read: ViewContainerRef, static: true })
   private mainViewEl!: ViewContainerRef;
+
+  @ViewChild('footerView', { read: ViewContainerRef, static: true })
+  private footerViewEl!: ViewContainerRef;
 
   constructor(
     private store: Store<{ provideHomeView: { view: View } }>,
@@ -56,6 +60,7 @@ export class AppComponent implements AfterViewInit {
         view: {
           header: Object.freeze(this.headerViewEl),
           main: Object.freeze(this.mainViewEl),
+          footer: Object.freeze(this.footerViewEl)
         },
       })
     );

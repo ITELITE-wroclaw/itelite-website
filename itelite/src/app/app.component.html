@@ -5,7 +5,7 @@
     <div class="list" *ngIf="displayMenu.flag">
         <ul>
             <li>Home</li>
-            <li>Products</li>
+            <li routerLink="/products" >Products</li>
             <li>Custom Antenna</li>
             <li>Company</li>
             <li>Order</li>
@@ -22,5 +22,8 @@
     <ng-container #mainView></ng-container>
 </main>
 
-<footer></footer>
+<footer>
+    <ng-container #footerView></ng-container>
+</footer>
+
 <router-outlet></router-outlet>

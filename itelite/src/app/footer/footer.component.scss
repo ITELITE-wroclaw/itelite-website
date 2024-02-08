@@ -1,0 +1,57 @@
+$max-width: 1020px;
+$contact-bar-height: 33px;
+$paddings: 0px 35px;
+
+.information *{
+    color: white;
+}
+
+.information{
+    min-height: 230px;
+    background-color: #203548;
+    padding: 45px 0px;
+    box-sizing: border-box;
+
+    .logo img{
+        display: block;
+        margin: auto;
+    }
+
+    .contact{
+        display: flex;
+        justify-content: space-between;
+        max-width: $max-width;
+        margin: 25px auto 10px auto;
+        padding: $paddings;
+        line-height: $contact-bar-height;
+
+        a{
+            text-decoration: none;
+        }
+    }
+
+    .line{
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.144);
+    }
+
+    .rights{
+        display: flex;
+        margin: 15px auto 0px auto;
+        justify-content: space-between;
+        max-width: $max-width;
+        padding: $paddings;
+
+        .socials i{
+            font-size: 32px;
+        }
+    }
+}
+
+@media (max-width: 980px) {
+    .information .contact{
+        flex-direction: column;
+        width: fit-content;
+    }
+    
+}

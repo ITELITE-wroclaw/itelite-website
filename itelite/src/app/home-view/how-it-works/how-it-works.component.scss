@@ -1,0 +1,43 @@
+.work{
+    position: relative;
+    margin-top: 75px;
+
+    .text{
+        text-align: center;
+
+        h2 span{
+            color: #FBBB2A;
+        }
+
+        p{
+            margin-top: 10px;
+        }
+    }
+
+    .video img{
+        display: block;
+        margin: 45px auto 0 auto;
+        width: 100%;
+        max-width: 1060px;
+    }
+
+    &::after{
+        content: "";
+        clip-path: polygon(0 74%, 100% 50%, 100% 100%, 0 100%);
+        background-color: #FBBB2A;
+        position: absolute;
+        display: block;
+        height: 120%;
+        left: -80px;
+        bottom: -25px;
+        right: -80px;
+        z-index: -1;
+    }
+}
+
+@media (max-width: 980px)
+{
+    .work::after{
+        height: 95%;
+    }
+}

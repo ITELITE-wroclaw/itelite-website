@@ -15,7 +15,7 @@ export class AppService {
   private availedComponents: any = {};
 
   private main: ViewContainerRef | undefined;
-  private header: ViewContainerRef | undefined;
+  private footer: ViewContainerRef | undefined;
 
   constructor(
     @Inject(PLATFORM_ID) private platform_id: string, 
@@ -27,20 +27,21 @@ export class AppService {
   public init()
   {
     this.store.select("provideHomeView")
-    .subscribe((data: {view: {header: ViewContainerRef, main: ViewContainerRef} }) => {
+    .subscribe((data: {view: View }) => {
 
       if(!data.view) return;
-      const {header, main} = {header: data.view.header, main: data.view.main};
-      if(!header || !main) return;
+      const {header, main, footer} = {header: data.view.header, main: data.view.main, footer: data.view.footer};
 
-      this.header = header;
+      if(!header || !main || !footer) return;
+
       this.main = main;
+      this.footer = footer;
 
       // header component
       const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
-      header.createComponent(_componentFactory);
+      const component = header.createComponent(_componentFactory);
 
-      this.availedComponents['0'] = true;
+      this.availedComponents['0'] = component;
       //main component
 
     })
@@ -74,20 +75,26 @@ export class AppService {
       fromEvent(window, "scroll")
     )
     .subscribe((e: WheelEvent | any) => {
-      console.log(e)
-      const id = e.deltaY > 0? this.currentComponentID + 1: this.currentComponentID - 1;
-      this.renderComponent(id < 0? 0: id)
+      this.renderComponent(this.currentComponentID + 1)
     })
 
   }
 
   private renderComponent(id: number)
-  {
-    if(!id || this.availedComponents[`${id}`]) return;
-    this.availedComponents[`${id}`] = true;
+  {    
+
+    if(!id || !this.componentsList[`${id}`]) return;
+    const previousEl: HTMLElement = this.availedComponents[`${id-1}`].location.nativeElement;
+
+    if( !(previousEl.getBoundingClientRect().top <= window.innerHeight / 2) ) return;
+    this.currentComponentID++;
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
-    this.main?.createComponent(_componentFactory);
+    
+    const component = id == this.componentsList.length - 1? 
+    this.footer?.createComponent(_componentFactory): this.main?.createComponent(_componentFactory);
+
+    this.availedComponents[`${id}`] = component;
   }
 
 }

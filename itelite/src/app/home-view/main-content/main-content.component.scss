@@ -49,11 +49,12 @@
 
 .description{
     margin-top: 45px;
-    height: 252px;
+    height: 330px;
+    position: relative;
 
     img{
         position: absolute;
-        left: 0;
+        left: -80px;
         height: 315px;
         width: calc(100vw - 17px);
         object-fit: cover;
@@ -67,13 +68,18 @@
         z-index: 2;
         text-align: center;
         color: white;
-        transform: translate(0px, -26%);
         top: 50%;
+        transform: translate(0, -50%);
+        right: 0;
         line-height: 27px;
         font-weight: 400;
         width: 1320px;
         margin: auto;
     }
+}
+
+.work{
+    display: flex;
 }
 
 @media (max-width: 1500px)
@@ -115,18 +121,17 @@
     }
 
     .description{
-        position: absolute;
-        left: 0;
         height: auto;
         padding-bottom: 45px;
+        padding-top: 5px;
 
         img{
             height: 100%;
         }
 
         p{
-            margin-top: 130px;
-            transform: none;
+            margin-top: 160px;
+            transform: unset !important;
         }
     }
 }
@@ -134,6 +139,10 @@
 
 @media (max-width: 680px)
 {
+    .description p{
+        width: 100%;
+    }
+
     .antennas .antennas-img{
 
         @for $i from 1 through 4{

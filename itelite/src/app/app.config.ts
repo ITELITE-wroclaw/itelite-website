@@ -8,5 +8,5 @@ import { provideStore } from '@ngrx/store';
 import { homeView } from './reducer';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideStore({provideHomeView: homeView})]
+  providers: [provideRouter(routes), provideClientHydration(), provideStore({provideHomeView: homeView}), provideRouter(routes)]
 };
