@@ -1,7 +1,7 @@
 {
-    "name": "moja-aplikacja-ssr",
+    "name": "ITELITE-website-ssr",
     "version": "1.0.0",
-    "description": "Aplikacja Angular SSR",
+    "description": "Website application created by angular framework base on SSR technic",
     "scripts": {
       "start": "node ./server/server.mjs"
     }
