@@ -1,5 +1,5 @@
 {
-    "name": "itelite-website",
+    "name": "test",
     "scripts": {
         "start": "node ./server/server.mjs"
     }
