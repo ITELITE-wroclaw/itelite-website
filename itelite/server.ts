@@ -49,7 +49,7 @@ function run(): void {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://${process.env['API_URL']}`);
+    console.log(`Node Express server listening on http://itelite-website-hqvz6990m-itelite.vercel.app`);
   });
 }
 

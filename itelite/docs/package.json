@@ -1,9 +1,6 @@
 {
-    "name": "ITELITE-website-ssr",
-    "version": "1.0.0",
-    "description": "Website application created by angular framework base on SSR technic",
+    "name": "itelite-website",
     "scripts": {
-      "start": "node ./server/server.mjs"
+        "start": "node ./server/server.mjs"
     }
-  }
-  
+}
