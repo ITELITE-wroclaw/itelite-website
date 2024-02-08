@@ -1,0 +1,9 @@
+{
+    "name": "moja-aplikacja-ssr",
+    "version": "1.0.0",
+    "description": "Aplikacja Angular SSR",
+    "scripts": {
+      "start": "node ./server/server.mjs"
+    }
+  }
+  
