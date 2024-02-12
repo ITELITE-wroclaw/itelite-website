@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { HeaderContentComponent } from './header-content/header-content.component';
 
 import { AppService } from '../app.service';
@@ -16,7 +16,7 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrls: ['./home-view.component.scss'],
   providers: [ AppService ]
 })
-export class HomeViewComponent implements AfterViewInit{
+export class HomeViewComponent implements AfterViewInit, OnDestroy{
   
   constructor(
     private appService: AppService,
@@ -28,5 +28,9 @@ export class HomeViewComponent implements AfterViewInit{
 
   ngAfterViewInit(): void {
     if(isPlatformBrowser(this.platform_id)) this.appService.scrollEvent();
+  }
+
+  ngOnDestroy(): void {
+    this.appService.purgeSubscriptions();
   }
 }
