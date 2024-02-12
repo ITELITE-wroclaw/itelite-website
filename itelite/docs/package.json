@@ -1,6 +1,0 @@
-{
-    "name": "itelite",
-    "scripts": {
-        "start": "node ./server/server.mjs"
-    }
-}
