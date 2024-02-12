@@ -48,7 +48,7 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.listen(port, () => {
+  server.listen('0.0.0.0', () => {
   });
 }
 
