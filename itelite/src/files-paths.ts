@@ -20,6 +20,25 @@ export const files = Object.freeze({
         }
     },
 
+    products: {
+        header: {
+            backround: "/assets/products/header/header_background.webp",
+            product: "/assets/products/header/header_antenna.webp" 
+        },
+
+        main: {
+            bands: {
+                omnidirectional: "/assets/products/main/bands/omni.webp",
+                panel: "/assets/products/main/bands/panel.webp",
+                sector: "/assets/products/main/bands/sector.webp",
+                parabolic: "/assets/products/main/bands/dish-reflector.webp"
+            },
+
+            bands_background: "/assets/products/main/bands/circles_background.webp"
+            
+        }
+    },
+
     footer:{
         logo: "/assets/footer/white-logo.webp"
     }

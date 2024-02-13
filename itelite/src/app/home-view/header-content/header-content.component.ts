@@ -4,10 +4,11 @@ import { files } from '@files';
 @Component({
   selector: 'app-header-content',
   standalone: true,
-  imports: [],
-  templateUrl: './header-content.component.html',
-  styleUrl: './header-content.component.scss'
+  templateUrl: './header-content.component.html'
 })
 export class HeaderContentComponent {
   protected readonly files = files;
+
+  constructor()
+  {}
 }

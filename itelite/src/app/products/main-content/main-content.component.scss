@@ -1,0 +1,42 @@
+:host{
+    position: relative;
+    height: 100%;
+    display: block;
+}
+
+img.circles{
+    position: absolute;
+}
+
+.bands{
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-areas: 
+    "left-1 leftCenter-1 rightCenter-1 right-1"
+    "left-2 leftCenter-2 rightCenter-2 right-2"
+    "left-3 leftCenter-3 rightCenter-3 right-3"
+    "left-4 leftCenter-4 rightCenter-4 right-4"
+    ;
+
+    figure img{
+        display: block;
+        margin: auto;
+        height: 130px;
+    }
+
+    figure figcaption{
+        margin-top: 14px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    $grid-list: left-1, leftCenter-1, rightCenter-1, right-1;
+
+    @for $i from 1 through 4{
+        figure:nth-of-type(#{$i})
+        {
+            grid-area: nth($grid-list, $i);
+        }
+    }
+}

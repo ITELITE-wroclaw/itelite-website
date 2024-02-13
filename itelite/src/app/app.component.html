@@ -15,15 +15,15 @@
 </nav>
 
 <header>
-    <ng-container #headerView></ng-container>
+    <ng-container #container dockerElement [name]="'header'"></ng-container>
 </header>
 
 <main>
-    <ng-container #mainView></ng-container>
-</main>
+    <ng-container #container dockerElement [name]="'main'"></ng-container>
+</main> 
 
 <footer>
-    <ng-container #footerView></ng-container>
+    <ng-container #container dockerElement [name]="'footer'"></ng-container>
 </footer>
 
 <router-outlet></router-outlet>

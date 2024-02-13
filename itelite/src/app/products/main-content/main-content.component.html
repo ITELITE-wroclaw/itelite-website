@@ -1,1 +1,10 @@
-<p>main-content works!</p>
+<img class="circles" [src]="background" alt="Background image with gray round shapes.">
+
+<div class="antenna bands">
+    <figure *ngFor="let item of files">
+        
+        <img [src]="item[1]" alt="">
+        
+        <figcaption>{{item[0] | uppercase}}</figcaption>
+    </figure>
+</div>

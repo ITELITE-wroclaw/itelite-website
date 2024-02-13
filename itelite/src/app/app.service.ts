@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, ComponentFactoryResolver, Inject, Injectable, PLATFORM_ID, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router, RouterEvent } from '@angular/router';
-import { Store } from '@ngrx/store';
 
+import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+
+import { Store } from '@ngrx/store';
 import { View } from '@types';
+
 import { Subscription, filter, fromEvent, merge } from 'rxjs';
 
 @Injectable({
@@ -17,11 +19,12 @@ export class AppService {
 
   private main!: ViewContainerRef;
   private footer!: ViewContainerRef;
+  private header!: ViewContainerRef;
 
   private subscriptions!: Subscription[];
+  private currentRoute: string | undefined;
 
   constructor(
-    @Inject(PLATFORM_ID) private platform_id: string, 
     private changeDetRef: ChangeDetectorRef,
     private store: Store<{provideHomeView: {view: View } }>,
     private componentFactory: ComponentFactoryResolver,
@@ -39,10 +42,15 @@ export class AppService {
 
   private routerSubscribe(): Subscription
   {
-
-    function ifClearView(_route: any)
+    const ifClearView = (e: any) =>
     {
-      console.log(_route)
+
+      this.header.clear()
+      this.footer.clear();
+      this.main.clear();
+
+      this.componentsList = [];
+      this.currentRoute = e.url;
     }
 
     return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView)
@@ -57,8 +65,10 @@ export class AppService {
 
     this.main = main;
     this.footer = footer;
+    this.header = header;
 
     // header component
+
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
     const component = header.createComponent(_componentFactory);
 
@@ -87,6 +97,7 @@ export class AppService {
 
   public scrollEvent()
   {
+
     merge(
       fromEvent(window, "wheel"),
       fromEvent(window, "touchmove"),
@@ -100,7 +111,6 @@ export class AppService {
 
   private renderComponent(id: number)
   {    
-
     if(!id || !this.componentsList[`${id}`]) return;
     const previousEl: HTMLElement = this.availedComponents[`${id-1}`].location.nativeElement;
 
@@ -108,7 +118,7 @@ export class AppService {
     this.currentComponentID++;
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
-    
+  
     const component = id == this.componentsList.length - 1? 
     this.footer?.createComponent(_componentFactory): this.main?.createComponent(_componentFactory);
 
@@ -121,6 +131,5 @@ export class AppService {
     ?.forEach((e) => {
       e.unsubscribe()
     })
-    
   }
 }
