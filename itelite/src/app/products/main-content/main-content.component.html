@@ -1,10 +1,65 @@
-<img class="circles" [src]="background" alt="Background image with gray round shapes.">
 
-<div class="antenna bands">
-    <figure *ngFor="let item of files">
+<div class="filter">
+
+    <div class="bands">
+        <h2>Bands</h2>
         
-        <img [src]="item[1]" alt="">
+        <div class="antenna bands-list">
+            <figure class="bands-list-element" *ngFor="let item of bands_img">
+                
+                <img [src]="item[1]" alt="Antenna band image.">
+                
+                <figcaption>{{item[0] | uppercase}}</figcaption>
+            </figure>
+        </div>
+    </div>
+    
+    <div class="frequencies-span">
+        <h2>Frequency</h2>
+        <div class="arrow" data-toward="left"></div>
+        <ul>
+            <li *ngFor="let e of frequecies">
+                {{e}}
+            </li>
+        </ul>
+        <div class="arrow" data-toward="left"></div>
+    </div>
+
+    <div class="features">
+        <h2>Features</h2>
+
+        <div class="features-list">
+            <figure class="features-list-element" *ngFor="let e of features_img">
+                <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
+                <figcaption>{{e[0]}}</figcaption>
+            </figure>
+        </div>
         
-        <figcaption>{{item[0] | uppercase}}</figcaption>
-    </figure>
+    </div>
+
+    <div class="radios">
+        <h2>Radio Companies</h2>
+
+        <div class="companies-list">
+            <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
+        </div>
+    </div>
+</div>
+
+<div class="results">
+    <div class="antenna" *ngFor="let e of antennas">
+        <figure>
+            <div class="frame">
+                <img src="../../../assets/home/header/antenna.webp" alt="Antenna image.">
+            </div>
+            
+            <figcaption>
+                <h3>{{e.name}}</h3>
+                <ul>
+                    <li *ngFor="let properties of e.data | keyvalue">{{properties.key}}: {{properties.value}}</li>
+                </ul>
+            </figcaption>
+        </figure>
+        
+    </div>
 </div>

@@ -1,42 +1,112 @@
-:host{
+
+
+.filter{
+    background-color: rgb(245, 249, 254);
+    margin-top: 90px;
     position: relative;
-    height: 100%;
-    display: block;
-}
+    left: -80px;
+    width: calc(100% + 160px);
 
-img.circles{
-    position: absolute;
-}
+    padding: 0px 80px;
+    box-sizing: border-box;
 
-.bands{
-    max-width: 1300px;
-    margin: auto;
-    display: grid;
-    grid-template-areas: 
-    "left-1 leftCenter-1 rightCenter-1 right-1"
-    "left-2 leftCenter-2 rightCenter-2 right-2"
-    "left-3 leftCenter-3 rightCenter-3 right-3"
-    "left-4 leftCenter-4 rightCenter-4 right-4"
-    ;
+    .frequencies-span, .features, .radios, .bands{
+        padding-top: 15px;
 
-    figure img{
-        display: block;
-        margin: auto;
-        height: 130px;
-    }
-
-    figure figcaption{
-        margin-top: 14px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    $grid-list: left-1, leftCenter-1, rightCenter-1, right-1;
-
-    @for $i from 1 through 4{
-        figure:nth-of-type(#{$i})
-        {
-            grid-area: nth($grid-list, $i);
+        h2{
+            max-width: 1300px;
+            margin: auto;
+            font-size: 24px;
         }
+
+        ul, .features-list, .bands-list, .companies-list{
+            display: flex;
+            list-style-type: none;
+            border-radius: 13px;
+            border: 2px solid rgba(87, 85, 85, 0.123);
+            overflow-x: auto;
+            width: 100%;
+            max-width: 1300px;
+            scrollbar-width: none;
+            margin: 12px auto 0px auto;
+
+            li, .company{
+                padding: 11px 17px;
+                white-space: pre;
+            }
+        }
+
+        .bands-list .bands-list-element img{
+            max-width: 100px;
+        }
+
+        .features-list, .bands-list, .companies-list {
+            justify-content: space-around;
+
+            figure{
+                padding: 10px 35px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                flex-basis: 100%;
+                
+                &.features-list-element::after{
+                    content: "";
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                    height: 25px;
+                    width: 2px;
+                    background-color: rgba(54, 54, 54, 0.24);
+                }
+
+                img{
+                    margin: auto;
+                }
+
+                figcaption{
+                    text-align: center;
+                }
+            }
+
+            figure:last-of-type::after{
+                content: "";
+                height: 0px;
+                width: 0px;
+            }
+        }
+    }
+}
+
+.results{
+    max-width: 1300px;
+    margin: 75px auto 0px auto;
+
+    .antenna{
+        max-width: 285px;
+
+        figure{
+
+            .frame{
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: rgb(245, 245, 245);
+                border-radius: 14px;
+    
+                img{
+                    max-width: 100%;
+                }
+            }
+            
+            figcaption{
+                padding: 8px 4px;
+                h3{
+                    font-weight: 600;
+
+                }
+            }
+        }
+        
     }
 }

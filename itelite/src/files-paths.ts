@@ -34,8 +34,16 @@ export const files = Object.freeze({
                 parabolic: "/assets/products/main/bands/dish-reflector.webp"
             },
 
-            bands_background: "/assets/products/main/bands/circles_background.webp"
+            bands_background: "/assets/products/main/bands/circles_background.webp",
             
+            features: {
+                "Radio Space": "/assets/products/main/features/Radio Space.webp",
+                "Flat Panel": "/assets/products/main/features/Flat Panel.webp",
+                "Single Pol": "/assets/products/main/features/Single Pol.webp",
+                "MIMO 2X2": "/assets/products/main/features/MIMO 2X2.webp",
+                "MIMO 3X3": "/assets/products/main/features/MIMO 3X3.webp",
+                "Multi MIMO 3X3": "/assets/products/main/features/Multi MIMO 3X3.webp"
+            }
         }
     },
 

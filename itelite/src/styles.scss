@@ -3,6 +3,9 @@
 @import "./app/home-view/header-content/header-content.component.scss";
 @import "./app/products/header-content/header-content.component.scss";
 
+$dark: #1a2c3d;
+$light: rgb(251, 187, 42);
+
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +15,7 @@ html,
 body {
   height: max-content;
   font-family: "Inter", sans-serif;
+  overflow-x: hidden;
 }
 
 app-header-content {
@@ -36,12 +40,17 @@ button.dark {
   font-size: 16px;
 }
 
-h1, h2 {
-  color: #1a2c3d;
+h1,
+h2 {
+  color: $dark;
   font-size: 56.164px;
   font-weight: 700;
+
+  span {
+    color: $light;
+  }
 }
 
-h2{
-    font-size: 45px;
+h2 {
+  font-size: 45px;
 }

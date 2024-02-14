@@ -2,7 +2,6 @@ $nav-list-height: 48px;
 $burger-menu-size: 40px;
 
 $dark: #1a2c3d;
-$light: rgb(251, 187, 42);
 
 nav{
     position: fixed;
@@ -80,16 +79,6 @@ header {
       flex-shrink: 0;
       gap: 30px;
 
-      h1 {
-        color: $dark;
-        font-size: 56.164px;
-        font-weight: 700;
-
-        span{
-          color: $light;
-        }
-      }
-
       p {
         max-width: 622px;
       }
@@ -110,18 +99,9 @@ main{
   padding: 90px 80px 0px 80px;
 }
 
-@media (max-width: 580px) {
-  ::ng-deep .container {
-    padding: 200px 35px 0px 35px !important;
-
-    div.text{
-        h1{
-            font-size: 42px !important;
-        }
-    }
-  }
+footer{
+  margin-top: 80px;
 }
-
 
 @media (max-width: 1200px)
 {
@@ -188,6 +168,14 @@ main{
   }
 }
 
-footer{
-  margin-top: 80px;
+@media (max-width: 580px) {
+  ::ng-deep .container {
+    padding: 200px 35px 0px 35px !important;
+
+    div.text{
+        h1{
+            font-size: 42px !important;
+        }
+    }
+  }
 }
