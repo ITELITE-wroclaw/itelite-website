@@ -1,17 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { files } from '@files';
+import { GetAntennasService } from './get-antennas.service';
+
+import { Store } from '@ngrx/store';
+import { Antenna } from '@types';
+
+import { Subscription, fromEvent } from 'rxjs';
+import { AntennasGetterService } from './antennas-getter.service';
 
 @Component({
   selector: 'app-main-content',
   standalone: true,
   imports: [CommonModule],
+  providers: [GetAntennasService],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
-export class MainContentComponent {
-[x: string]: any;
+export class MainContentComponent implements OnInit{
 
   protected readonly bands_img = Object.entries(files.products.main.bands);
   protected readonly background_img: string = files.products.main.bands_background;
@@ -32,18 +39,53 @@ export class MainContentComponent {
     "5 GHz", "6.4 GHz"
   ];
 
+  private skipAntennas: number = 1;
+  private flag: boolean = false;
+
+  private scrollEventListener!: Subscription;
+
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
+  protected antennas: Antenna[] = [];
 
-  protected readonly antennas = [
-    {name: "Xyz", data: { frequency: "0.65-1.0 / 1.6-2.8 GHz", gain: "5-8 dBi", "HW/VW": "60° @ -3dB / 60° @ -3dB", polarization: "Linear. H&V or Slant+/-45°"}}
-  ]
+  constructor(
+      private store: Store<{provideAntennas: {antennas: any}}>, 
+      private getAntennas: AntennasGetterService
+    ){}
 
-  constructor(){}
+  ngOnInit(): void {
+    this.store.select("provideAntennas")
+    .subscribe((e) => this.antennas.push(...e.antennas))
+
+    this.scrollEventListener = fromEvent(window, "scroll")
+    .subscribe( (e) => this.scrollEvent(e))
+  }
+
+  async scrollEvent(e: Event)
+  {
+    if(this.flag) return;
+
+    const clousure: HTMLElement = document.querySelector(".clousure")!;
+    if(clousure.clientHeight + clousure.offsetTop - window.outerHeight * 1.75 < window.scrollY )  {
+
+      this.flag = true;
+
+      const newAntennas: Antenna[] = await this.getAntennas.getAllAntennas(this.skipAntennas);
+      this.skipAntennas++;
+
+      this.antennas.push(...newAntennas);
+
+      if(newAntennas.length < 28) this.scrollEventListener.unsubscribe();
+      this.flag = false;
+    }
+  }
 
   propertiesToArray(properties: {frequency: string, gain: string, polarization: string}): [string, string][]
   {
     return Object.entries(properties);
   }
 
-  test: ((e: any) => {}) | undefined
+  trackByName(id: number, antenna: Antenna)
+  {
+    return antenna.ant_name;
+  }
 }

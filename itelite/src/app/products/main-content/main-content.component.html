@@ -47,19 +47,35 @@
 </div>
 
 <div class="results">
-    <div class="antenna" *ngFor="let e of antennas">
-        <figure>
-            <div class="frame">
-                <img src="../../../assets/home/header/antenna.webp" alt="Antenna image.">
-            </div>
-            
-            <figcaption>
-                <h3>{{e.name}}</h3>
-                <ul>
-                    <li *ngFor="let properties of e.data | keyvalue">{{properties.key}}: {{properties.value}}</li>
-                </ul>
-            </figcaption>
-        </figure>
+    <div class="clousure" class="clousure">
         
+        <div class="antenna" *ngFor="let e of antennas; trackBy: trackByName">
+            <figure>
+                <div class="frame">
+                    <img src="{{e.guid}}" alt="Antenna image.">
+                </div>
+                
+                <figcaption>
+                    <h3>{{e.ant_name}}</h3>
+                    <ul>
+                        <li>{{e.ant_type}}</li> 
+                        <li>{{e.freq_name}}</li> 
+                        <ng-container *ngFor='let x of [
+                            {type: "Radio space", value: e.radio_space}, 
+                            {type: "Flat panel", value: e.flat_panel}, 
+                            {type: "Single polarization",value: e.single_pol}, 
+                            {type: "MIMO 2X2", value: e.mimo_2x2}, 
+                            {type: "MIMO 3X3",value: e.mimo_3x3}, 
+                            {type: "Multi MIMO", value: e.multi_mimo}
+                        ]'>
+                            <li *ngIf="x.value">{{x.type}}</li>
+                        </ng-container>
+                    </ul>
+                </figcaption>
+            </figure>
+            
+        </div>
+
     </div>
+    
 </div>

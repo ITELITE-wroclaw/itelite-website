@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { AppService } from '../app.service';
 
 import { HeaderContentComponent } from './header-content/header-content.component';
@@ -13,7 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
-export class ProductsComponent {
+export class ProductsComponent{
 
   constructor(
     private appService: AppService,

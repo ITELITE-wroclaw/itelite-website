@@ -81,32 +81,78 @@
 
 .results{
     max-width: 1300px;
-    margin: 75px auto 0px auto;
+    margin: 135px auto 0px auto;
 
-    .antenna{
-        max-width: 285px;
+    .clousure{
+        margin: auto;
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 50px;
 
-        figure{
-
-            .frame{
-                padding: 20px;
-                box-sizing: border-box;
-                background-color: rgb(245, 245, 245);
-                border-radius: 14px;
+        .antenna{
+            width: 285px;
+            padding-bottom: 20px;
     
-                img{
-                    max-width: 100%;
+            figure{
+                width: 100%;
+    
+                .frame{
+                    padding: 20px;
+                    box-sizing: border-box;
+                    background-color: rgb(245, 245, 245);
+                    border-radius: 14px;
+                    width: 100%;
+                    display: flex;
+        
+                    img{
+                        max-width: 100%;
+                        max-height: 245px;
+                        mix-blend-mode: multiply;
+                        margin: auto;
+                    }
+                }
+                
+                figcaption{
+                    padding: 8px 4px;
+                    h3{
+                        font-weight: 600;
+    
+                    }
                 }
             }
             
-            figcaption{
-                padding: 8px 4px;
-                h3{
-                    font-weight: 600;
-
-                }
-            }
         }
-        
+    }
+}
+
+@media (max-width: 1500px) {
+    .results{
+        width: 910px;
+
+        .clousure .antenna{
+            width: 270px;
+        }
+    }
+}
+
+@media (max-width: 1200px)
+{
+    .results{
+        width: 510px;
+
+        .clousure .antenna{
+            width: 230px;
+        }
+    }
+}
+
+@media (max-width: 680px)
+{
+    .results{
+        width: 235px;
+
+        .clousure .antenna{
+            width: 235px;
+        }
     }
 }
