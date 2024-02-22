@@ -1,24 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Directive, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 
 import { files } from '@files';
 import { GetAntennasService } from './get-antennas.service';
 
 import { Store } from '@ngrx/store';
-import { Antenna } from '@types';
+import { Antenna, FilterInterface } from '@types';
 
-import { Subscription, fromEvent } from 'rxjs';
-import { AntennasGetterService } from './antennas-getter.service';
+import { Observable, Subscription, first, fromEvent, mergeMap, of, switchMap } from 'rxjs';
+
+import { antennasFilter } from '../../reducer';
+import { MainService } from './main-service.service';
+
+@Directive({
+  selector: "[filter]",
+  standalone: true
+})
+export class FilterDirective{
+
+  constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>){}
+
+  private filterObj: FilterInterface | any = {bands: "", feature: "", frequency: "", radio: ""};
+  private filterToSend!: FilterInterface;
+
+  @HostListener("click", ['$event']) handelClick(e: Event)
+  {
+    const html: HTMLElement = e.target as HTMLElement;
+    const createDispatch = <Attribute extends Record<string, any>>(attribute: Attribute & { param: string }) => { 
+      this.filterObj[`${attribute['param']}`] = attribute['value'];
+      this.filterToSend = Object.assign({}, this.filterObj);
+    }
+    
+    let count: number = 0;
+
+    function isAttribute(this: any, targetHTML: HTMLElement): void
+    {
+      if(count == 3) return;
+      count++;
+
+      targetHTML.hasAttribute("data-filter")? 
+      [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!) ), this.renderer.addClass(targetHTML, 'active'), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]: 
+      isAttribute.call(this, targetHTML.parentElement!)
+    }
+
+    isAttribute.call(this, html);
+  }
+
+}
 
 @Component({
   selector: 'app-main-content',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FilterDirective],
   providers: [GetAntennasService],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
-export class MainContentComponent implements OnInit{
+export class MainContentComponent implements OnInit, OnDestroy{
 
   protected readonly bands_img = Object.entries(files.products.main.bands);
   protected readonly background_img: string = files.products.main.bands_background;
@@ -39,44 +77,44 @@ export class MainContentComponent implements OnInit{
     "5 GHz", "6.4 GHz"
   ];
 
-  private skipAntennas: number = 1;
-  private flag: boolean = false;
 
-  private scrollEventListener!: Subscription;
+  private scrollValues = {
+    flag: false,
+    skipAntennas: 1,
+    scrollEvent: new Subscription()
+  }
 
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
-  protected antennas: Antenna[] = [];
+  protected JSON: JSON = JSON;
 
   constructor(
-      private store: Store<{provideAntennas: {antennas: any}}>, 
-      private getAntennas: AntennasGetterService
-    ){}
+      private store: Store<{provideAntennas: {antennas: any}, provideFilter: FilterInterface}>, 
+      protected mainService: MainService | null
+  ){}
 
   ngOnInit(): void {
     this.store.select("provideAntennas")
-    .subscribe((e) => this.antennas.push(...e.antennas))
+    .subscribe((e) => this.mainService?.antennas.push(...e.antennas))
 
-    this.scrollEventListener = fromEvent(window, "scroll")
-    .subscribe( (e) => this.scrollEvent(e))
+    this.scrollValues.scrollEvent = fromEvent(window, "scroll")
+    .subscribe( (e) => this.mainService?.scrollEvent(this.scrollValues))
+
+    this.store
+    .select("provideFilter")
+    .pipe(
+      switchMap((e: any): any => {
+        if(!Object.values(e).some((value: any) => value.length > 0)) return of(0);
+        return this.mainService?.getFilterAntennas(e);
+      })
+    )
+    .subscribe((x: any) => {
+      if(x.data?.antennasFilter) this.mainService?.antennas.push(x.data.antennasFilter);
+    })
+    
   }
 
-  async scrollEvent(e: Event)
-  {
-    if(this.flag) return;
-
-    const clousure: HTMLElement = document.querySelector(".clousure")!;
-    if(clousure.clientHeight + clousure.offsetTop - window.outerHeight * 1.75 < window.scrollY )  {
-
-      this.flag = true;
-
-      const newAntennas: Antenna[] = await this.getAntennas.getAllAntennas(this.skipAntennas);
-      this.skipAntennas++;
-
-      this.antennas.push(...newAntennas);
-
-      if(newAntennas.length < 28) this.scrollEventListener.unsubscribe();
-      this.flag = false;
-    }
+  ngOnDestroy(): void {
+    this.mainService = null;
   }
 
   propertiesToArray(properties: {frequency: string, gain: string, polarization: string}): [string, string][]

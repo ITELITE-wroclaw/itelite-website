@@ -29,7 +29,7 @@ export const files = Object.freeze({
         main: {
             bands: {
                 omnidirectional: "/assets/products/main/bands/omni.webp",
-                panel: "/assets/products/main/bands/panel.webp",
+                dish: "/assets/products/main/bands/panel.webp",
                 sector: "/assets/products/main/bands/sector.webp",
                 parabolic: "/assets/products/main/bands/dish-reflector.webp"
             },

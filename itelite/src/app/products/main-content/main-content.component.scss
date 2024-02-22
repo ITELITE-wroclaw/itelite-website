@@ -10,7 +10,7 @@
     padding: 0px 80px;
     box-sizing: border-box;
 
-    .frequencies-span, .features, .radios, .bands{
+    .filter-list{
         padding-top: 15px;
 
         h2{
@@ -32,6 +32,7 @@
 
             li, .company{
                 padding: 11px 17px;
+                margin: auto;
                 white-space: pre;
             }
         }
@@ -40,8 +41,7 @@
             max-width: 100px;
         }
 
-        .features-list, .bands-list, .companies-list {
-            justify-content: space-around;
+        .list {
 
             figure{
                 padding: 10px 35px;
@@ -103,6 +103,7 @@
                     border-radius: 14px;
                     width: 100%;
                     display: flex;
+                    height: 270px;
         
                     img{
                         max-width: 100%;

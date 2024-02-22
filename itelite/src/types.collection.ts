@@ -23,3 +23,10 @@ export interface Antenna{
     parameters2: string
     guid: string
 }
+
+export interface FilterInterface{
+    type?: string | undefined,
+    frequency?: string,
+    feature?: string,
+    radio?: string
+}

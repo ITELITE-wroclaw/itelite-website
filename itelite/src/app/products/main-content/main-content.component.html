@@ -1,11 +1,11 @@
 
-<div class="filter">
+<div class="filter" filter>
 
-    <div class="bands">
+    <div class="bands filter-list">
         <h2>Bands</h2>
         
-        <div class="antenna bands-list">
-            <figure class="bands-list-element" *ngFor="let item of bands_img">
+        <div class="antenna bands-list list">
+            <figure class="bands-list-element" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
                 
                 <img [src]="item[1]" alt="Antenna band image.">
                 
@@ -14,22 +14,22 @@
         </div>
     </div>
     
-    <div class="frequencies-span">
+    <div class="frequencies-span filter-list">
         <h2>Frequency</h2>
         <div class="arrow" data-toward="left"></div>
         <ul>
-            <li *ngFor="let e of frequecies">
+            <li *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
                 {{e}}
             </li>
         </ul>
         <div class="arrow" data-toward="left"></div>
     </div>
 
-    <div class="features">
+    <div class="features filter-list">
         <h2>Features</h2>
 
-        <div class="features-list">
-            <figure class="features-list-element" *ngFor="let e of features_img">
+        <div class="features-list list">
+            <figure class="features-list-element" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify({param: 'feature', value: e[0]})">
                 <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
                 <figcaption>{{e[0]}}</figcaption>
             </figure>
@@ -37,10 +37,10 @@
         
     </div>
 
-    <div class="radios">
+    <div class="radios filter-list">
         <h2>Radio Companies</h2>
 
-        <div class="companies-list">
+        <div class="companies-list list">
             <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
         </div>
     </div>
@@ -49,7 +49,7 @@
 <div class="results">
     <div class="clousure" class="clousure">
         
-        <div class="antenna" *ngFor="let e of antennas; trackBy: trackByName">
+        <div class="antenna" *ngFor="let e of mainService?.antennas; trackBy: trackByName">
             <figure>
                 <div class="frame">
                     <img src="{{e.guid}}" alt="Antenna image.">

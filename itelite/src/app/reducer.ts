@@ -1,9 +1,11 @@
 
 import { createAction, createReducer, on, props } from "@ngrx/store";
-import { View } from "@types";
+import { FilterInterface, View } from "@types";
 
 export const sendMainViewElements = createAction("[App Component]", props<{ view: View } >());
 export const setAntennas = createAction("[App Products]", props<{antennas: any}>())
+
+export const antennasFilter = createAction("[Products Component", props<{filter: FilterInterface}>())
 
 export const homeView = createReducer(
     {state: null},
@@ -13,4 +15,9 @@ export const homeView = createReducer(
 export const antennas = createReducer(
     null,
     on(setAntennas, (state, data) => data.antennas)
+)
+
+export const filter = createReducer(
+    {type: "", feature: "", frequency: "", radio: "" },
+    on(antennasFilter, (state, data) => ( { type: data.filter.type!, feature: data.filter.feature!, frequency: data.filter.frequency!, radio: data.filter.radio! }))
 )

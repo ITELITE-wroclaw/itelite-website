@@ -21,6 +21,7 @@ export class ProductsComponent{
   ){
     appService.componentsList = [HeaderContentComponent, MainContentComponent, FooterComponent];
     appService.init();
+    
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
   }
 
