@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { provideStore } from '@ngrx/store';
-import { antennas, filter, homeView } from './reducer';
+import { antennas, filter, homeView } from '@reducer';
 
 import { Apollo } from 'apollo-angular';
 

@@ -19,7 +19,8 @@
             font-size: 24px;
         }
 
-        ul, .features-list, .bands-list, .companies-list{
+        .list-elements{
+            cursor: pointer;
             display: flex;
             list-style-type: none;
             border-radius: 13px;
@@ -35,9 +36,13 @@
                 margin: auto;
                 white-space: pre;
             }
+
+            .active{
+                background-color: rgba(147, 192, 233, 0.562);
+            }
         }
 
-        .bands-list .bands-list-element img{
+        .list-elements .bands-list-element img{
             max-width: 100px;
         }
 

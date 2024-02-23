@@ -12,7 +12,8 @@ import {
   ApolloClientOptions,
 } from '@apollo/client/core';
 import { Store } from '@ngrx/store';
-import { setAntennas } from '../../reducer';
+import { setAntennas } from '@reducer';
+import { server } from '@serverSettings';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ import { setAntennas } from '../../reducer';
 export class GetAntennasService implements Resolve<any> {
 
   constructor(private apollo: Apollo, private store: Store<{provideAntennas: {antennas: any}}>) {
-    const httpLink = new HttpLink({ uri: 'http://localhost:3000/antennas' }); // Dostosuj punkt końcowy GraphQL według potrzeb
+    const httpLink = new HttpLink({ uri: server.url }); // Dostosuj punkt końcowy GraphQL według potrzeb
 
     const apolloClientOptions: ApolloClientOptions<InMemoryCache> = {
       link: httpLink,

@@ -34,17 +34,17 @@ export class AppService {
   public init(): void
   {
     this.store.select("provideHomeView")
-    .subscribe((data) => this.setElementsFromMainView(data));
+    .subscribe((data) => this.setElementsFromView(data));
 
     this.subscriptions = [];
     this.subscriptions?.push(this.routerSubscribe());
   }
 
+  // after each router swap the view is purge
   private routerSubscribe(): Subscription
   {
     const ifClearView = (e: any) =>
     {
-
       this.header.clear()
       this.footer.clear();
       this.main.clear();
@@ -56,7 +56,8 @@ export class AppService {
     return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView)
   }
 
-  private setElementsFromMainView(data: {view: View }): void
+  // here components from subscription are set and initial header component is inject
+  private setElementsFromView(data: {view: View }): void
   {
     if(!data.view) return;
     const {header, main, footer} = {header: data.view.header, main: data.view.main, footer: data.view.footer};
@@ -68,20 +69,17 @@ export class AppService {
     this.header = header;
 
     // header component
-
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
     const component = header.createComponent(_componentFactory);
 
     this.availedComponents['0'] = component;
   }
 
+  // depends of window size way of displaing nav list is different
   public navListAction(burgerMenu: HTMLElement, displayMenu: {flag: boolean}): void
   {
     this.checkSize(displayMenu);
-
-    var styles: string = window.getComputedStyle(
-      burgerMenu
-    ).display;
+    var styles: string = window.getComputedStyle( burgerMenu ).display;
 
     displayMenu.flag = styles == 'block' ? false : true;
     this.changeDetRef.detectChanges();
@@ -95,9 +93,9 @@ export class AppService {
     })
   }
 
+  // during user scroll event the components ough to be inject dynamically
   public scrollEvent()
   {
-
     merge(
       fromEvent(window, "wheel"),
       fromEvent(window, "touchmove"),
@@ -109,6 +107,7 @@ export class AppService {
 
   }
 
+  // dynamiczne generowanie komponentów
   private renderComponent(id: number)
   {    
     if(!id || !this.componentsList[`${id}`]) return;

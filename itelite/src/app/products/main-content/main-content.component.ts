@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Directive, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { files } from '@files';
 import { GetAntennasService } from './get-antennas.service';
@@ -7,46 +7,10 @@ import { GetAntennasService } from './get-antennas.service';
 import { Store } from '@ngrx/store';
 import { Antenna, FilterInterface } from '@types';
 
-import { Observable, Subscription, first, fromEvent, mergeMap, of, switchMap } from 'rxjs';
+import { filter, fromEvent, of, switchMap } from 'rxjs';
 
-import { antennasFilter } from '../../reducer';
 import { MainService } from './main-service.service';
-
-@Directive({
-  selector: "[filter]",
-  standalone: true
-})
-export class FilterDirective{
-
-  constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>){}
-
-  private filterObj: FilterInterface | any = {bands: "", feature: "", frequency: "", radio: ""};
-  private filterToSend!: FilterInterface;
-
-  @HostListener("click", ['$event']) handelClick(e: Event)
-  {
-    const html: HTMLElement = e.target as HTMLElement;
-    const createDispatch = <Attribute extends Record<string, any>>(attribute: Attribute & { param: string }) => { 
-      this.filterObj[`${attribute['param']}`] = attribute['value'];
-      this.filterToSend = Object.assign({}, this.filterObj);
-    }
-    
-    let count: number = 0;
-
-    function isAttribute(this: any, targetHTML: HTMLElement): void
-    {
-      if(count == 3) return;
-      count++;
-
-      targetHTML.hasAttribute("data-filter")? 
-      [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!) ), this.renderer.addClass(targetHTML, 'active'), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]: 
-      isAttribute.call(this, targetHTML.parentElement!)
-    }
-
-    isAttribute.call(this, html);
-  }
-
-}
+import { FilterDirective } from './filter-antennas.directive';
 
 @Component({
   selector: 'app-main-content',
@@ -77,38 +41,40 @@ export class MainContentComponent implements OnInit, OnDestroy{
     "5 GHz", "6.4 GHz"
   ];
 
-
-  private scrollValues = {
-    flag: false,
-    skipAntennas: 1,
-    scrollEvent: new Subscription()
-  }
-
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
   protected JSON: JSON = JSON;
+
+  protected antennas: Antenna[] = [];
 
   constructor(
       private store: Store<{provideAntennas: {antennas: any}, provideFilter: FilterInterface}>, 
       protected mainService: MainService | null
   ){}
 
+  /* <--- Angular hooks ---> */
+
   ngOnInit(): void {
     this.store.select("provideAntennas")
-    .subscribe((e) => this.mainService?.antennas.push(...e.antennas))
+    .subscribe((e) =>{!!e.antennas.length? this.antennas.push(...e.antennas): this.antennas = [];})
 
-    this.scrollValues.scrollEvent = fromEvent(window, "scroll")
-    .subscribe( (e) => this.mainService?.scrollEvent(this.scrollValues))
+    if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
+    .subscribe( (e) => this.mainService?.scrollEvent(this.mainService))
 
     this.store
     .select("provideFilter")
     .pipe(
       switchMap((e: any): any => {
-        if(!Object.values(e).some((value: any) => value.length > 0)) return of(0);
+        if(!Object.values(e).some((value: any) => value && value.length > 0)) {
+          this.antennas = [];
+          if(this.mainService) this.mainService.isFilter = false;
+          return this.mainService?.getAllAntennas(0);
+        }
         return this.mainService?.getFilterAntennas(e);
       })
     )
     .subscribe((x: any) => {
-      if(x.data?.antennasFilter) this.mainService?.antennas.push(x.data.antennasFilter);
+      const antennas = x.data?.antennasFilter || x.data?.allAntennas;
+      if(antennas) this.antennas.push(...antennas);
     })
     
   }
@@ -117,13 +83,6 @@ export class MainContentComponent implements OnInit, OnDestroy{
     this.mainService = null;
   }
 
-  propertiesToArray(properties: {frequency: string, gain: string, polarization: string}): [string, string][]
-  {
-    return Object.entries(properties);
-  }
-
-  trackByName(id: number, antenna: Antenna)
-  {
-    return antenna.ant_name;
-  }
+  /* <--- function intend for ngFor directive ---> */
+  trackByName = (id: number, antenna: Antenna) => antenna.ant_name;
 }

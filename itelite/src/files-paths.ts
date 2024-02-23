@@ -31,7 +31,7 @@ export const files = Object.freeze({
                 omnidirectional: "/assets/products/main/bands/omni.webp",
                 dish: "/assets/products/main/bands/panel.webp",
                 sector: "/assets/products/main/bands/sector.webp",
-                parabolic: "/assets/products/main/bands/dish-reflector.webp"
+                directional: "/assets/products/main/bands/dish-reflector.webp"
             },
 
             bands_background: "/assets/products/main/bands/circles_background.webp",

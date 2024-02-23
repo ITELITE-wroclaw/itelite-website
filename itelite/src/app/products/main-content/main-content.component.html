@@ -4,8 +4,8 @@
     <div class="bands filter-list">
         <h2>Bands</h2>
         
-        <div class="antenna bands-list list">
-            <figure class="bands-list-element" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
+        <div class="antenna list-elements list">
+            <figure class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
                 
                 <img [src]="item[1]" alt="Antenna band image.">
                 
@@ -17,8 +17,8 @@
     <div class="frequencies-span filter-list">
         <h2>Frequency</h2>
         <div class="arrow" data-toward="left"></div>
-        <ul>
-            <li *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
+        <ul class="list-elements">
+            <li class="child" *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
                 {{e}}
             </li>
         </ul>
@@ -28,8 +28,8 @@
     <div class="features filter-list">
         <h2>Features</h2>
 
-        <div class="features-list list">
-            <figure class="features-list-element" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify({param: 'feature', value: e[0]})">
+        <div class="list-elements list">
+            <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
                 <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
                 <figcaption>{{e[0]}}</figcaption>
             </figure>
@@ -40,7 +40,7 @@
     <div class="radios filter-list">
         <h2>Radio Companies</h2>
 
-        <div class="companies-list list">
+        <div class="list-elements list">
             <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
         </div>
     </div>
@@ -49,7 +49,7 @@
 <div class="results">
     <div class="clousure" class="clousure">
         
-        <div class="antenna" *ngFor="let e of mainService?.antennas; trackBy: trackByName">
+        <div class="antenna" *ngFor="let e of this.antennas; trackBy: trackByName">
             <figure>
                 <div class="frame">
                     <img src="{{e.guid}}" alt="Antenna image.">

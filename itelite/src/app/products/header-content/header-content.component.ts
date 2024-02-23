@@ -9,6 +9,4 @@ import { files } from '@files';
 })
 export class HeaderContentComponent {
   protected readonly files = files;
-
-  
 }

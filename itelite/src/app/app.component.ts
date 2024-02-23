@@ -8,9 +8,9 @@ import {
   PLATFORM_ID,
   ViewChild,
   ViewChildren,
-  ViewContainerRef,
-  ViewEncapsulation,
+  ViewContainerRef
 } from '@angular/core';
+
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 import { RouterModule, RouterOutlet } from '@angular/router';
@@ -22,7 +22,7 @@ import { AppService } from './app.service';
 import { files } from '@files';
 import { View } from '@types';
 
-import { sendMainViewElements } from './reducer';
+import { sendMainViewElements } from '@reducer';
 
 @Directive({
   standalone: true,
