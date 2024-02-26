@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderContentComponent } from './header-content.component';
+import { CustomAntennaComponent } from './custom-antenna.component';
 
-describe('HeaderContentComponent', () => {
-  let component: HeaderContentComponent;
-  let fixture: ComponentFixture<HeaderContentComponent>;
+describe('CustomAntennaComponent', () => {
+  let component: CustomAntennaComponent;
+  let fixture: ComponentFixture<CustomAntennaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderContentComponent]
+      imports: [CustomAntennaComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HeaderContentComponent);
+    fixture = TestBed.createComponent(CustomAntennaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

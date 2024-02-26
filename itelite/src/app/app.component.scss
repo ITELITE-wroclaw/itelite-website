@@ -85,7 +85,6 @@ header {
     }
 
     div.image {
-      padding-top: 100px;
       
       img {
         max-width: 560px;
@@ -101,6 +100,17 @@ main{
 
 footer{
   margin-top: 80px;
+}
+
+@media (max-width: 1500px)
+{
+  header {
+  
+    ::ng-deep img.background {
+      clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%) !important;
+    }
+  }
+    
 }
 
 @media (max-width: 1200px)

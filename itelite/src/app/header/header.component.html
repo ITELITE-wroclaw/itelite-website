@@ -1,0 +1,15 @@
+<img class="background" [src]="background" [ngClass]="homeView? 'homeView': ''" alt="Background image containing the antennas group">
+
+<div class="container">
+
+  <div [ngClass]="!homeView? 'textTop': ''" class="text">
+    <h1 [innerHTML]="homeText.header"></h1>
+    <p [innerHTML]="homeText.paragraph"></p>
+  
+    <button *ngIf="homeView" class="dark">More Details</button>
+  </div>
+  
+  <div class="image" [ngClass]="homeView? 'home_image': ''">
+      <img [ngClass]="custom? 'custom': ''" [src]="product" alt="Image of state-of-the-art kind antenna.">
+  </div>
+</div>

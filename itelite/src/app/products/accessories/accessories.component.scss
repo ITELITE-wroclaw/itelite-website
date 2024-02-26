@@ -1,0 +1,120 @@
+
+.top, .content{
+    max-width: 1300px;
+}
+
+.top{
+    display: grid;
+    margin: 110px auto 0px auto;
+    gap: 16px;
+
+    grid-template-areas: 
+        "row-1-1 row-1-2 row-1-3 row-1-4"
+        "row-2-1 row-2-2 row-2-3 row-2-4"
+    ;
+
+    @for $i from 1 through 4
+    {
+        img:nth-of-type(#{$i})
+        {
+            grid-area: row-1-#{$i};
+            margin: auto;
+        }
+    }
+}
+
+.content {
+    max-width: 1300px;
+    margin: 105px auto 0px auto;
+    display: flex;
+    justify-content: space-between;
+    color: #203548;
+    gap: 40px;
+
+    .text{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        max-width: 610px;
+        
+        div:nth-of-type(1){
+
+            h3{
+                font-size: 45px;
+            }
+
+            p{
+                margin-top: 20px;
+                line-height: 20px;
+            }
+        }
+
+        .thumbnails{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+    }
+
+    .mainImage img{
+        max-width: 649px;
+        min-width: 440px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1100px)
+{
+    .content {
+        .mainImage{
+            display: none;
+        }
+
+        .text{
+            max-width: 100%;
+        }
+    }
+
+    .top{
+    
+        img{
+            width: 100%;
+            max-width: 145px;
+        }
+
+        @function getRow($id)
+        {
+            @if($id % 2 == 0)
+            {
+                @return 3;
+            }
+            @else{
+                @return 2;
+            }
+        };
+
+        $number: 1;
+
+        @for $i from 1 through 2
+        {
+            @for $x from 1 through 2
+            {
+                
+                img:nth-of-type(#{$number})
+                {
+                    $second: getRow($x);
+                    grid-area: row-#{$i}-#{$second};
+                    margin: auto;
+
+                    &::after{
+                        content: "#{$i}_#{$x}_#{$second}";
+                    }
+                }
+
+                $number: $number + 1;
+            }
+        }
+    }
+}

@@ -43,6 +43,47 @@ export const files = Object.freeze({
                 "MIMO 2X2": "/assets/products/main/features/MIMO 2X2.webp",
                 "MIMO 3X3": "/assets/products/main/features/MIMO 3X3.webp",
                 "Multi MIMO 3X3": "/assets/products/main/features/Multi MIMO 3X3.webp"
+            },
+
+            enclosures: {
+                background: [
+                    "/assets/products/main/enclosures/background/antenna_mast.webp", 
+                    "/assets/products/main/enclosures/background/circles.webp" 
+                ],
+                antenna: "/assets/products/main/enclosures/antenna/antenna.webp"
+            },
+                
+            accessories: {
+                top: [
+                    "/assets/products/accessories/top/image-1.webp",
+                    "/assets/products/accessories/top/image-2.webp",
+                    "/assets/products/accessories/top/image-3.webp",
+                    "/assets/products/accessories/top/image-4.webp"
+                ],
+                content: {
+                    thumbnails: [
+                        "/assets/products/accessories/content/thumbnail_1.webp",
+                        "/assets/products/accessories/content/thumbnail_2.webp",
+                        "/assets/products/accessories/content/thumbnail_3.webp",
+                        "/assets/products/accessories/content/thumbnail_4.webp",
+                        "/assets/products/accessories/content/thumbnail_5.webp"
+                    ],
+                    main: "/assets/products/accessories/content/main.webp"
+                }
+            }
+        }
+    },
+
+    custom_antenna: {
+        header: {
+            backround: "/assets/products/header/header_background.webp",
+            antenna: "/assets/custom_antenna/header/product.webp"
+        },
+
+        main: {
+            enclosure: {
+                product: "/assets/custom_antenna/main/enclosure.webp",
+                rotator: "/assets/custom_antenna/main/rotator.webp",
             }
         }
     },

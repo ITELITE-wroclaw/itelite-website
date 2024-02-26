@@ -1,11 +1,14 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { AppService } from '../app.service';
 
-import { HeaderContentComponent } from './header-content/header-content.component';
+import { HeaderComponent } from '@header';
 import { MainContentComponent } from './main-content/main-content.component';
 
 import { FooterComponent } from '../footer/footer.component';
 import { isPlatformBrowser } from '@angular/common';
+
+import { EnclosuresComponent } from './enclosures/enclosures.component';
+import { AccessoriesComponent } from './accessories/accessories.component';
 
 @Component({
   selector: 'app-products',
@@ -19,7 +22,7 @@ export class ProductsComponent{
     private appService: AppService,
     @Inject(PLATFORM_ID) private platform_id: string
   ){
-    appService.componentsList = [HeaderContentComponent, MainContentComponent, FooterComponent];
+    appService.componentsList = [HeaderComponent, MainContentComponent, EnclosuresComponent, AccessoriesComponent, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 

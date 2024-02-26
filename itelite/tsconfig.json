@@ -27,7 +27,9 @@
       "@files": ["./src/files-paths.ts"],
       "@types": ["./src/types.collection.ts"],
       "@reducer": ["./src/app/reducer.ts"],
-      "@serverSettings": ["./src/app/graph.link.ts"]
+      "@serverSettings": ["./src/app/graph.link.ts"],
+      "@appService": ["./src/app/app.service.ts"],
+      "@header": ["./src/app/header/header.component.ts"],
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,27 @@
+.homeView{
+    background-color: rgb(245, 182, 37);
+}
+
+.custom{
+    mix-blend-mode: multiply;
+}
+
+.home_image{
+    padding-top: 100px;
+}
+
+.textTop{
+    margin-top: 100px;
+}
+
+@media (max-width: 1500px)
+{
+    .home_image{
+        padding-top: 0px;
+    }
+
+    .textTop{
+        margin-top: 0px;
+        padding-bottom: 45px;
+    }
+}

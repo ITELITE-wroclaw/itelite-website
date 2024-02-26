@@ -1,0 +1,31 @@
+<div class="top">
+    <img *ngFor="let image of topImages" [src]="image" alt="Image of antenna enclosure.">
+</div>
+
+<div class="content">
+    <div class="text">
+        <div>
+            <h3>Accessories</h3>
+
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+                totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. 
+                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, 
+                sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+            </p>
+    
+            <p>
+                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, 
+                sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
+                Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
+            </p>
+        </div>
+
+        <div class="thumbnails">
+            <img *ngFor="let image of contentImages" [src]="image" alt="Thumb nail with accessory.">
+        </div>
+        
+    </div>
+    <div class="mainImage">
+        <img [src]="mainImage" alt="Image of antenna.">
+    </div>
+</div>
