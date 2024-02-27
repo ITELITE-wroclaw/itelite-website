@@ -1,0 +1,54 @@
+<div class="form">
+    <div class="box">
+        <div class="image">
+            <img [src]="form_background" alt="Image of antenna mast.">
+        </div>
+        <div class="contact_us">
+            <form>
+                <h3>Contact Us</h3>
+
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name">
+                </div>
+                
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email">
+                </div>
+                
+                <div>
+                    <label for="type">Type</label>
+                    <select name="type" id="type">
+                        <option value="">Omnidirectional</option>
+                        <option value="">Dish</option>
+                        <option value="">Sector</option>
+                        <option value="">Directional</option>
+                    </select>
+                </div>
+                    
+                <div>
+                    <label for="frequency">Frequency</label>
+                    <input type="text" id="frequency">
+                </div>
+                
+                <div>
+                    <label for="ammount_of_connection">Ammount of connection</label>
+                    <input type="text" id="ammount_of_connection">
+                </div>
+                
+                <div>
+                    <label for="message">Message</label>
+                    <input type="text" id="message" class="message">
+                </div>
+                
+                <button>SEND</button>
+            </form>
+            <div class="info">
+                <div class="warranty"></div>
+                <div class="process"></div>
+            </div>
+        </div>
+    </div>
+    
+</div>

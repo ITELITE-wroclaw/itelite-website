@@ -55,7 +55,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.store.select("provideAntennas")
-    .subscribe((e) =>{!!e.antennas.length? this.antennas.push(...e.antennas): this.antennas = [];})
+    .subscribe((e) =>{!!e?.antennas?.length? this.antennas.push(...e.antennas): this.antennas = [];})
 
     if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
     .subscribe( (e) => this.mainService?.scrollEvent(this.mainService))

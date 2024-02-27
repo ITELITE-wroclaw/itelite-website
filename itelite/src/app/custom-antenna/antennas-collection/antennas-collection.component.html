@@ -1,0 +1,14 @@
+<div class="antennas-collection box">
+    <h2>Diverse Collection Of Antennas</h2>
+    <div class="custom-antenna-images box">
+        <figure class="custom-antenna" *ngFor="let antenna of antennasImages">
+            <div>
+                <img [src]="antenna[1]" alt="Custom antenna image.">
+            </div>
+            
+    
+            <figcaption>{{antenna[0]}}</figcaption>
+        </figure>
+    </div>
+    
+</div>

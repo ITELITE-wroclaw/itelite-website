@@ -2,9 +2,9 @@
 <div class="filter" filter>
 
     <div class="bands filter-list">
-        <h2>Bands</h2>
+        <h2 class="box">Bands</h2>
         
-        <div class="antenna list-elements list">
+        <div class="antenna list-elements list box">
             <figure class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
                 
                 <img [src]="item[1]" alt="Antenna band image.">
@@ -15,7 +15,7 @@
     </div>
     
     <div class="frequencies-span filter-list">
-        <h2>Frequency</h2>
+        <h2 class="box">Frequency</h2>
         <div class="arrow" data-toward="left"></div>
         <ul class="list-elements">
             <li class="child" *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="features filter-list">
-        <h2>Features</h2>
+        <h2 class="box">Features</h2>
 
         <div class="list-elements list">
             <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
@@ -38,7 +38,7 @@
     </div>
 
     <div class="radios filter-list">
-        <h2>Radio Companies</h2>
+        <h2 class="box">Radio Companies</h2>
 
         <div class="list-elements list">
             <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="results">
+<div class="results box">
     <div class="clousure" class="clousure">
         
         <div class="antenna" *ngFor="let e of this.antennas; trackBy: trackByName">

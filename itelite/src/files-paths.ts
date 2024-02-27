@@ -82,8 +82,23 @@ export const files = Object.freeze({
 
         main: {
             enclosure: {
-                product: "/assets/custom_antenna/main/enclosure.webp",
-                rotator: "/assets/custom_antenna/main/rotator.webp",
+                product: "/assets/custom_antenna/main/enclosures/enclosure.webp",
+                rotator: "/assets/custom_antenna/main/enclosures/rotator.webp",
+            },
+
+            antennas: {
+                "Cable Gland": "/assets/custom_antenna/main/antennas/Cable Gland.png",
+                "External Connection": "/assets/custom_antenna/main/antennas/External Connection.png",
+                "External OMNI Antenna": "/assets/custom_antenna/main/antennas/External OMNI Antenna.png",
+                "Pra Box": "/assets/custom_antenna/main/antennas/Pra Box.png",
+                "Sim Adapter": "/assets/custom_antenna/main/antennas/Sim Adapter.png",
+                "Waterproof External Poe": "/assets/custom_antenna/main/antennas/Waterproof External Poe.png"
+            },
+
+            mounting: "/assets/custom_antenna/main/mounting/mounting.webp",
+
+            contact: {
+                background: "/assets/custom_antenna/main/contact/form-background.webp"
             }
         }
     },

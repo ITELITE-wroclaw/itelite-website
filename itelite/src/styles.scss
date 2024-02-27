@@ -51,3 +51,110 @@ h2 {
 h2 {
   font-size: 45px;
 }
+
+.box{
+  max-width: 1300px;
+  margin: auto;
+}
+
+// enclosure and mounting elements
+$enclosures_height: 418px;
+
+.enclosures, .mounting{
+    min-height: $enclosures_height;
+    padding: 0px 70px;
+    margin-top: 110px;
+    position: relative;
+    color: #203548;
+
+    .background{
+        position: absolute;
+        left: -80px;
+        top: 0;
+        bottom: 0;
+        width: calc(100% + 160px);
+        background: url("/assets/products/main/enclosures/background/circles.webp"), url("/assets/products/main/enclosures/background/antenna_mast.webp");
+        background-size: auto, cover;
+        background-repeat: no-repeat;
+        background-color: rgb(245, 182, 37);
+        
+    }
+
+    figure{
+        position: relative;
+        display: flex;
+        gap: 70px;
+        align-items: center;
+
+        img{
+            margin-top: -105px;
+            margin-bottom: -30px;
+        }
+
+        figcaption{
+            min-height: $enclosures_height;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 45px 0px;
+            box-sizing: border-box;
+
+            h3{
+                font-size: 45px;
+            }
+
+            span{
+                font-weight: 600;
+            }
+
+            p{
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1500px)
+{
+    .enclosures figure img, .mounting figure img{
+        margin-top: 15px;
+        height: 380px;
+    }
+}
+
+@media (max-width: 1350px)
+{
+    .enclosures .background, .mounting .background{
+        position: absolute;
+        left: -80px;
+        top: 0;
+        bottom: 0;
+        width: calc(100% + 160px);
+        background: url("/assets/products/main/enclosures/background/antenna_mast.webp");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        background-color: rgb(245, 182, 37);
+        
+    }
+}
+
+@media (max-width: 1100px)
+{
+    .enclosures, .mounting {
+        padding: 0px;
+        min-height: auto;
+
+        figure{
+
+            img{
+              display: none;
+            }
+            
+
+            figcaption{
+              min-height: auto;
+            }
+        }
+    }
+}
