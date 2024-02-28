@@ -1,5 +1,9 @@
 {
   "routes": [
+    "/company",
+    "/contact-us",
+    "/custom-antenna",
+    "/order",
     "/products"
   ]
 }

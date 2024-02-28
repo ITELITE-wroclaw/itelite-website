@@ -1,0 +1,70 @@
+$dark: #203548;
+$top: 85px;
+
+section {
+  background-color: $dark;
+  color: white;
+  margin-top: calc(-1 * $top);
+  padding: calc($top * 2) 70px 20px 70px;
+  font-size: 18px;
+  position: relative;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+  .polygon {
+    background-color: rgb(255, 255, 255);
+    clip-path: polygon(100% 0, 100% 100%, 56% 100%, 88% 0);
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .container {
+    padding-top: 0;
+    gap: 75px;
+
+    .description {
+      h5 {
+        margin-top: 35px;
+      }
+
+      .account {
+        margin-top: 8px;
+      }
+    }
+
+    
+
+    .antenna {
+      img {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 1360px)
+{
+    section{
+        padding-bottom: 120px;
+        .container{
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    section .container .antenna {
+        display: none;
+    }
+}
+
+@media (max-width: 580px)
+{
+    section .container{
+        padding: 35px 0px 35px !important;
+    }
+}

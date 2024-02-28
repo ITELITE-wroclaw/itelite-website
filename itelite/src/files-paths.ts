@@ -100,8 +100,11 @@ export const files = Object.freeze({
             contact: {
                 background: "/assets/custom_antenna/main/contact/form-background.webp"
             }
-        }
+        },
     },
+
+    company: "/assets/company/antenna.webp",
+    order: "/assets/order/antenna.webp",
 
     footer:{
         logo: "/assets/footer/white-logo.webp"

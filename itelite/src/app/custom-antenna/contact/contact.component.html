@@ -4,42 +4,43 @@
             <img [src]="form_background" alt="Image of antenna mast.">
         </div>
         <div class="contact_us">
-            <form>
+            <form [formGroup]="contactForm">
                 <h3>Contact Us</h3>
 
                 <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name">
+                    <label for="name" *ngIf="!nameInput.value.length">Name</label>
+                    <input type="text" id="name" formControlName="name" #nameInput>
                 </div>
                 
                 <div>
-                    <label for="email">Email</label>
-                    <input type="email" id="email">
+                    <label for="email" *ngIf="!emailInput.value.length">Email</label>
+                    <input type="email" id="email" formControlName="email" #emailInput>
                 </div>
                 
                 <div>
-                    <label for="type">Type</label>
-                    <select name="type" id="type">
-                        <option value="">Omnidirectional</option>
-                        <option value="">Dish</option>
-                        <option value="">Sector</option>
-                        <option value="">Directional</option>
+                    <label for="type" *ngIf="!selectInput.value.length">Type</label>
+                    <i class="fa-solid fa-caret-down" style="color: #ffffff;"></i>
+                    <select name="type" id="type" #selectInput formControlName="type">
+                        <option value="omnidirectional">Omnidirectional</option>
+                        <option value="dish">Dish</option>
+                        <option value="sector">Sector</option>
+                        <option value="directional">Directional</option>
                     </select>
                 </div>
                     
                 <div>
-                    <label for="frequency">Frequency</label>
-                    <input type="text" id="frequency">
+                    <label for="frequency" *ngIf="!frequencyInput.value.length">Frequency</label>
+                    <input type="text" id="frequency" #frequencyInput formControlName="frequency">
                 </div>
                 
                 <div>
-                    <label for="ammount_of_connection">Ammount of connection</label>
-                    <input type="text" id="ammount_of_connection">
+                    <label for="ammount_of_connection" *ngIf="!amountInput.value.length">Ammount of connection</label>
+                    <input type="text" id="ammount_of_connection" #amountInput formControlName="amount_of_connection">
                 </div>
                 
                 <div>
-                    <label for="message">Message</label>
-                    <input type="text" id="message" class="message">
+                    <label for="message" *ngIf="!messageInput.value.length">Message</label>
+                    <textarea type="text" id="message" class="message" #messageInput formControlName="message"></textarea>
                 </div>
                 
                 <button>SEND</button>
