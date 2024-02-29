@@ -1,15 +1,46 @@
 $form-width: 545px;
 
-.form{
-    max-width: $form-width;
-    padding: 75px 0px;
+.contact{
 
-    textarea{
+    .form{
         max-width: $form-width;
+        padding: 75px 0px;
+    
+        textarea{
+            max-width: $form-width;
+        }
+    
+        form button{
+            background-color: #203548;
+            color: white;
+        }
+    
+        
     }
 
-    form button{
-        background-color: #203548;
-        color: white;
+    display: flex;
+    justify-content: center;
+    gap: 115px;
+
+    .location{
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        max-width: 585px;
+        height: 600px;
+        width: 100%;
+        margin-right: -190px;
+
+        #map{
+            max-height: 550px;
+            height: 100%;
+            border-radius: 35px;
+            margin-top: 110px;
+
+            
+        }
+
     }
 }
+

@@ -8,11 +8,13 @@ import { provideStore } from '@ngrx/store';
 import { antennas, filter, homeView } from '@reducer';
 
 import { Apollo } from 'apollo-angular';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(), 
-    provideStore({provideHomeView: homeView, provideAntennas: antennas, provideFilter: filter}), 
+    provideStore({provideHomeView: homeView, provideAntennas: antennas, provideFilter: filter}),
+    provideHttpClient(),
     provideRouter(routes), 
     {
       provide: Apollo,

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-content',
@@ -8,7 +9,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './content.component.html',
   styleUrl: './content.component.scss'
 })
-export class ContentComponent {
+export class ContentComponent implements OnInit{
 
   protected contactForm!: FormGroup;
 
@@ -20,5 +21,9 @@ export class ContentComponent {
       company: "",
       message: ""
     })
+  }
+
+  ngOnInit(): void {
+    
   }
 }

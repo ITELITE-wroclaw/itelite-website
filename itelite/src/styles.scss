@@ -210,6 +210,13 @@ form{
   flex-direction: column;
 }
 
+canvas{
+  border-radius: 25px !important;
+}
+
+.mapboxgl-marker{
+}
+
 @media (max-width: 1500px)
 {
     .enclosures figure img, .mounting figure img{
