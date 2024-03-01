@@ -11,11 +11,12 @@ import { filter, fromEvent, of, switchMap } from 'rxjs';
 
 import { MainService } from './main-service.service';
 import { FilterDirective } from './filter-antennas.directive';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-content',
   standalone: true,
-  imports: [CommonModule, FilterDirective],
+  imports: [CommonModule, FilterDirective, RouterModule],
   providers: [GetAntennasService],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'

@@ -9,6 +9,7 @@ import { AntennasCollectionComponent } from './antennas-collection/antennas-coll
 
 import { FooterComponent } from '../footer/footer.component';
 import { MountingComponent } from './mounting/mounting.component';
+
 import { ContactComponent } from './contact/contact.component';
 
 @Component({

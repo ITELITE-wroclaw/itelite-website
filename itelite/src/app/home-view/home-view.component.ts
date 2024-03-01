@@ -23,6 +23,7 @@ export class HomeViewComponent implements OnDestroy{
   ){
     appService.componentsList = [HeaderComponent, MainContentComponent, HowItWorksComponent, FooterComponent];
     appService.init();
+    
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
   }
 

@@ -130,5 +130,7 @@ export class AppService {
     ?.forEach((e) => {
       e.unsubscribe()
     })
+
+    this.currentComponentID = 0;
   }
 }

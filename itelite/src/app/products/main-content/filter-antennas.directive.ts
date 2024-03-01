@@ -27,7 +27,6 @@ import { FilterInterface } from "@types";
 
 
         this.filterToSend = Object.assign({}, this.filterObj);
-        console.log(this.filterToSend);
       }
       
       let count: number = 0;

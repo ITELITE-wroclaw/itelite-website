@@ -1,21 +1,32 @@
 $form-width: 545px;
+$map-margin: 190px;
 
 .contact{
+
+    padding: 0px calc($map-margin + 70px) 0px 70px;
 
     .form{
         max-width: $form-width;
         padding: 75px 0px;
+        position: relative;
+        z-index: 2;
+
+
     
         textarea{
             max-width: $form-width;
+            background-color: white;
         }
     
+        input{
+            background-color: white;
+        }
+
         form button{
             background-color: #203548;
             color: white;
+            border: 1px solid white;
         }
-    
-        
     }
 
     display: flex;
@@ -27,20 +38,59 @@ $form-width: 545px;
         flex-direction: column;
 
         justify-content: center;
-        max-width: 585px;
-        height: 600px;
+        max-width: 650px;
+        height: 635px;
         width: 100%;
-        margin-right: -190px;
+        margin-right: calc(-1 * $map-margin);
 
         #map{
-            max-height: 550px;
+            max-height: 635px;
             height: 100%;
             border-radius: 35px;
-            margin-top: 110px;
-
-            
+            margin-top: 50px;
         }
+    }
 
+    .background{
+        position: absolute;
+        right: 0;
+        bottom: -100px;
+        top: 0;
+        display: block;
+        width: 35%;
+        background-color: #203548;
     }
 }
 
+@media (max-width: 1205px)
+{
+    .contact{
+        gap: 45px;
+
+        h2{
+            font-size: 33px;
+        }
+
+        .location{
+
+            max-width: 440px;
+            height: 560px;
+
+            #map{
+                margin-top: 105px;
+            }
+        }
+    }
+}
+
+@media (max-width: 900px)
+{
+    .contact
+    {
+        padding: 0px 30px 0px 30px;
+
+        .location{
+            display: none;
+        }
+    }
+}

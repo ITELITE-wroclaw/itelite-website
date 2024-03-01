@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
 import { AppService } from '@appService';
 
 import { FooterComponent } from '../footer/footer.component';
@@ -7,8 +7,7 @@ import { ContentComponent } from './content/content.component';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import tt from '@tomtom-international/web-sdk-maps';
-
+import * as leaflet from 'leaflet';
 
 @Component({
   selector: 'app-contact-us',
@@ -30,37 +29,26 @@ export class ContactUsComponent implements AfterViewInit{
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
   }
 
+  protected map!: leaflet.Map;
+
   ngAfterViewInit(): void {
     this.activatedRoute.data.subscribe( (e: any) => {
       const locationData = e.data.results[0];
 
-      const map = tt.map({
-        key: 'V3jauwxXfg3CH5O7cZEKQe5OpkI5y7Vn',
-        container: 'map',
-        center: [17.0514652, 51.0704564],
-        zoom: 14.6
+      this.map = leaflet.map('map', {
+        center: [ 51.0709584, 17.0514672 ],
+        zoom: 16
       });
 
-      new tt.Marker({anchor: "center"})
-      .setLngLat([17.0489672, 51.0787584])
-      .addTo(map);
+      const tiles = leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 3,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      });
 
-      // Tworzymy niestandardowy znacznik jako element HTML
-      const customMarker = document.createElement('div');
-      customMarker.className = 'custom-marker';
-      // Możesz dodać tutaj dowolne niestandardowe style lub zawartość do znacznika
-
-      // Dodajemy znacznik do mapy jako element HTML
-      map.getCanvasContainer().appendChild(customMarker);
-
-      // Ustawiamy współrzędne dla niestandardowego znacznika (w pikselach)
-      const markerLngLat = new tt.LngLat(17.0489672, 51.0787584);
-
-      customMarker.style.left = markerLngLat.lat + 'px';
-      customMarker.style.top = markerLngLat.lng + 'px';
-  })
-
-   
+      tiles.addTo(this.map);
+      leaflet.marker([ 51.0699784, 17.0486672]).addTo(this.map);
+    })
   }
 
   ngOnDestroy(): void {

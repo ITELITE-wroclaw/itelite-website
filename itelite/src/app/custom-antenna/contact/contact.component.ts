@@ -31,6 +31,5 @@ export class ContactComponent implements AfterViewChecked{
 
   ngAfterViewChecked(): void {
     this.changeDetRef.detectChanges();
-    console.log("hej")
   }
 }

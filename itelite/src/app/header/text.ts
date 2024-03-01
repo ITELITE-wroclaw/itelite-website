@@ -1,4 +1,4 @@
-export const text: {[key: string]: {header: string, paragraph: string}} = {
+export const text: {[key: string]: {header: string, paragraph?: string} | any} = {
     home: {
         header: "Connect Beyond Boundaries To Your Signals with Antenna Excellence",
         paragraph: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 

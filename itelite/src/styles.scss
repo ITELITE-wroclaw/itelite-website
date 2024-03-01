@@ -13,6 +13,7 @@ body {
   height: max-content;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
+  scrollbar-width: none; 
 }
 
 app-header-content {
@@ -22,6 +23,16 @@ app-header-content {
   flex-wrap: wrap;
   justify-content: center;
   position: relative;
+}
+
+app-main-content{
+  display: block;
+  margin-top: 230px;
+}
+
+app-how-it-works{
+  display: block;
+  margin-bottom: 95px;
 }
 
 button.dark {
@@ -62,6 +73,8 @@ header .details {
   clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
   height: 215px;
   background-color: rgb(245, 182, 37);
+  background-position: center 12%;
+  background-repeat: no-repeat;
   margin-top: 102px;
   position: relative;
   z-index: 2;
@@ -79,7 +92,7 @@ $enclosures_height: 418px;
 .enclosures, .mounting{
     min-height: $enclosures_height;
     padding: 0px 70px;
-    margin-top: 110px;
+    margin: 110px 0px 55px 0px;
     position: relative;
     color: #203548;
 
@@ -146,6 +159,7 @@ form{
           left: 30px;
           font-size: 14px;
           color: #d3d3d3;
+          z-index: 4;
 
           &::after{
               content: "*";
