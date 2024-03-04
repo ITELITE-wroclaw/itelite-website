@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { View } from '@types';
 
 import { Subscription, filter, fromEvent, merge } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class AppService {
     private changeDetRef: ChangeDetectorRef,
     private store: Store<{provideHomeView: {view: View } }>,
     private componentFactory: ComponentFactoryResolver,
-    private router: Router
+    private router: Router,
+    private apollo: Apollo
   ){}
 
   public init(): void

@@ -21,7 +21,9 @@ export interface Antenna{
     freq_name: string
     parameters1: string
     parameters2: string
-    guid: string
+    guid: string,
+    descriptions?: string,
+    applications?: string
 }
 
 export interface FilterInterface{

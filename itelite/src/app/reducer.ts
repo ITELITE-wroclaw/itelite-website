@@ -6,6 +6,7 @@ export const sendMainViewElements = createAction("[App Component]", props<{ view
 export const setAntennas = createAction("[App Products]", props<{antennas: any}>())
 
 export const antennasFilter = createAction("[Products Component", props<{filter: FilterInterface}>())
+export const currentAntennaDetails = createAction("[Antenna Details]", props<{details: any}>())
 
 export const homeView = createReducer(
     {state: null},
@@ -20,4 +21,9 @@ export const antennas = createReducer(
 export const filter = createReducer(
     {type: "", feature: "", frequency: "", radio: "" },
     on(antennasFilter, (state, data) => ( { type: data.filter.type!, feature: data.filter.feature!, frequency: data.filter.frequency!, radio: data.filter.radio! }))
+)
+
+export const currentAntenna = createReducer(
+    {details: {}},
+    on(currentAntennaDetails, (state, data) => ({details: data}))
 )

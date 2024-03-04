@@ -6,14 +6,9 @@ import {
 } from '@angular/router';
 
 import { Apollo, gql } from 'apollo-angular';
-import {
-  InMemoryCache,
-  HttpLink,
-  ApolloClientOptions,
-} from '@apollo/client/core';
 import { Store } from '@ngrx/store';
+
 import { setAntennas } from '@reducer';
-import { server } from '@serverSettings';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +16,6 @@ import { server } from '@serverSettings';
 export class GetAntennasService implements Resolve<any> {
 
   constructor(private apollo: Apollo, private store: Store<{provideAntennas: {antennas: any}}>) {
-    const httpLink = new HttpLink({ uri: server.url }); // Dostosuj punkt końcowy GraphQL według potrzeb
-
-    const apolloClientOptions: ApolloClientOptions<InMemoryCache> = {
-      link: httpLink,
-      cache: new InMemoryCache() as any,
-    };
-
-    this.apollo.create(apolloClientOptions);
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

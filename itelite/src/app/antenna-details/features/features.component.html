@@ -1,1 +1,16 @@
-<p>features works!</p>
+<img [src]="circles" class="circle" alt="Image with circles.">
+
+<div class="box features">
+    
+    <div class="antenna">
+        <img [src]="antenna" alt="Antenna image.">
+    </div>
+    <div class="features_list">
+        <h3>Antenna <br><span>Key Features</span></h3>
+        <ul>
+            <li *ngFor="let item of applications">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+</div>

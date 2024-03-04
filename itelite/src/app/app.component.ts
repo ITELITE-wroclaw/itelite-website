@@ -23,6 +23,7 @@ import { files } from '@files';
 import { View } from '@types';
 
 import { sendMainViewElements } from '@reducer';
+import { ApolloService } from './apollo.service';
 
 @Directive({
   standalone: true,
@@ -52,7 +53,8 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private store: Store<{ provideHomeView: { view: View } }>,
     @Inject(PLATFORM_ID) private platform_id: string,
-    private appService: AppService
+    private appService: AppService,
+    private apolloService: ApolloService
   ) {}
 
   ngAfterViewInit(): void {

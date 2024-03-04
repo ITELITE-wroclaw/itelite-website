@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Apollo, gql } from 'apollo-angular';
+import { of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: "root"
@@ -10,12 +12,13 @@ import { Apollo, gql } from 'apollo-angular';
 export class GetAntennaDetails{
 
   
-  constructor(private apollo: Apollo, private store: Store<{provideAntennas: {antennas: any}}>) {}
+  constructor(private apollo: Apollo, private store: Store<{provideAntennas: {antennas: any}}>, private router: Router, @Inject(PLATFORM_ID) private platform_id: string) {}
 
   resolve(route: ActivatedRouteSnapshot) {
+
     const GET_ANTENNAS = gql`
       {
-        antennasFilter(skip: 0){
+        antennasFilter(parameters: [ [ "ant_name", "${route.params['antena-name']}"] ], skip: 0){
           ant_name
           ant_type
           ant_image_1
@@ -29,16 +32,20 @@ export class GetAntennaDetails{
           parameters1
           parameters2
           guid
+          descriptions
+          applications
         }
       }
     `;
 
-    this.apollo
+    return this.apollo
     .watchQuery({
       query: GET_ANTENNAS,
     })
     .valueChanges
-    .subscribe( (e: any) => {})
+    .pipe(
+      switchMap(of)
+    )
     
   }
 }
