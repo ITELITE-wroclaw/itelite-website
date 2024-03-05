@@ -1,8 +1,8 @@
 <img class="background" [src]="background" [ngClass]="homeView? 'homeView': ''" alt="Background image containing the antennas group">
 
-<div class="container">
+<div class="container" [ngClass]="antenna? 'elements-center': ''">
 
-  <div [ngClass]="!homeView? 'textTop': ''" class="text">
+  <div [ngClass]="!homeView? 'textTop': ''" [ngClass]="antenna? 'min-header-width': ''" class="text">
     <h1 [innerHTML]="homeText.header"></h1>
     <p [innerHTML]="homeText.paragraph"></p>
   

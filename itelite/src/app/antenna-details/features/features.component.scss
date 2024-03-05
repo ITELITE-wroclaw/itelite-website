@@ -1,9 +1,12 @@
 
-:host .circle{
-    position: absolute;
-    z-index: -2;
-    left: -75px;
-    top: 450px;
+:host {
+    .circle{
+        position: absolute;
+        z-index: -2;
+        left: -75px;
+        top: 450px;
+    }
+    
 }
 
 .features{
@@ -11,7 +14,7 @@
     justify-content: center;
     position: relative;
     margin-top: 180px;
-    gap: 65px;
+    gap: 205px;
 
 
     .antenna{
@@ -26,10 +29,13 @@
         flex-direction: column;
         justify-content: center;
 
-        h3{
-            span{
-                color: rgb(251, 187, 42);
-            }
+        h2{
+            margin-top: -55px;
+        }
+
+        ul li{
+            margin-top: 18px;
+            font-size: 19px;
         }
     }
 }

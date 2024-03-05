@@ -2,6 +2,10 @@
     background-color: rgb(245, 182, 37);
 }
 
+.elements-center{
+    align-items: center;
+}
+
 .custom{
     mix-blend-mode: multiply;
 }
@@ -12,6 +16,10 @@
 
 .textTop{
     margin-top: 100px;
+}
+
+.min-header-width{
+    max-width: 430px !important;
 }
 
 @media (max-width: 1500px)
