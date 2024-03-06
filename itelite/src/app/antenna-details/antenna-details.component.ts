@@ -4,7 +4,7 @@ import { AppService } from '@appService';
 import { HeaderComponent } from '@header';
 import { FooterComponent } from '../footer/footer.component';
 
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { FeaturesComponent } from './features/features.component';
 
 import { SpecificationComponent } from './specification/specification.component';
@@ -18,7 +18,7 @@ import { DocumentsComponent } from './documents/documents.component';
 
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { currentAntenna, currentAntennaDetails } from '@reducer';
+import { currentAntennaDetails } from '@reducer';
 
 @Component({
   selector: 'app-antenna-details',
@@ -28,6 +28,15 @@ import { currentAntenna, currentAntennaDetails } from '@reducer';
   styleUrl: './antenna-details.component.scss'
 })
 export class AntennaDetailsComponent {
+
+  private readonly optionalComponents:{ [key: string]: [number, any]} | any = {
+    "gain": [4, GainComponent],
+    "dimensions": [5, DimensionsComponent],
+
+    "plots": [6, PlotsComponent],
+    "images": [7, PicturesComponent]
+  }
+
   constructor(
     private appService: AppService,
     private store: Store<{}>,
@@ -38,12 +47,12 @@ export class AntennaDetailsComponent {
     appService.componentsList = [
       HeaderComponent, 
       FeaturesComponent, 
-      SpecificationComponent, 
-      GainComponent, 
-      DimensionsComponent, 
-      PlotsComponent, 
-      PicturesComponent, 
-      DocumentsComponent, 
+      SpecificationComponent,
+      GainComponent,
+      DimensionsComponent,
+      PlotsComponent,
+      PicturesComponent,
+      DocumentsComponent,
       FooterComponent
     ];
 
@@ -51,7 +60,16 @@ export class AntennaDetailsComponent {
       const data = e.data.data.antennasFilter[0]
       store.dispatch(currentAntennaDetails({details: data}));
 
-      console.log(data)
+      Object.keys(this.optionalComponents)
+      .forEach((e: any) => {
+
+        console.log(e);
+        console.log(data[`${e}`]);
+        if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex(this.optionalComponents[`${e}`][1])+1, 1); 
+
+        console.log(appService.componentsList);
+      })
+      
     })
 
     
