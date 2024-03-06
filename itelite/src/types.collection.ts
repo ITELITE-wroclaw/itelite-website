@@ -23,7 +23,9 @@ export interface Antenna{
     parameters2: string
     guid: string,
     descriptions?: string,
-    applications?: string
+    applications?: string,
+    icon: string,
+    plots: string
 }
 
 export interface FilterInterface{

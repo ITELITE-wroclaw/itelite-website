@@ -26,9 +26,9 @@ export class FeaturesComponent {
 
   private neatData(e: any)
   {
-    const gather: Antenna = e.details.details.antennasFilter[0];
+    const gather: Antenna = e.details.details;
 
-    this.antenna = gather.guid;
+    this.antenna = gather.icon;
     this.applications = gather.applications?.split("\r\n").filter(e => e.length);
 
     console.log(this.applications)

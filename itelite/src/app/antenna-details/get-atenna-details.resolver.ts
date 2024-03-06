@@ -34,6 +34,9 @@ export class GetAntennaDetails{
           guid
           descriptions
           applications
+          images
+          icon
+          plots
         }
       }
     `;

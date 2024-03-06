@@ -35,8 +35,6 @@ export class AntennaDetailsComponent {
     @Inject(PLATFORM_ID) private platform_id: string
   )
   {
-    activatedRoute.data.subscribe((e: any) => store.dispatch(currentAntennaDetails({details: e.data.data})))
-
     appService.componentsList = [
       HeaderComponent, 
       FeaturesComponent, 
@@ -48,6 +46,15 @@ export class AntennaDetailsComponent {
       DocumentsComponent, 
       FooterComponent
     ];
+
+    activatedRoute.data.subscribe((e: any) => {
+      const data = e.data.data.antennasFilter[0]
+      store.dispatch(currentAntennaDetails({details: data}));
+
+      console.log(data)
+    })
+
+    
 
     appService.init();
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 

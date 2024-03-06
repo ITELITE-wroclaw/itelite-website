@@ -19,9 +19,10 @@ export class SpecificationComponent {
   constructor(private store: Store<{provideAntennaDetails: any}>){
     store.select("provideAntennaDetails")
     .subscribe((e) => {
+      const details = e.details.details;
 
-     const app: string[] = e.details.details.antennasFilter[0].parameters1.split(";");
-     const des: string[] = e.details.details.antennasFilter[0].parameters2.split(";");
+     const app: string[] = details.parameters1.split(";");
+     const des: string[] = details.parameters2.split(";");
 
       const map = app.reduce((acc: any, item) => {
         const [key, value] = item.split(':');
