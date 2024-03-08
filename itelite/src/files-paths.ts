@@ -106,7 +106,10 @@ export const files = Object.freeze({
     company: "/assets/company/antenna.webp",
     order: "/assets/order/antenna.webp",
 
-    antenna_details: "/assets/antenna_details/mask.webp",
+    antenna_details: {
+        mask: "/assets/antenna_details/mask.webp",
+        download: "/assets/antenna_details/document-download.webp"
+    },
 
     footer:{
         logo: "/assets/footer/white-logo.webp"

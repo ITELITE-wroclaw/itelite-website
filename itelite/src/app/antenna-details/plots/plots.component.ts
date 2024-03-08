@@ -1,20 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-plots',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './plots.component.html',
   styleUrl: './plots.component.scss'
 })
 export class PlotsComponent {
-  constructor(private store: Store<{provideAntennasDetails: any}>){
+
+  protected plotsImages!: string[];
+
+  constructor(private store: Store<{provideAntennaDetails: any}>){
     store
-    .select("provideAntennasDetails")
+    .select("provideAntennaDetails")
     .subscribe((e) => {
-      const plots = e.details.details
-      console.log(plots)
+      this.plotsImages = e.details.details.plots.split(";");
     })
   }
 }

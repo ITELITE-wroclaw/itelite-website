@@ -1,0 +1,28 @@
+:host{
+    margin-top: 200px;
+    display: block;
+}
+
+.box{
+    h2{
+        text-align: center;
+        color: rgb(251, 187, 42);
+    }
+
+    .pictures_gather{
+        margin-top: 65px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 35px;
+        justify-content: center;
+
+        .antenna_picture{
+            max-width: 265px;
+    
+            img{
+                width: 100%;
+            }
+        }
+    }
+    
+}

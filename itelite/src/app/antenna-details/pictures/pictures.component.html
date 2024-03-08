@@ -1,1 +1,9 @@
-<p>pictures works!</p>
+<div class="box">
+    <h2>Pictures</h2>
+    <div class="pictures_gather">
+        <div class="antenna_picture" *ngFor="let im of images">
+            <img [src]="im" alt="Antenna image.">
+        </div>
+    </div>
+    
+</div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { files } from '@files';
 
 @Component({
   selector: 'app-documents',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './documents.component.scss'
 })
 export class DocumentsComponent {
-
+  protected readonly documentDownloadImage: string = files.antenna_details.download;
 }

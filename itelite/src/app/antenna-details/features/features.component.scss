@@ -39,3 +39,28 @@
         }
     }
 }
+
+@media (max-width: 1200px) {
+    .features{
+        gap: 100px;
+
+        .antenna{
+            img{
+                max-width: 320px;
+            }
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .features{
+        gap: 0px;
+
+        .antenna{
+            display: none;
+            img{
+                max-width: 320px;
+            }
+        }
+    }
+}

@@ -17,7 +17,7 @@ export class FeaturesComponent {
   protected antenna!: string;
   protected applications: string[] | undefined; 
 
-  protected readonly circles: string = files.antenna_details;
+  protected readonly circles: string = files.antenna_details.mask;
 
   constructor(private store: Store<{provideAntennaDetails: any}>){
     store.select("provideAntennaDetails")

@@ -30,11 +30,11 @@ import { currentAntennaDetails } from '@reducer';
 export class AntennaDetailsComponent {
 
   private readonly optionalComponents:{ [key: string]: [number, any]} | any = {
-    "gain": [4, GainComponent],
-    "dimensions": [5, DimensionsComponent],
+    "gain": GainComponent,
+    "dimensions":  DimensionsComponent,
 
-    "plots": [6, PlotsComponent],
-    "images": [7, PicturesComponent]
+    "plots": PlotsComponent,
+    "images":  PicturesComponent
   }
 
   constructor(
@@ -60,16 +60,15 @@ export class AntennaDetailsComponent {
       const data = e.data.data.antennasFilter[0]
       store.dispatch(currentAntennaDetails({details: data}));
 
+      console.log(data)
+
       Object.keys(this.optionalComponents)
       .forEach((e: any) => {
 
-        console.log(e);
-        console.log(data[`${e}`]);
-        if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex(this.optionalComponents[`${e}`][1])+1, 1); 
-
-        console.log(appService.componentsList);
+        if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex((x) => x == this.optionalComponents[`${e}`]), 1); 
       })
       
+      console.log(appService.componentsList);
     })
 
     

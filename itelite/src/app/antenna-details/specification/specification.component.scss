@@ -15,11 +15,12 @@ $dark: #1a2c3d;
         margin-top: 65px;
         justify-content: space-between;
         gap: 60px;
+        justify-content: center;
+        flex-wrap: wrap;
 
         .block{
             max-width: 404px;
             width: 100%;
-            
 
             .property{
                 .property-header{
