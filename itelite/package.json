@@ -26,7 +26,10 @@
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "apollo-angular": "^6.0.0",
     "express": "^4.18.2",
+    "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
+    "pdfjs": "^2.5.3",
+    "pdfkit": "^0.14.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
@@ -39,6 +42,7 @@
     "@types/jasmine": "~5.1.0",
     "@types/leaflet": "^1.9.8",
     "@types/node": "^18.18.0",
+    "@types/pdfkit": "^0.13.4",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

@@ -16,13 +16,16 @@
     
     <div class="frequencies-span filter-list box">
         <h2 class="box">Frequency</h2>
-        <div class="arrow" data-toward="left"></div>
-        <ul class="list-elements">
-            <li class="child" *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
-                {{e}}
-            </li>
-        </ul>
-        <div class="arrow" data-toward="left"></div>
+        <div>
+            <div class="arrow arrow-left" data-arrow="left"><i class="fa-solid fa-chevron-left"></i></div>
+                <ul class="list-elements">
+                    <li class="child" *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
+                        {{e}}
+                    </li>
+                </ul>
+            <div class="arrow arrow-right" data-arrow="right"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+        
     </div>
 
     <div class="features filter-list box">

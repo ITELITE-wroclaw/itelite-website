@@ -47,6 +47,7 @@ export class GetAntennasService implements Resolve<any> {
     .subscribe( (e: any) => {
       const result: [] | any = e?.data?.allAntennas | e?.data?.filterAntennas; 
       if(!result) return;
-      return this.store.dispatch(setAntennas({antennas: {antennas: [ ...result ]}})) })
+
+      return this.store.dispatch(setAntennas({antennas: {antennas: [ ...result ]}})) });
   }
 }

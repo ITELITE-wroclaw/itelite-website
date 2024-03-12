@@ -3,25 +3,30 @@
     margin-top: 110px;
 }
 
-.box{
+.download{
     h2{
         text-align: center;
     }
 
     .documents{
-        display: flex;
-        justify-content: center;
-        gap: 45px;
         margin-top: 45px;
         background: #F5F5F5;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        padding: 95px 0px;
+        position: relative;
+        width: calc( 100% + 160px);
+        left: -80px;
+        padding: 45px 0px 95px 0px;
 
-        img{
-            max-width: 75px;
-            mix-blend-mode: multiply;
+        figure{
+            
+            width: fit-content;
+            margin: auto;
+            margin-top: 40px;
+
+            img{
+                max-width: 75px;
+                mix-blend-mode: multiply;
+            }
         }
+        
     }
 }

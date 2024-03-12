@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, Renderer2, ViewContainerRef } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -30,7 +30,8 @@ export class AppService {
     private store: Store<{provideHomeView: {view: View } }>,
     private componentFactory: ComponentFactoryResolver,
     private router: Router,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private renderer: Renderer2
   ){}
 
   public init(): void
@@ -113,9 +114,9 @@ export class AppService {
   private renderComponent(id: number)
   {    
     if(!id || !this.componentsList[`${id}`]) return;
-    const previousEl: HTMLElement = this.availedComponents[`${id-1}`].location.nativeElement;
+    const body: HTMLElement = this.renderer.selectRootElement("body", true);
 
-    if( !(previousEl.getBoundingClientRect().top <= window.innerHeight / 2) ) return;
+    if( !(body.getBoundingClientRect().bottom < window.innerHeight + 450) ) return;
     this.currentComponentID++;
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);

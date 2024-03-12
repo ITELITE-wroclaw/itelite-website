@@ -1,6 +1,11 @@
-<div class="box">
-    <h2>Documents</h2>
+<div class="download">
+    
     <div class="documents">
-        <img [src]="documentDownloadImage" alt="Thumbnail of PDF document to download.">
+        <h2>Documents</h2>
+        <figure (click)="createDatasheet()">
+            <img [src]="documentDownloadImage" alt="Thumbnail of PDF document to download.">
+            <figcaption>Datasheet</figcaption>
+        </figure>
+        
     </div>
 </div>

@@ -18,6 +18,38 @@
             font-size: 24px;
         }
 
+        div{
+            position: relative;
+
+            .arrow{
+                position: absolute;
+                top: 50%;
+                transform: translate(0%, -50%);
+                width: 36px;
+                height: 42px;
+                text-align: center;
+                line-height: 42px;
+                background-color: rgb(245, 249, 254);
+                z-index: 3;
+            }
+
+            .arrow-left{
+                left: 2px;
+                border-radius: 11px 0px 0px 11px;
+            }
+
+            .arrow-right{
+                right: 2px;
+                border-radius: 0px 11px 11px 0px;
+            }
+
+            
+        }
+
+        ul.list-elements{
+            padding: 0px 36px;
+        }
+        
         .list-elements{
             cursor: pointer;
             display: flex;
@@ -28,6 +60,8 @@
             width: 100%;
             scrollbar-width: none;
             margin: 12px auto 0px auto;
+            position: relative;
+            box-sizing: border-box;
 
             li, .company{
                 padding: 11px 17px;

@@ -33,3 +33,14 @@
         padding-bottom: 45px;
     }
 }
+
+@media (max-width: 1150px) {
+    .min-header-width h1{
+        text-align: center;
+    }
+
+    .elements-center{
+        padding-top: 190px !important;
+        min-height: 60vh;
+    }
+}
