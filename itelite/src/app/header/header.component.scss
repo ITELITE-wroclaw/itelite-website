@@ -19,7 +19,13 @@
 }
 
 .min-header-width{
-    max-width: 430px !important;
+    max-width: 455px !important;
+    padding-right: 38px;
+
+    .extended_text{
+        color: #21374d;
+        font-size: 23px;
+    }
 }
 
 @media (max-width: 1500px)

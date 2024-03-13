@@ -4,6 +4,7 @@
 
   <div [ngClass]="!homeView? 'textTop': ''" [ngClass]="antenna? 'min-header-width': ''" class="text">
     <h1 [innerHTML]="homeText.header"></h1>
+    <h2 class="extended_text" *ngIf="antenna">{{titleExtended | uppercase}}</h2>
     <p [innerHTML]="homeText.paragraph"></p>
   
     <button *ngIf="homeView" class="dark">More Details</button>

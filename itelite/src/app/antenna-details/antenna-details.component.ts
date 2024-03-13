@@ -19,6 +19,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { currentAntennaDetails } from '@reducer';
+import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-antenna-details',
@@ -56,11 +57,60 @@ export class AntennaDetailsComponent {
       FooterComponent
     ];
 
-    activatedRoute.data.subscribe((e: any) => {
-      const data = e.data.data.antennasFilter[0]
-      store.dispatch(currentAntennaDetails({details: data}));
+    activatedRoute.data
+    .pipe(
+      map((e: any) => {
+        const details = Object.assign({}, e.data.data.antennasFilter[0]);
 
-      console.log(data)
+        const electricalProperties: any[] = [];
+        const enclosureProperties: any[] = [];
+        const mechanicalProperties: any[] = [];
+
+        const app: string[] = details.parameters1.split(";");
+        const des: string[] = details.parameters2.split(";");
+
+        const map = app.reduce((acc: any, item) => {
+          const [key, value] = item.split(':');
+          acc[key] = value;
+          return acc;
+        }, {});
+  
+        const propertiesArray = des.map(item => {
+          const [key, value ]= item.split(':');
+          return map[key] ? [ Number(key), value, map[key] ] : undefined;
+        });
+
+        propertiesArray
+        .forEach((element: any) => {
+          if(!element) return;
+
+            if(element[0] <14) electricalProperties.push([element[1], element[2]]);
+            if(element[0] < 22 && element[0] > 13) enclosureProperties.push([element[1], element[2]]);
+            if(element[0] > 21) mechanicalProperties.push([element[1], element[2]]);
+        })
+
+        details.electricalProperties = electricalProperties;
+        details.enclosureProperties = enclosureProperties;
+        details.mechanicalProperties = mechanicalProperties;
+
+        const keys: string[] = ["flat_panel", "radio_space", "single_pol", "mimo_2x2", "mimo_3x3", "multi_mimo"];
+
+        const parameters1: string[] = details.electricalProperties.find((x: string[]) => x[0].toLowerCase() == "frequency");
+        let text = "";
+
+        keys
+        .forEach((_key: string) => {
+          if(details[`${_key}`] === true) text += ", "+_key.replace("_", " ");
+        });
+
+        details.titleExtended = `${parameters1[1]} GHZ, ${details.ant_type} ${text}`.toUpperCase();
+
+          return details;
+        })
+    )
+    .subscribe((data: any) => {
+
+      store.dispatch(currentAntennaDetails({details: data}));
 
       Object.keys(this.optionalComponents)
       .forEach((e: any) => {

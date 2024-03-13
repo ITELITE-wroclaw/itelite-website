@@ -37,7 +37,7 @@ export class GetAntennaDetails{
           images
           icon
           plots
-          photo_value
+          data_values
         }
       }
     `;
