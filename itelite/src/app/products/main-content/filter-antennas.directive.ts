@@ -39,9 +39,10 @@ import { FilterInterface } from "@types";
         if(count == 3) return;
         count++;
   
+
         targetHTML.hasAttribute("data-filter") || targetHTML.hasAttribute("data-arrow")? 
         [targetHTML.hasAttribute("data-filter")? 
-          [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!), targetHTML ), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]:
+          [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!), targetHTML ), console.log(this.filterToSend), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]:
           this.moveScroll(targetHTML.parentElement, targetHTML.getAttribute("data-arrow"))
         ]:
         isAttribute.call(this, targetHTML.parentElement!)

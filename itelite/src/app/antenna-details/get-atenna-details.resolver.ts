@@ -38,6 +38,7 @@ export class GetAntennaDetails{
           icon
           plots
           data_values
+          dimensions
         }
       }
     `;

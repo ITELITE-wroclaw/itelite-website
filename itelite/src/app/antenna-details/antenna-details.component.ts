@@ -61,6 +61,7 @@ export class AntennaDetailsComponent {
     .pipe(
       map((e: any) => {
         const details = Object.assign({}, e.data.data.antennasFilter[0]);
+        console.log(details)
 
         const electricalProperties: any[] = [];
         const enclosureProperties: any[] = [];
@@ -89,6 +90,10 @@ export class AntennaDetailsComponent {
             if(element[0] > 21) mechanicalProperties.push([element[1], element[2]]);
         })
 
+        details.plots = details.plots?.split(";");
+        details.images = details.images?.split(";");
+        details.dimensions = details.dimensions?.split(";")
+
         details.electricalProperties = electricalProperties;
         details.enclosureProperties = enclosureProperties;
         details.mechanicalProperties = mechanicalProperties;
@@ -104,7 +109,6 @@ export class AntennaDetailsComponent {
         });
 
         details.titleExtended = `${parameters1[1]} GHZ, ${details.ant_type} ${text}`.toUpperCase();
-
           return details;
         })
     )
@@ -118,7 +122,6 @@ export class AntennaDetailsComponent {
         if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex((x) => x == this.optionalComponents[`${e}`]), 1); 
       })
       
-      console.log(appService.componentsList);
     })
 
     

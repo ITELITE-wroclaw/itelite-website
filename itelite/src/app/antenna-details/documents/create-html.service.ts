@@ -14,8 +14,9 @@ export class CreateHTMLService {
   public subTitle!: string;
 
   private readonly logo: string = files.nav;
-  public plots!: string[];
+  public plots: string[] | undefined;
   public images!: string[];
+  public dimensions: string[] | undefined;
 
   public electricalProperties: any[] = [];
   public enclosureProperties: any[] = [];
@@ -35,8 +36,15 @@ export class CreateHTMLService {
     return text;
   }
 
-  public async getImages (images: string[], title: string, flag: boolean)
+  private counter: number = 0;
+
+  public async getImages (images: string[] | any, title: string, flag: boolean)
   {
+
+    if(!images || !images.length) return "";
+
+    const top: number = this.counter * 297;
+    const replace = (url: string, protocol: string) => url.replace(protocol+'://itelite.net/wp-content/uploads', "")
 
     const getImg = (url: string): Promise<string> =>
     {
@@ -56,22 +64,23 @@ export class CreateHTMLService {
     }
     
 
-    if(flag) return await getImg("https://itelite.net/wp-content/?file=" + images[0].replace("http://itelite.net/wp-content/uploads", ""))
+    if(flag) return await getImg("https://itelite.net/wp-content/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))
 
-    if(!images || !images.length) return "";
+    
 
     let text = `
-      <div style='width: 220px; padding-left: 8px; position: relative;'>
-      <h5 style='color: #1a2c3d; font-size: 7px; margin-top: 6px; margin-left: 22px; padding-bottom: 9px; position: relative; z-index: 4;'>${title}</h5>
+      <div style='width: 222px; padding-left: 15px; position: absolute; top: ${top}px;'>
+      <h5 style='color: #1a2c3d; font-size: 7px; margin-top: 6px; margin-left: 2px; padding-bottom: 9px; position: relative; z-index: 4;'>${title}</h5>
     `;
 
     let id = 0;
+    let potencialSize: number = images.length > 3? 49: 75;
     async function setImages()
     {
-      if(id == images.length) return;
-      const linkImg = await getImg('https://itelite.net/wp-content/?file='+images[id].replace("http://itelite.net/wp-content/uploads", ""));
+      if(id == images?.length) return;
+      const linkImg = await getImg('https://itelite.net/wp-content/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
 
-      text += `<img src='${linkImg}' style='width: 65px; height: auto; position: relative; z-index: 4;'>`;
+      text += `<img src='${linkImg}' style='height: ${potencialSize}px; position: relative; z-index: 4; margin-right: 9px; margin-top: 5px;'>`;
 
       id++;
       await setImages();
@@ -81,6 +90,8 @@ export class CreateHTMLService {
 
 
     text += "</div>";
+    this.counter++;
+
     return text;
   }
 
@@ -101,13 +112,13 @@ export class CreateHTMLService {
       <img style='width: 45px; height: auto; margin-left: 17px;' src='${this.logo}'>
     </header>
 
-    <div style='position: relative;'>
+    <div>
       <div style='width: 230px; position: relative; border-bottom: 1px solid #F5F5F5;'>
 
         <div style='display: inline-block; width: 95px;'>
           <h5 style='color: #1a2c3d; font-size: 7px; margin-top: 6px; margin-left: 22px;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
           <h6 style='color: #1a2c3d; font-size: 5px; margin-top: 2px; margin-left: 22px; width: 175px;'>${this.subTitle}</h6>
-          <img style='width: 85px; height: 85px; padding: 7px 0px 13px 17px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
+          <img style='width: 76px; max-height: 106px; object-fit: fill; padding: 7px 0px 13px 17px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
         </div>
 
         <div style='display: inline-block; width: 60px; position: absolute; top: 35px; left: 118px;'>
@@ -126,14 +137,15 @@ export class CreateHTMLService {
       </div>
     </div>
         
-    <div style='position: absolute; top: 280px; width: 230px; height: 150px;'>
-        ${await this.getImages(this.plots, "PLOTS", false)}
-        ${await this.getImages(this.images, "IMAGES", false)}
+    <div style='width: 210px; position: absolute; top: 280px;'>
+      ${await this.getImages(this.images, "IMAGES", false)}
+      ${await this.getImages(this.plots, "PLOTS", false)}
+      ${await this.getImages(this.dimensions, "DIMENSIONS", false)}
     </div>
     
   `;
 
-  console.log(html)
+  this.counter = 0;
   return html;
   }
 }

@@ -1,0 +1,27 @@
+:host{
+    display: block;
+    margin-top: 140px;
+}
+
+.box{
+    h2{
+        text-align: center;
+    }
+
+    .dimensions{
+        margin-top: 45px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 65px;
+        justify-content: center;
+
+        .sizes{
+            max-width: 500px;
+
+            img{
+                max-width: 500px;
+            }
+        }
+    }
+
+}

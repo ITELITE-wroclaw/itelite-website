@@ -35,8 +35,9 @@ export class DocumentsComponent {
 
     this.createHTMLService.subTitle = details.titleExtended;
 
-    this.createHTMLService.plots = this.createHTMLService.antennaDetailsToDatasheet?.plots?.split(";");
-    this.createHTMLService.images = this.createHTMLService.antennaDetailsToDatasheet?.images?.split(";");
+    this.createHTMLService.plots = this.createHTMLService.antennaDetailsToDatasheet?.plots;
+    this.createHTMLService.images = this.createHTMLService.antennaDetailsToDatasheet?.images;
+    this.createHTMLService.dimensions = this.createHTMLService.antennaDetailsToDatasheet?.dimensions
   }
 
   async createDatasheet()
@@ -47,7 +48,10 @@ export class DocumentsComponent {
     doc.html(
       text
       , 
-      {autoPaging: false, width: 180}
+      {
+        autoPaging: true, 
+        width: 175
+      }
     )
     .then((e) => {
       doc.save()

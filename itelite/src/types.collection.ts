@@ -25,9 +25,10 @@ export interface Antenna{
     descriptions?: string,
     applications?: string,
     icon: string,
-    plots: string,
+    plots: string[],
     photo_value?: any,
-    images: string
+    images: string[],
+    dimensions?: string[]
 }
 
 export interface FilterInterface{

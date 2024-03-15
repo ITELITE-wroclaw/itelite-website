@@ -17,7 +17,7 @@ export class PlotsComponent {
     store
     .select("provideAntennaDetails")
     .subscribe((e) => {
-      this.plotsImages = e.details.details.plots.split(";");
+      this.plotsImages = e.details.details.plots;
     })
   }
 }

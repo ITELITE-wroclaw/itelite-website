@@ -52,7 +52,7 @@
 <div class="results box">
     <div class="clousure" class="clousure">
         
-        <div class="antenna" *ngFor="let e of this.antennas; trackBy: trackByName" [routerLink]="['/antenna-details', e.ant_name]">
+        <div class="antenna" *ngFor="let e of this.mainService.antennas; trackBy: trackByName" [routerLink]="['/antenna-details', e.ant_name]">
             <figure>
                 <div class="frame">
                     <img src="{{e.guid}}" alt="Antenna image.">

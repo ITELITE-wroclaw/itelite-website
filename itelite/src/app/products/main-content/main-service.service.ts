@@ -15,6 +15,8 @@ export class MainService {
   private skipAntennas: number = 0;
   private flag: boolean = false;
 
+  public antennas: Antenna[] = [];
+
   private currentAntennasFilter = {
     type: '',
     feature: '',
@@ -63,9 +65,10 @@ export class MainService {
   }
 
   public getFilterAntennas(filter: any): Observable<unknown> {
+    this.flag = true;
     if (this.scrollSub.closed) this.restartScrollListener();
 
-    JSON.stringify(filter) == JSON.stringify(this.currentAntennasFilter)? this.skipAntennas++: 
+    JSON.stringify(filter) == JSON.stringify(this.currentAntennasFilter)? [this.skipAntennas = 0, this.antennas = [] ]: 
     [this.skipAntennas = 0, this.store.dispatch(setAntennas({antennas: {antennas: []}})), this.isFilter = true];
 
     const parameters = JSON.stringify( Object.entries(filter).filter((el) => !!el[1]) );
@@ -83,6 +86,8 @@ export class MainService {
       }
     `;
 
+    console.log(GET_ANTENNAS)
+
     return this.getQuery(GET_ANTENNAS);
   }
 
@@ -98,6 +103,8 @@ export class MainService {
 
     const newAntennas: Observable<Antenna[] | any> = that.isFilter? that.getFilterAntennas(that.currentAntennasFilter): that.getAllAntennas(that.skipAntennas);
     that.skipAntennas++;
+
+    console.log(that.skipAntennas)
 
     newAntennas.subscribe(
       (e: { data: { allAntennas?: Antenna[]; antennasFilter?: Antenna[] } }) => {

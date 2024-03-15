@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { files } from '@files';
 import { GetAntennasService } from './get-antennas.service';
@@ -45,8 +45,6 @@ export class MainContentComponent implements OnInit, OnDestroy{
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
   protected JSON: JSON = JSON;
 
-  protected antennas: Antenna[] = [];
-
   constructor(
       private store: Store<{provideAntennas: {antennas: any}, provideFilter: FilterInterface}>, 
       protected mainService: MainService | null
@@ -56,7 +54,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.store.select("provideAntennas")
-    .subscribe((e) =>{!!e?.antennas?.length? this.antennas.push(...e.antennas): this.antennas = [];})
+    .subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];})
 
     if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
     .subscribe( (e) => this.mainService?.scrollEvent(this.mainService))
@@ -66,7 +64,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
     .pipe(
       switchMap((e: any): any => {
         if(!Object.values(e).some((value: any) => value && value.length > 0)) {
-          this.antennas = [];
+          this.mainService.antennas = [];
           if(this.mainService) this.mainService.isFilter = false;
           return this.mainService?.getAllAntennas(0);
         }
@@ -74,8 +72,11 @@ export class MainContentComponent implements OnInit, OnDestroy{
       })
     )
     .subscribe((x: any) => {
+
+
       const antennas = x.data?.antennasFilter || x.data?.allAntennas;
-      if(antennas) this.antennas.push(...antennas);
+      if(antennas) this.mainService.antennas.push(...antennas);
+
     })
     
   }

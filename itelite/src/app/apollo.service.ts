@@ -8,7 +8,6 @@ import {
 import { server } from '@serverSettings';
 import { Apollo } from 'apollo-angular';
 
-
 @Injectable({
   providedIn: 'root'
 })
