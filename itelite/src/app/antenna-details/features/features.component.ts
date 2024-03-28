@@ -30,7 +30,5 @@ export class FeaturesComponent {
 
     this.antenna = gather.icon;
     this.applications = gather.applications?.split("\r\n").filter(e => e.length);
-
-    console.log(this.applications)
   }
 }

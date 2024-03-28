@@ -42,7 +42,7 @@ export const files = Object.freeze({
                 "Single Pol": "/assets/products/main/features/Single Pol.webp",
                 "MIMO 2X2": "/assets/products/main/features/MIMO 2X2.webp",
                 "MIMO 3X3": "/assets/products/main/features/MIMO 3X3.webp",
-                "Multi MIMO 3X3": "/assets/products/main/features/Multi MIMO 3X3.webp"
+                "Multi MIMO": "/assets/products/main/features/Multi MIMO 3X3.webp"
             },
 
             enclosures: {

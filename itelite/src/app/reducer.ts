@@ -19,8 +19,8 @@ export const antennas = createReducer(
 )
 
 export const filter = createReducer(
-    {type: "", feature: "", frequency: "", radio: "" },
-    on(antennasFilter, (state, data) => ( { type: data.filter.type!, feature: data.filter.feature!, frequency: data.filter.frequency!, radio: data.filter.radio! }))
+    {type: [], feature: [], frequency: [] },
+    on(antennasFilter, (state, data) => ( { name: data.filter.name, type: data.filter.type!, feature: data.filter.feature!, frequency: data.filter.frequency! }))
 )
 
 export const currentAntenna = createReducer(

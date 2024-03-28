@@ -32,8 +32,9 @@ export interface Antenna{
 }
 
 export interface FilterInterface{
-    type?: string | undefined,
-    frequency?: string,
-    feature?: string,
-    radio?: string
+    name?: string,
+    type?: string[] | undefined,
+    frequency?: string[],
+    feature?: string[],
+    radio?: string[]
 }

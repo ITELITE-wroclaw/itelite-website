@@ -31,7 +31,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
     "Mikrotik", "Qualcomm", "Silicon Labs", 
     "NXP Semiconductors", "Texas Instruments", 
     "STMicroelectronics", "Skyworks Solutions"
-  ]
+  ];
 
   protected readonly frequecies = [
     "Multiband", "LTE", "WIFI 6E", 
@@ -63,7 +63,8 @@ export class MainContentComponent implements OnInit, OnDestroy{
     .select("provideFilter")
     .pipe(
       switchMap((e: any): any => {
-        if(!Object.values(e).some((value: any) => value && value.length > 0)) {
+
+        if(! Object.values(e).some((value: any) => value && value.length > 0)  ) {
           this.mainService.antennas = [];
           if(this.mainService) this.mainService.isFilter = false;
           return this.mainService?.getAllAntennas(0);
@@ -72,12 +73,9 @@ export class MainContentComponent implements OnInit, OnDestroy{
       })
     )
     .subscribe((x: any) => {
-
-
       const antennas = x.data?.antennasFilter || x.data?.allAntennas;
       if(antennas) this.mainService.antennas.push(...antennas);
-
-    })
+    });
     
   }
 

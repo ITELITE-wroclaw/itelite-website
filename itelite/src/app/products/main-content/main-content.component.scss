@@ -13,6 +13,14 @@
     .filter-list{
         padding-top: 15px;
 
+        input{
+            margin: 15px auto;
+            border-radius: 7px;
+            border: 2px solid rgb(228, 228, 228);
+            padding: 7px 3px;
+            text-align: center;
+        }
+
         h2{
             margin: auto;
             font-size: 24px;
@@ -42,14 +50,17 @@
                 right: 2px;
                 border-radius: 0px 11px 11px 0px;
             }
-
-            
         }
 
         ul.list-elements{
             padding: 0px 36px;
         }
         
+        &:nth-of-type(2) .list-elements{
+            justify-content: space-around;
+            padding: 12px 0px;
+        }
+
         .list-elements{
             cursor: pointer;
             display: flex;

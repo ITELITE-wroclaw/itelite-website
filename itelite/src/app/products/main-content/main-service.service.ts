@@ -20,8 +20,7 @@ export class MainService {
   private currentAntennasFilter = {
     type: '',
     feature: '',
-    frequency: '',
-    radio: '',
+    frequency: ''
   }; //should by in same order as in reducer
 
   public isFilter: boolean = false;
@@ -45,7 +44,7 @@ export class MainService {
     parameters1
     parameters2
     guid
-  `
+  `;
 
   private getQuery = (query: TypedDocumentNode<unknown, unknown>) => this.apollo.watchQuery({ query }).valueChanges;
 
@@ -86,8 +85,6 @@ export class MainService {
       }
     `;
 
-    console.log(GET_ANTENNAS)
-
     return this.getQuery(GET_ANTENNAS);
   }
 
@@ -103,8 +100,6 @@ export class MainService {
 
     const newAntennas: Observable<Antenna[] | any> = that.isFilter? that.getFilterAntennas(that.currentAntennasFilter): that.getAllAntennas(that.skipAntennas);
     that.skipAntennas++;
-
-    console.log(that.skipAntennas)
 
     newAntennas.subscribe(
       (e: { data: { allAntennas?: Antenna[]; antennasFilter?: Antenna[] } }) => {

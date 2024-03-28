@@ -1,36 +1,75 @@
-import { Directive, HostListener, Renderer2 } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { DomElementSchemaRegistry } from "@angular/compiler";
+import { AfterViewInit, Directive, HostListener, Inject, PLATFORM_ID, Renderer2 } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import { antennasFilter } from "@reducer";
 import { FilterInterface } from "@types";
 
+import { Subject, debounceTime } from "rxjs";
+
 @Directive({
     selector: "[filter]",
     standalone: true
   })
-  export class FilterDirective{
+  export class FilterDirective implements AfterViewInit{
   
-    constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>){}
-  
-    private filterObj: FilterInterface | any = {bands: "", feature: "", frequency: "", radio: ""};
+    private filterObj: FilterInterface | any = { name: "", bands: [], feature: [], frequency: [], type: [] };
     private filterToSend!: FilterInterface;
 
     private startTime!: number | null;
     private flag: boolean = false;
+
+    private firstBunch: boolean = true;
+    private inputSubject: Subject<string> = new Subject<string>();
   
+    constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>, @Inject(PLATFORM_ID) private platform_id: string){
+      this.inputSubject.pipe(debounceTime(450))
+      .subscribe((e: string) => {
+        this.filterObj.name = e;
+        this.filterToSend = Object.assign({}, this.filterObj);
+
+        this.store.dispatch( antennasFilter({ filter: this.filterToSend }) );
+      });
+      
+    }
+
+    ngAfterViewInit(): void {
+      this.store
+      .select("provideFilter")
+      .subscribe((e) => {
+       
+
+        if(!isPlatformBrowser(this.platform_id)) return;
+        if(!this.firstBunch) return;
+        
+        this.filterObj = Object.assign({}, e);
+        this.firstBunch = false;
+       
+        Object.keys(e)
+        .forEach((val) => {
+
+          e[`${val}`] instanceof Array? e[`${val}`].forEach((x) => {
+            const thatFilterElement: HTMLElement = document.querySelector(`[data-filter="{\\\"param\\\":\\\"${val}\\\",\\\"value\\\":\\\"${x}\\\"}"]`);
+
+            thatFilterElement.classList.add("active")
+          }):  document.querySelector(".filter input")['value'] = e[`${val}`] ;
+        })
+      });
+    }
+
     // catch click events call by customer inner filter element
     @HostListener("click", ['$event']) handelClick(e: Event)
     {
       const html: HTMLElement = e.target as HTMLElement;
-      const createDispatch = <Attribute extends Record<string, any>>(attribute: Attribute & { param: string }, target: HTMLElement) => { 
+      const createDispatch = <Attribute extends Record<string, any>>(attribute: Attribute & { param: string }, target: HTMLElement) => {
 
-        this.filterObj[`${attribute['param']}`] == attribute['value']? 
+        this.filterObj[`${attribute['param']}`] == attribute['value']?
         [this.filterObj[`${attribute['param']}`] = "", this.removeStyles(target)]: 
-        [this.filterObj[`${attribute['param']}`] = attribute['value'], this.removeStyles(target), this.addStyles(target)];
-
+        [this.filterObj[`${attribute['param']}`] = [...this.filterObj[`${attribute['param']}`], attribute['value'] ], this.removeStyles(target), this.addStyles(target)];
 
         this.filterToSend = Object.assign({}, this.filterObj);
-      }
+      };
       
       let count: number = 0;
   
@@ -38,15 +77,17 @@ import { FilterInterface } from "@types";
       {
         if(count == 3) return;
         count++;
-  
+
+        console.log(this);
+        console.log(targetHTML);
 
         targetHTML.hasAttribute("data-filter") || targetHTML.hasAttribute("data-arrow")? 
         [targetHTML.hasAttribute("data-filter")? 
-          [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!), targetHTML ), console.log(this.filterToSend), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]:
+          [ createDispatch( JSON.parse(targetHTML.getAttribute("data-filter")!), targetHTML ), this.store.dispatch( antennasFilter({ filter: this.filterToSend }) ) ]:
           this.moveScroll(targetHTML.parentElement, targetHTML.getAttribute("data-arrow"))
         ]:
         isAttribute.call(this, targetHTML.parentElement!)
-      }
+      };
   
       isAttribute.call(this, html);
     }
@@ -59,10 +100,7 @@ import { FilterInterface } from "@types";
 
     removeStyles(element: HTMLElement | any)
     {
-      const childElementsArray =  element.parentElement.getElementsByClassName("child");
-
-      Array.from(childElementsArray)
-      .forEach((el: any) => el.classList.remove("active"));
+      if(element.classList.contains("active")) element.classList.remove("active")
     }
 
     moveScroll(element: HTMLElement, direction: string)
@@ -94,7 +132,6 @@ import { FilterInterface } from "@types";
       const distance = targetScroll - currentScrollLeft;
 
       const scrollLeft = easeInOutQuad(progress, currentScrollLeft, distance, 2900);
-
       scrollContainer.scrollLeft = scrollLeft;
 
       if (progress < 680) {
@@ -107,4 +144,8 @@ import { FilterInterface } from "@types";
       }
   }
   
+  @HostListener('input', ['$event.target.value'])
+  onInput(value: string) {
+    this.inputSubject.next(value);
   }
+}

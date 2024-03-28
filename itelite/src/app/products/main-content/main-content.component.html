@@ -1,20 +1,23 @@
 
 <div class="filter" filter>
 
+    <div class="name filter-list box">
+        <h2>Name</h2>
+        <input type="text">
+    </div>
+
     <div class="bands filter-list box">
         <h2 class="box">Bands</h2>
         
         <div class="antenna list-elements list box">
-            <figure class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
-                
-                <img [src]="item[1]" alt="Antenna band image.">
-                
-                <figcaption>{{item[0] | uppercase}}</figcaption>
-            </figure>
+            <div class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
+                <p>{{item[0] | uppercase}}</p>
+            </div>
         </div>
     </div>
     
     <div class="frequencies-span filter-list box">
+
         <h2 class="box">Frequency</h2>
         <div>
             <div class="arrow arrow-left" data-arrow="left"><i class="fa-solid fa-chevron-left"></i></div>
@@ -29,8 +32,8 @@
     </div>
 
     <div class="features filter-list box">
-        <h2 class="box">Features</h2>
 
+        <h2 class="box">Features</h2>
         <div class="list-elements list">
             <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
                 <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
@@ -53,6 +56,7 @@
     <div class="clousure" class="clousure">
         
         <div class="antenna" *ngFor="let e of this.mainService.antennas; trackBy: trackByName" [routerLink]="['/antenna-details', e.ant_name]">
+
             <figure>
                 <div class="frame">
                     <img src="{{e.guid}}" alt="Antenna image.">
@@ -68,7 +72,7 @@
                             {type: "Flat panel", value: e.flat_panel}, 
                             {type: "Single polarization",value: e.single_pol}, 
                             {type: "MIMO 2X2", value: e.mimo_2x2}, 
-                            {type: "MIMO 3X3",value: e.mimo_3x3}, 
+                            {type: "MIMO 3X3", value: e.mimo_3x3}, 
                             {type: "Multi MIMO", value: e.multi_mimo}
                         ]'>
                             <li *ngIf="x.value">{{x.type}}</li>
