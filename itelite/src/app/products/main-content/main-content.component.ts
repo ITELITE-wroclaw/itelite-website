@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 
 import { files } from '@files';
 import { GetAntennasService } from './get-antennas.service';
@@ -7,11 +7,12 @@ import { GetAntennasService } from './get-antennas.service';
 import { Store } from '@ngrx/store';
 import { Antenna, FilterInterface } from '@types';
 
-import { filter, fromEvent, of, switchMap } from 'rxjs';
+import { Subscription, filter, fromEvent, of, switchMap } from 'rxjs';
 
 import { MainService } from './main-service.service';
 import { FilterDirective } from './filter-antennas.directive';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-main-content',
@@ -45,42 +46,52 @@ export class MainContentComponent implements OnInit, OnDestroy{
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
   protected JSON: JSON = JSON;
 
+  private subscriptions: Subscription;
+
   constructor(
       private store: Store<{provideAntennas: {antennas: any}, provideFilter: FilterInterface}>, 
-      protected mainService: MainService | null
+      protected mainService: MainService | null,
+      private router: Router,
+      private injector: Injector
   ){}
 
   /* <--- Angular hooks ---> */
 
-  ngOnInit(): void {
-    this.store.select("provideAntennas")
-    .subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];})
-
+  private subscribeStore()
+  {
+    this.subscriptions = this.store.select("provideAntennas")
+    .subscribe((e) =>{console.log(e); !!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];})
+    
+    
     if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
     .subscribe( (e) => this.mainService?.scrollEvent(this.mainService))
 
     this.store
-    .select("provideFilter")
-    .pipe(
-      switchMap((e: any): any => {
+      .select("provideFilter")
+      .pipe(
+        switchMap((e: any): any => {
 
-        if(! Object.values(e).some((value: any) => value && value.length > 0)  ) {
-          this.mainService.antennas = [];
-          if(this.mainService) this.mainService.isFilter = false;
-          return this.mainService?.getAllAntennas(0);
-        }
-        return this.mainService?.getFilterAntennas(e);
+          if(! Object.values(e).some((value: any) => value && value.length > 0)  ) {
+            this.mainService.antennas = [];
+            if(this.mainService) this.mainService.isFilter = false;
+            return this.mainService?.getAllAntennas(0);
+          }
+          return this.mainService?.getFilterAntennas(e);
+        })
+      )
+      .subscribe((x: any) => {
+        const antennas = x.data?.antennasFilter || x.data?.allAntennas;
+        if(antennas) this.mainService.antennas.push(...antennas);
       })
-    )
-    .subscribe((x: any) => {
-      const antennas = x.data?.antennasFilter || x.data?.allAntennas;
-      if(antennas) this.mainService.antennas.push(...antennas);
-    });
-    
+  }
+
+  ngOnInit(): void {
+    this.router.events.subscribe((state) => {if(state instanceof NavigationEnd && !this.mainService) this.subscribeStore() })
+    this.subscribeStore();
   }
 
   ngOnDestroy(): void {
-    this.mainService = null;
+    this.subscriptions.unsubscribe();
   }
 
   /* <--- function intend for ngFor directive ---> */

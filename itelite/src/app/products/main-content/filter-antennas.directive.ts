@@ -1,18 +1,17 @@
 import { isPlatformBrowser } from "@angular/common";
-import { DomElementSchemaRegistry } from "@angular/compiler";
-import { AfterViewInit, Directive, HostListener, Inject, PLATFORM_ID, Renderer2 } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ɵgetHostElement } from "@angular/core";
+
 import { Store } from "@ngrx/store";
-
 import { antennasFilter } from "@reducer";
-import { FilterInterface } from "@types";
 
+import { FilterInterface } from "@types";
 import { Subject, debounceTime } from "rxjs";
 
 @Directive({
     selector: "[filter]",
     standalone: true
   })
-  export class FilterDirective implements AfterViewInit{
+  export class FilterDirective implements AfterViewInit {
   
     private filterObj: FilterInterface | any = { name: "", bands: [], feature: [], frequency: [], type: [] };
     private filterToSend!: FilterInterface;
@@ -23,7 +22,8 @@ import { Subject, debounceTime } from "rxjs";
     private firstBunch: boolean = true;
     private inputSubject: Subject<string> = new Subject<string>();
   
-    constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>, @Inject(PLATFORM_ID) private platform_id: string){
+    constructor(private renderer: Renderer2, private store: Store<{provideFilter: FilterInterface}>, @Inject(PLATFORM_ID) private platform_id: string, private elementRef: ElementRef)
+    {
       this.inputSubject.pipe(debounceTime(450))
       .subscribe((e: string) => {
         this.filterObj.name = e;
@@ -31,19 +31,30 @@ import { Subject, debounceTime } from "rxjs";
 
         this.store.dispatch( antennasFilter({ filter: this.filterToSend }) );
       });
-      
     }
 
     ngAfterViewInit(): void {
+
+      function filterElementTop()
+      {
+        const filterElement: HTMLElement = this.elementRef.nativeElement;
+
+        const top: number = this.elementRef.nativeElement.getBoundingClientRect().top;
+        if(top == 90) filterElement.classList.add("sticky");
+      }
+      
+      if(isPlatformBrowser(this.platform_id)) window.addEventListener("scroll", filterElementTop.bind(this))
+
       this.store
       .select("provideFilter")
       .subscribe((e) => {
        
-
         if(!isPlatformBrowser(this.platform_id)) return;
         if(!this.firstBunch) return;
         
         this.filterObj = Object.assign({}, e);
+        this.filterObj.name = this.filterObj.name? this.filterObj.name: "";
+
         this.firstBunch = false;
        
         Object.keys(e)
@@ -77,9 +88,6 @@ import { Subject, debounceTime } from "rxjs";
       {
         if(count == 3) return;
         count++;
-
-        console.log(this);
-        console.log(targetHTML);
 
         targetHTML.hasAttribute("data-filter") || targetHTML.hasAttribute("data-arrow")? 
         [targetHTML.hasAttribute("data-filter")? 
@@ -144,8 +152,11 @@ import { Subject, debounceTime } from "rxjs";
       }
   }
   
+  // when customer using search input from filter
   @HostListener('input', ['$event.target.value'])
   onInput(value: string) {
     this.inputSubject.next(value);
   }
+
+
 }

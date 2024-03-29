@@ -2,15 +2,32 @@
 
 .filter{
     background-color: rgb(245, 249, 254);
-    margin-top: 90px;
-    position: relative;
-    left: -80px;
+    position: sticky;
+    top: 90px;
+    margin-left: -80px;
     width: calc(100% + 160px);
 
     padding: 0px 80px;
     box-sizing: border-box;
+    z-index: 3;
+
+    max-height: 560px;
+    transition: max-height 0.9s ease-in;
+
+    &.sticky{
+        max-height: 65px;
+    }
+
+    &.sticky > div {
+        opacity: 0;
+    }
+
+    div{
+        transition: opacity 0.7s ease-in;
+    }
 
     .filter-list{
+        
         padding-top: 15px;
 
         input{
@@ -58,7 +75,10 @@
         
         &:nth-of-type(2) .list-elements{
             justify-content: space-around;
-            padding: 12px 0px;
+            
+            div{
+                padding: 14px 15px;
+            }
         }
 
         .list-elements{
