@@ -35,12 +35,28 @@ import { Subject, debounceTime } from "rxjs";
 
     ngAfterViewInit(): void {
 
+      let flag = true;
+
       function filterElementTop()
       {
+        const top: number = this.elementRef.nativeElement.getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
 
-        const top: number = this.elementRef.nativeElement.getBoundingClientRect().top;
-        if(top == 90) filterElement.classList.add("sticky");
+        console.log(top)
+
+        if(top > 90 && filterElement.classList.contains("sticky")) {
+          setTimeout(() => {
+            flag = true;
+          }, 780);
+          return filterElement.classList.remove("sticky");
+        }
+        
+        if(top >= 90 && flag) {
+          flag = false;
+
+          filterElement.classList.add("sticky");
+          document.querySelector(".results").classList.add("sticky");
+        };
       }
       
       if(isPlatformBrowser(this.platform_id)) window.addEventListener("scroll", filterElementTop.bind(this))
