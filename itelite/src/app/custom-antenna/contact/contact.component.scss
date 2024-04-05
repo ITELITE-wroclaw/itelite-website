@@ -8,6 +8,13 @@ $form-width: 500px;
     left: -80px;
     width: 100% ;
     padding: 0px 80px;
+    
+    form{
+        position: relative;
+        &::after{
+            background-color: #203548 !important;
+        }
+    }
 
     .box{
         display: flex;

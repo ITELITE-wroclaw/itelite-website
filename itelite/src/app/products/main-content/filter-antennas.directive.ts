@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from "@angular/common";
-import { AfterViewInit, Directive, ElementRef, HostListener, Inject, PLATFORM_ID, Renderer2, ɵgetHostElement } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, Renderer2, ɵgetHostElement } from "@angular/core";
 
 import { Store } from "@ngrx/store";
 import { antennasFilter } from "@reducer";
@@ -11,7 +11,7 @@ import { Subject, debounceTime } from "rxjs";
     selector: "[filter]",
     standalone: true
   })
-  export class FilterDirective implements AfterViewInit {
+  export class FilterDirective implements AfterViewInit, OnInit {
   
     private filterObj: FilterInterface | any = { name: "", bands: [], feature: [], frequency: [], type: [] };
     private filterToSend!: FilterInterface;
@@ -33,6 +33,10 @@ import { Subject, debounceTime } from "rxjs";
       });
     }
 
+    ngOnInit(): void {
+      this.showFilterClick();
+    }
+
     ngAfterViewInit(): void {
 
       let flag = true;
@@ -42,20 +46,26 @@ import { Subject, debounceTime } from "rxjs";
         const top: number = this.elementRef.nativeElement.getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
 
-        console.log(top)
-
-        if(top > 90 && filterElement.classList.contains("sticky")) {
+        if(top > 90 && filterElement.clientHeight == 65) {
           setTimeout(() => {
             flag = true;
-          }, 780);
-          return filterElement.classList.remove("sticky");
-        }
+          }, 500);
+          
+          filterElement.classList.remove("sticky");
+          document.querySelector(".results").classList.remove("sticky");
+
+          document.querySelector(".filter button").classList.remove("show");
+          document.querySelector(".filter button").classList.add("hiden");
+        };
         
-        if(top >= 90 && flag) {
+        if(top == 90 && flag) {
           flag = false;
 
           filterElement.classList.add("sticky");
           document.querySelector(".results").classList.add("sticky");
+
+          document.querySelector(".filter button").classList.remove("hiden");
+          document.querySelector(".filter button").classList.add("show");
         };
       }
       
@@ -91,8 +101,8 @@ import { Subject, debounceTime } from "rxjs";
       const html: HTMLElement = e.target as HTMLElement;
       const createDispatch = <Attribute extends Record<string, any>>(attribute: Attribute & { param: string }, target: HTMLElement) => {
 
-        this.filterObj[`${attribute['param']}`] == attribute['value']?
-        [this.filterObj[`${attribute['param']}`] = "", this.removeStyles(target)]: 
+        this.filterObj[`${attribute['param']}`]?.some(x => x == attribute['value'])?
+        [this.filterObj[`${attribute['param']}`] = this.filterObj[`${attribute['param']}`].filter((x) => x !== attribute['value']), this.removeStyles(target)]: 
         [this.filterObj[`${attribute['param']}`] = [...this.filterObj[`${attribute['param']}`], attribute['value'] ], this.removeStyles(target), this.addStyles(target)];
 
         this.filterToSend = Object.assign({}, this.filterObj);
@@ -114,6 +124,21 @@ import { Subject, debounceTime } from "rxjs";
       };
   
       isAttribute.call(this, html);
+    }
+
+    showFilterClick()
+    {
+      const filterElement: HTMLElement = this.elementRef.nativeElement;
+
+      this.elementRef.nativeElement.querySelector(".reveal-filter")
+      .addEventListener("click", () => {
+
+          filterElement.classList.toggle("sticky");
+          document.querySelector(".results").classList.toggle("sticky");
+
+          document.querySelector(".filter button").classList.toggle("show");
+          document.querySelector(".filter button i").classList.toggle("rotate");
+      })
     }
 
     addStyles(targetHTML: HTMLElement | any)

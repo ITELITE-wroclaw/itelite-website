@@ -8,7 +8,7 @@
     margin-left: -80px;
 
     width: calc(100% + 160px);
-    padding: 0px 80px;
+    padding: 0px 80px 14px 80px;
     box-sizing: border-box;
     
     z-index: 3;
@@ -145,6 +145,35 @@
                 height: 0px;
                 width: 0px;
             }
+        }
+    }
+
+    button{
+        position: absolute;
+        right: 130px;
+        top: 23px;
+        padding: 2px 16px;
+        
+        border: none;
+        background: transparent;
+         
+        i{
+            color: #1a2c3d;
+            font-size: 26px;
+            width: 25px;
+            height: 25px;
+        }
+
+        &.show{
+            display: block;
+        }
+        
+        .rotate{
+            transform: rotate(180deg);
+        }
+
+        &.hiden{
+            display: none;
         }
     }
 }

@@ -5,23 +5,23 @@
 <section>
     <div class="box contact">
         <div class="form">
-            <form [formGroup]="contactForm">
+            <form [formGroup]="contactForm" (ngSubmit)="sendContactMail()">
                 <h2>Get In <span>Touch</span></h2>
                 <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name" formControlName="name">
+                    <label for="name" *ngIf="!nameInp.value.length">Name</label>
+                    <input #nameInp type="text" id="name" formControlName="name">
                 </div>
                 <div>
-                    <label for="company">Company</label>
-                    <input type="text" id="company" formControlName="company">
+                    <label for="company" *ngIf="!companyInp.value.length">Company</label>
+                    <input #companyInp type="text" id="company" formControlName="company">
                 </div>
                 <div>
-                    <label for="email">Email</label>
-                    <input type="text" id="email" formControlName="email">
+                    <label for="email" *ngIf="!emailInp.value.length">Email</label>
+                    <input #emailInp type="text" id="email" formControlName="email">
                 </div>
                 <div>
-                    <label for="message">Name</label>
-                    <textarea class="message" type="text" id="message" formControlName="message"></textarea>
+                    <label for="message" *ngIf="!messageText.value.length">Message</label>
+                    <textarea #messageText class="message" type="text" id="message" formControlName="message"></textarea>
                 </div>
 
                 <button>SEND</button>

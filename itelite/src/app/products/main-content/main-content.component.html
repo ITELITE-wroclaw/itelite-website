@@ -43,13 +43,18 @@
         
     </div>
 
-    <div class="radios filter-list box">
+    <div class="radios filter-list box" style="display: none;">
         <h2 class="box">Radio Companies</h2>
 
         <div class="list-elements list">
             <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
         </div>
     </div>
+
+    <button class="reveal-filter hiden">
+        <i class="fa-solid fa-angle-down"></i>
+    </button>
+    
 </div>
 
 <div class="results box">

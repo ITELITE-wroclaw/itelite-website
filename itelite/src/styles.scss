@@ -227,7 +227,33 @@ canvas{
   border-radius: 25px !important;
 }
 
-.mapboxgl-marker{
+.alternative::after{
+  content: "The message has been sent.";
+  position: absolute;
+  top: 0;
+  line-height: 57px;
+  letter-spacing: 12px;
+  left: 0;
+  text-align: center;
+  text-wrap: wrap;
+  bottom: 0;
+  font-size: 34px;
+  right: 0;
+  background-color: #fff;
+  z-index: 9;
+  padding-top: 48%;
+  animation: form 1.2s ease-in forwards;
+}
+
+@keyframes form {
+
+  0%{
+    opacity: 0;
+  }
+
+  100%{
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1500px)

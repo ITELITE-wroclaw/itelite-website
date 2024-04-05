@@ -62,11 +62,8 @@ export class CreateHTMLService {
         });
       }) 
     }
-    
 
     if(flag) return await getImg("https://itelite.net/wp-content/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))
-
-    
 
     let text = `
       <div style='width: 222px; padding-left: 15px; position: absolute; top: ${top}px;'>
@@ -95,7 +92,7 @@ export class CreateHTMLService {
     return text;
   }
 
-  public async createHTML(): Promise<string>
+  public async createHTML(): Promise<{html: string, antennaName: string}>
   {
     const getFeaturesList = () =>
     {
@@ -146,6 +143,6 @@ export class CreateHTMLService {
   `;
 
   this.counter = 0;
-  return html;
+  return { html, antennaName: this.antennaDetailsToDatasheet.ant_name};
   }
 }

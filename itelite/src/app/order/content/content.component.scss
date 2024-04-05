@@ -18,6 +18,14 @@ section{
         position: relative;
         width: 30%;
 
+        form{
+            position: relative;
+
+            textarea, input{
+                color: #203548;
+            }
+        }
+
         .background{
             position: absolute;
             top: 0;
@@ -31,6 +39,7 @@ section{
         form button{
             background-color: #203548;
             color: white;
+            position: relative;
         }
     }
 }

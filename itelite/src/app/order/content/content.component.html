@@ -9,22 +9,22 @@
         </div>
         <div class="form">
             <div class="background"></div>
-            <form [formGroup]="priceListForm">
+            <form [formGroup]="priceListForm" (ngSubmit)="sendEmail()">
                 <div>
-                    <label for="name">Name</label>
-                    <input type="text" id="name" formControlName="name">
+                    <label for="name" *ngIf="!inpName.value.length">Name</label>
+                    <input #inpName type="text" id="name" formControlName="name">
                 </div>
                 <div>
-                    <label for="company">Company</label>
-                    <input type="text" id="company" formControlName="company">
+                    <label for="company" *ngIf="!inpCompany.value.length">Company</label>
+                    <input #inpCompany type="text" id="company" formControlName="company">
                 </div>
                 <div>
-                    <label for="email">Email</label>
-                    <input type="text" id="email" formControlName="email">
+                    <label for="email" *ngIf="!inpEmail.value.length">Email</label>
+                    <input #inpEmail type="text" id="email" formControlName="email">
                 </div>
                 <div>
-                    <label for="message">Name</label>
-                    <textarea class="message" type="text" id="message" formControlName="message"></textarea>
+                    <label for="message" *ngIf="!inpMessage.value.length">Name</label>
+                    <textarea #inpMessage class="message" type="text" id="message" formControlName="message"></textarea>
                 </div>
 
                 <button>SEND</button>

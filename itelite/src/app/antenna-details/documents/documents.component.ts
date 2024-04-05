@@ -43,10 +43,10 @@ export class DocumentsComponent {
   async createDatasheet()
   {
     const doc = new jsPDF();
-    const text: string = await this.createHTMLService.createHTML();
+    const data: {html: string, antennaName: string} = await this.createHTMLService.createHTML();
 
     doc.html(
-      text
+      data.html
       , 
       {
         autoPaging: true, 
@@ -54,7 +54,7 @@ export class DocumentsComponent {
       }
     )
     .then((e) => {
-      doc.save()
+      doc.save(data.antennaName+" - datasheet.pdf")
     })
     
   }
