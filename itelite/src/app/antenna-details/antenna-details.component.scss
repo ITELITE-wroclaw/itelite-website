@@ -1,0 +1,56 @@
+::ng-deep.imgDisplay{
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 85vmin;
+    height: 85vmin;
+    z-index: 555;
+    box-shadow: 0px 0px 17px -11px rgba(66, 68, 90, 1);
+    background-color: white;
+
+    .left, .right{
+        position: absolute;
+        top: 50%;
+        width: 65px;
+        height: 50px;
+        padding-top: 12px;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0px 0px 17px -11px rgba(66, 68, 90, 1);
+        border: 1px solid #e7e7e7;
+        
+        &::after{
+            content: "";
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            width: 65px;
+            height: 62px;
+            background-color: rgba(230, 230, 230, 0.514);
+            z-index: -1;
+        }
+
+        svg{
+            height: 37px;
+            width: 70px;
+        }
+    }
+
+    .left{
+        left: -30px;
+    }
+
+    .right{
+        right: -30px;
+    }
+
+    img{
+        width: 85vmin;
+        position: relative;
+        z-index: -1;
+        transform: translate(0%, -50%);
+        top: 50%;
+        user-select: none;
+    }
+}

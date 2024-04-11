@@ -46,7 +46,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
   protected readonly features = [ "Radio Space", "Flat Panel", "Single Pol", "MIMO 2X2", "MIMO 3X3", "Multi MIMO 3X3" ];
   protected JSON: JSON = JSON;
 
-  private subscriptions: Subscription;
+  private subscriptions: Subscription[] = [];
 
   constructor(
       private store: Store<{provideAntennas: {antennas: any}, provideFilter: FilterInterface}>, 
@@ -59,20 +59,24 @@ export class MainContentComponent implements OnInit, OnDestroy{
 
   private subscribeStore()
   {
-    this.subscriptions = this.store.select("provideAntennas")
-    .subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];})
-    
+    this.subscriptions.push( this.store.select("provideAntennas") 
+    .subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];}) );
     
     if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
-    .subscribe( (e) => this.mainService?.scrollEvent(this.mainService))
+    .subscribe( (e) => this.mainService?.scrollEvent(this.mainService));
 
-    this.store
+    let top: number;
+
+    this.subscriptions.push( this.store
       .select("provideFilter")
       .pipe(
         switchMap((e: any): any => {
+          const bodyHeight: number = document.body.querySelector(".results").getBoundingClientRect().height;
+          document.body.querySelector(".results")['style'].height = bodyHeight + "px";
 
           if(! Object.values(e).some((value: any) => value && value.length > 0)  ) {
             this.mainService.antennas = [];
+
             if(this.mainService) this.mainService.isFilter = false;
             return this.mainService?.getAllAntennas(0);
           }
@@ -82,16 +86,19 @@ export class MainContentComponent implements OnInit, OnDestroy{
       .subscribe((x: any) => {
         const antennas = x.data?.antennasFilter || x.data?.allAntennas;
         if(antennas) this.mainService.antennas.push(...antennas);
+
+        document.body.querySelector(".results")['style'].height = "auto";
       })
+    );
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((state) => {if(state instanceof NavigationEnd && !this.mainService) this.subscribeStore() })
+    this.router.events.subscribe((state) => { if(state instanceof NavigationEnd && !this.mainService && state.url == "/products") this.subscribeStore() })
     this.subscribeStore();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subscriptions.forEach((x) => x.unsubscribe());
   }
 
   /* <--- function intend for ngFor directive ---> */

@@ -1,3 +1,3 @@
 export const  server = Object.freeze({
-    url: "https://itelite-back.onrender.com/"
+    url: "http://localhost:3000/"
 });

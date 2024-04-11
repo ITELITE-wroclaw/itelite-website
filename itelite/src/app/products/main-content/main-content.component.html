@@ -70,8 +70,9 @@
                 <figcaption>
                     <h3>{{e.ant_name}}</h3>
                     <ul>
-                        <li>{{e.ant_type}}</li> 
                         <li>{{e.freq_name}}</li> 
+                        <li>{{e.ant_type}}</li> 
+                        
                         <ng-container *ngFor='let x of [
                             {type: "Radio space", value: e.radio_space}, 
                             {type: "Flat panel", value: e.flat_panel}, 

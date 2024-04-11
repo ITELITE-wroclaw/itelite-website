@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
 import { files } from '@files';
 import { Store } from '@ngrx/store';
 
-import { Antenna } from '@types';
 import jsPDF from 'jspdf';
 import { CreateHTMLService } from './create-html.service';
 
@@ -33,7 +32,7 @@ export class DocumentsComponent {
     this.createHTMLService.enclosureProperties = details.enclosureProperties;
     this.createHTMLService.mechanicalProperties = details.mechanicalProperties;
 
-    this.createHTMLService.subTitle = details.titleExtended;
+    this.createHTMLService.subTitle = details.titleExtended.replaceAll(" ,", ",");
 
     this.createHTMLService.plots = this.createHTMLService.antennaDetailsToDatasheet?.plots;
     this.createHTMLService.images = this.createHTMLService.antennaDetailsToDatasheet?.images;
@@ -46,8 +45,7 @@ export class DocumentsComponent {
     const data: {html: string, antennaName: string} = await this.createHTMLService.createHTML();
 
     doc.html(
-      data.html
-      , 
+      data.html, 
       {
         autoPaging: true, 
         width: 175

@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { AppService } from '@appService';
 
 import { HeaderComponent } from '@header';
@@ -18,8 +18,9 @@ import { DocumentsComponent } from './documents/documents.component';
 
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
+
 import { currentAntennaDetails } from '@reducer';
-import { map, tap } from 'rxjs';
+import { Subscription, fromEvent, map, merge } from 'rxjs';
 
 @Component({
   selector: 'app-antenna-details',
@@ -28,7 +29,7 @@ import { map, tap } from 'rxjs';
   templateUrl: './antenna-details.component.html',
   styleUrl: './antenna-details.component.scss'
 })
-export class AntennaDetailsComponent {
+export class AntennaDetailsComponent implements AfterViewInit{
 
   private readonly optionalComponents:{ [key: string]: [number, any]} | any = {
     "gain": GainComponent,
@@ -38,11 +39,15 @@ export class AntennaDetailsComponent {
     "images":  PicturesComponent
   }
 
+  private subscription: Subscription = new Subscription();
+  private imgDisplay: HTMLElement;
+
   constructor(
     private appService: AppService,
     private store: Store<{}>,
     private activatedRoute: ActivatedRoute,
-    @Inject(PLATFORM_ID) private platform_id: string
+    @Inject(PLATFORM_ID) private platform_id: string,
+    private renderer: Renderer2
   )
   {
     appService.componentsList = [
@@ -67,7 +72,12 @@ export class AntennaDetailsComponent {
         const mechanicalProperties: any[] = [];
 
         const app: string[] = details.parameters1.split(";");
-        const des: string[] = details.parameters2.split(";");
+        let des: string[] = details.parameters2.split(";");
+
+        des = des.map((x: string) => {
+          if(x.includes("Gwarancja")) x = x.replace("Gwarancja", "Warranty");
+          return x;
+        });
 
         const map = app.reduce((acc: any, item) => {
           const [key, value] = item.split(':');
@@ -107,8 +117,10 @@ export class AntennaDetailsComponent {
           if(details[`${_key}`] === true) text += ", "+_key.replace("_", " ");
         });
 
-        details.titleExtended = `${parameters1[1]} GHZ, ${details.ant_type} ${text}`.toUpperCase();
-          return details;
+        details.titleExtended = `${parameters1[1]} GHz, ${details.ant_type} ${text}`;
+        details.titleExtended = details.titleExtended.replaceAll(" ,", ",");
+        
+        return details;
         })
     )
     .subscribe((data: any) => {
@@ -123,13 +135,100 @@ export class AntennaDetailsComponent {
       
     })
 
-    
-
     appService.init();
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
   }
+  
+  ngAfterViewInit(): void {
+    this.subscription = fromEvent(document.body, "click")
+    .subscribe((e) => {
+      if(!( e.target instanceof HTMLImageElement && e.target.classList.contains("peep") ) || this.imgDisplay) return this.removeImgList(e.target as HTMLElement);
+
+      const imagesCollection = Array.from(e.target.parentElement.parentElement.querySelectorAll("img")).map((img) => img.src);
+      const id: number = imagesCollection.findIndex((imgSrc: string) => imgSrc == e.target['src']);
+
+      this.investigateImg(imagesCollection, id);
+    })
+  }
 
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     this.appService.purgeSubscriptions();
+
+    if(this.imgDisplay) this.imgDisplay.remove();
+  }
+
+  removeImgList(element: HTMLElement) {
+    if(element.classList.contains("imgDisplay")) return;
+    let e = element;
+
+    for(let i=0; i<6; i++)
+    {
+      e = e.parentElement;
+      if(e == null) break;
+      if( e.classList.contains("imgDisplay") ) break;
+
+    }
+
+    if(e?.classList.contains("imgDisplay")) return;
+    this.imgDisplay?.remove();
+    this.imgDisplay = undefined;
+  };
+
+  investigateImg(images: string[], id: number)
+  {
+    let currentID: number = id;
+
+    const imgDisplay = document.createElement("div");
+    imgDisplay.classList.add("imgDisplay");
+
+    const img = document.createElement("img");
+    img.src = images[id];
+
+    const leftArrow = document.createElement("div");
+    leftArrow.setAttribute("data-arrow", "left");
+    leftArrow.classList.add("left");
+
+    const rightArrow = document.createElement("div");
+    rightArrow.setAttribute("data-arrow", "right");
+    rightArrow.classList.add("right");
+
+    document.body.appendChild(imgDisplay);
+
+    imgDisplay.appendChild(leftArrow);
+    leftArrow.insertAdjacentHTML("afterbegin", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#537793" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>');
+
+    imgDisplay.appendChild(rightArrow);
+    rightArrow.insertAdjacentHTML("afterbegin", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#537793" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>');
+
+    imgDisplay.appendChild(img);
+
+    this.imgDisplay = this.renderer.selectRootElement(".imgDisplay", true);
+
+    merge(
+      fromEvent(rightArrow, "click"),
+      fromEvent(leftArrow, "click")
+    )
+    .subscribe((e: any) => {
+
+      let element: HTMLElement = e.target;
+      for(let i=0; i<4; i++)
+      {
+        const thatElement = element.getAttribute("data-arrow") || element.parentElement.getAttribute("data-arrow");
+        if( thatElement ) 
+        {
+          var direction = thatElement;
+          break;
+        }
+
+        element = element.parentElement;
+      };
+
+      direction == "left"? currentID-- : currentID++;
+      if(currentID < 0) currentID = images.length - 1;
+      if(currentID == images.length) currentID = 0;
+
+      img.src = images[currentID];
+    });
   }
 }

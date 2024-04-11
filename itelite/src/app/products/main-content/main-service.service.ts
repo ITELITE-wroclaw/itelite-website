@@ -94,7 +94,7 @@ export class MainService {
     if (that.flag) return;
 
     const clousure: HTMLElement = document.querySelector('.clousure')!;
-    if (!( clousure.clientHeight + clousure.offsetTop - window.outerHeight * 1.75 < window.scrollY )) return;
+    if (!( clousure?.clientHeight + clousure?.offsetTop - window.outerHeight * 1.75 < window.scrollY )) return;
 
     that.flag = true;
 

@@ -34,6 +34,12 @@
             div{
                 margin: 28px 14px;
 
+                img{
+                    max-width: 300px;
+                    background-color: #f7f7f7;
+                    border-radius: 20px;
+                }
+
                 &::after{
                     content: "Antenna name";
                     display: block;
@@ -59,7 +65,6 @@
         object-fit: cover;
         background-color: #203548;
         clip-path: polygon(0 18%, 100% 0, 100% 100%, 0% 100%);
-
     }
 
     p{
