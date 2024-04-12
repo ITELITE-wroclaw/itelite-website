@@ -23,10 +23,11 @@ export class CreateHTMLService {
   public enclosureProperties: any[] = [];
   public mechanicalProperties: any[] = [];
 
-  private previousHeight: number = 365;
 
-  createList(header: string, arr: string[])
+  createList(header: string, arr: string[]): string
   {
+    if(!arr.length) return "";
+
     let text = "<h5 style='color: rgb(251, 187, 42); margin-top: 6px; margin-bottom: 4px; font-size: 5px; width: 150px;'>"+header+"</h5>";
     text += "<table style='border-collapse: collapse; color: #333333 !important;'>";
 
@@ -63,16 +64,13 @@ export class CreateHTMLService {
   }
 
   private counter: number = 0;
+  private getImagesCall: number = 0;
 
   public async getImages (images: string[] | any, title: string, flag: boolean)
   {
-
     if(!images || !images.length) return "";
-    const that = this;
 
-    const top: number = 370 - (this.previousHeight % 370);
     const replace = (url: string, protocol: string) => url.replace(protocol+'://itelite.net/wp-content/uploads', "")
-
     const getImg = (url: string): Promise<{base64: string, size: {height: number, width: number}}> =>
     {
       return new Promise((resolve) => {
@@ -96,56 +94,49 @@ export class CreateHTMLService {
     if(flag) return (await getImg("https://itelite.net/wp-content/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
 
     let text = `
-      <div style='width: 222px; padding: ${top}px 0px 4px 22px; overflow: visible;'>
-      <h5 style='color: #1a2c3d; font-size: 7px; margin-top: -15px; margin-left: 2px; padding-bottom: 2px; position: relative; z-index: 4;'>${title}</h5>
+      <div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>
     `;
-
-    that.previousHeight = 0;
+    //<h5 style='color: #1a2c3d; box-sizing: border-box; font-size: 7px; margin-left: 2px; position: relative; z-index: 4;'>${title}</h5>
 
     let id = 0;
-    async function setImages()
+    const that = this;
+
+    async function setImages(): Promise<string | void>
     {
+      
       if(id == images?.length) return;
+
+      if(id % 2 == 0){
+        text += "<div style='position: relative; border-box; height:297px !important; max-height: 297px !important;'>";
+        if(id === 0) text += `<h5 style='position: absolute; top: 5px; color: #1a2c3d; font-size: 7px; margin-left: 2px; z-index: 999;'>${title}</h5>`;
+      }
+
       const imgData = await getImg('https://itelite.net/wp-content/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
 
       let bigger;
-      let imgSizes = "width: 136px;";
-      let marginTop: number = 3;
+      let imgSizes = "width: 120px; margin-top: 25px;";
 
       if(imgData.size.height > imgData.size.width) bigger = {size: imgData.size.height, height: true};
       if(imgData.size.height < imgData.size.width) bigger = {size: imgData.size.width, width: true};
       
       if(bigger?.height) {
-        imgSizes = `height: 140px; padding-left: ${(140 - ( 140 * (1 - imgData.size.width / imgData.size.height) )) / 2}px;`;
-        that.previousHeight += 140;
-
-        setPadding(8)
+        imgSizes = `height: 127px; padding-left: 40px; padding-right: 40px; margin-top: 10px;`;
       };
 
       if(bigger?.width){
-        const padding: number = (157 - ( 157 * (1 - imgData.size.height / imgData.size.width) )) / 3 - 8; 
-        imgSizes = `width: 157px; padding-top: ${padding}px; padding-bottom: ${padding}px;`;
-
-        const editHeight: number = Number((157 * imgData.size.width / imgData.size.height).toFixed(0));
-
-        that.previousHeight += editHeight + padding * 2;
-        setPadding(30);
+        imgSizes = `width: 147px; padding-left: 10px; margin-top: 25px;`;
       };
 
       if(!bigger){
-        that.previousHeight += 140;
-        setPadding(10);
-      }
-
-      function setPadding(value: number)
-      {
-        if(id % 2 !== 0 || id == 0) return;
-        marginTop = value;
+        imgSizes += "padding-left: 19px;"
       }
 
       const linkImg = imgData.base64;
-      text += `<img src='${linkImg}' style=' ${imgSizes} position: relative; z-index: 4; margin-right: 9px; margin-bottom: ${marginTop}px;'>`;
+      text += `<img src='${linkImg}' style=' ${imgSizes} position: relative; z-index: 4; margin-right: 9px;'>`;
 
+      const modulo: number = id % 2;
+      if( (modulo % 2 !== 0) || id + 1 == images.length ) text += `</div>`;
+  
       id++;
       await setImages();
     }
@@ -155,6 +146,7 @@ export class CreateHTMLService {
     text += "</div>";
     this.counter++;
 
+    this.getImagesCall++;
     return text;
   }
 
@@ -180,32 +172,27 @@ export class CreateHTMLService {
       <img style='width: 62px; height: auto; margin-left: 22px;' src='${this.logo}'>
     </header>
 
-    <div style='padding-top: 8px;'>
-      <div style='width: 230px; position: relative;'>
-
+    <div style='padding-top: 8px; height: 260px;'>
         <div style='display: inline-block; width: 205px;'>
           <h5 style='color: #1a2c3d; font-size: 9px; margin-top: 5px; text-align: center;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
           <h6 style='color: #1a2c3d; font-size: 6px; margin-top: 3px; text-align: center;'>${this.subTitle}</h6>
-          <img style='width: 130px; max-height: 160px; object-fit: fill; padding: 81px 0px 6px 37px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
-        </div>
-
-        <div style='display: inline-block; width: 90px; position: absolute; top: 38px; left: 56px;'>
+          <div style='display: inline-block; width: 90px; margin-left: 56px; margin-top: 9px;'>
             <h5 style='color: #1a2c3d; font-size: 7px !important; margin-top: 6px; padding-bottom: 2px; text-align: center;'>Key Features</h5>
             <ul>
               ${getFeaturesList()}
             </ul>
+          </div>
+          <img style='width: 110px; max-height: 140px; object-fit: fill; padding: 27px 0px 0px 24px;' margin-left: 26px; src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
         </div>
-
-      <div>
-
-      <div style='width: 220px; padding-left: 10px; position: relative; font-size: 7px;'>
-          <div style='display: inline-block; width: 127px; position: absolute; top: 25px; left: 38px;'>${this.createList("ELECTRICAL&nbsp; PROPERTIES", this.electricalProperties)}</div>
-          <div style='display: inline-block; width: 127px; position: absolute; top: 235px; left: 38px;'>${this.createList("MECHANICAL PROPERTIES", this.mechanicalProperties)}</div>
-          <div style='display: inline-block; width: 127px; position: absolute; top: 142px; left: 38px;'>${this.createList("ENCLOSURE &nbsp; PROPERTIES", this.enclosureProperties)}</div>
-      </div>
     </div>
-        
-    <div style='width: 210px; display: block; position: relative; margin-top: 330px; overflow: visible;'>
+
+    <div style='width: 220px; max-height: 298px; height: 298px; padding-left: 3px; position: relative; font-size: 7px;'>
+      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("ELECTRICAL&nbsp; PROPERTIES", this.electricalProperties)}</div>
+      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("MECHANICAL PROPERTIES", this.mechanicalProperties)}</div>
+      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("ENCLOSURE &nbsp; PROPERTIES", this.enclosureProperties)}</div>
+    </div>
+
+    <div style='width: 210px; display: block; position: relative;'>
       ${await this.getImages(this.plots, "PLOTS", false)}
       ${await this.getImages(this.dimensions, "DIMENSIONS", false)}
       ${await this.getImages(this.images, "IMAGES", false)}
@@ -213,9 +200,7 @@ export class CreateHTMLService {
     
   `;
 
-  this.previousHeight = 520;
   this.counter = 0;
-
   return { html, antennaName: this.antennaDetailsToDatasheet.ant_name};
   }
 }

@@ -2,7 +2,7 @@
 <div class="box">
     <h2>Antenna <span>Specification</span></h2>
     <div class="blocks">
-        <div class="block">
+        <div class="block" *ngIf="electricalProperties.length">
             <div class="property electrical-properties">
                 <div class="property-header">
                     <h3>ELECTRICAL PROPERTIES</h3>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="block">
+        <div class="block" *ngIf="enclosureProperties.length">
             <div class="property enclosure-properties">
                 <div class="property-header">
                     <h3>ENCLOSURE PROPERTIES</h3>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="block">
+        <div class="block" *ngIf="mechanicalProperties.length">
             <div class="property mechanical-properties">
                 <div class="property-header">
                     <h3>MECHANICAL PROPERTIES</h3>
