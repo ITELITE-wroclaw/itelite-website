@@ -41,8 +41,13 @@
         }
 
         h2{
-            margin: auto;
-            font-size: 24px;
+            margin: 0px;
+            width: fit-content;
+            font-size: 18px;
+            min-width: 120px;
+            z-index: 4;
+            margin-left: 50px;
+            border-right: 2px solid rgba(87, 85, 85, 0.123);
         }
 
         div{
@@ -83,12 +88,11 @@
             }
         }
 
-        .list-elements{
+        .list-elements, ul{
             cursor: pointer;
             display: flex;
             list-style-type: none;
             border-radius: 13px;
-            border: 2px solid rgba(87, 85, 85, 0.123);
             overflow-x: auto;
             width: 100%;
             scrollbar-width: none;
@@ -101,6 +105,10 @@
                 margin: auto;
                 white-space: pre;
             }
+        }
+
+        .list-elements{
+            border: 2px solid rgba(87, 85, 85, 0.123);
 
             .active{
                 background-color: rgba(147, 192, 233, 0.562);

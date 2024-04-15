@@ -159,7 +159,7 @@ export class CreateHTMLService {
       let list = "";
 
       gather?.forEach((val) => {
-        list += "<li style='color: #1a2c3d; font-size: 5px; border-bottom: 1px solid #e5e5e5; width: fit-content; padding-bottom: 1px; margin: auto; list-style-type: none !important; margin-top: 3px; text-align: center;'><b>"+val+"</b></li>";
+        list += "<li style='color: #1a2c3d; font-size: 5px; border-bottom: 1px solid #e5e5e5; width: fit-content; padding-bottom: 1px; margin-top: 3px;'><b>"+val+"</b></li>";
       });
 
       return list;
@@ -174,15 +174,20 @@ export class CreateHTMLService {
 
     <div style='padding-top: 8px; height: 260px;'>
         <div style='display: inline-block; width: 205px;'>
-          <h5 style='color: #1a2c3d; font-size: 9px; margin-top: 5px; text-align: center;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
-          <h6 style='color: #1a2c3d; font-size: 6px; margin-top: 3px; text-align: center;'>${this.subTitle}</h6>
-          <div style='display: inline-block; width: 90px; margin-left: 56px; margin-top: 9px;'>
-            <h5 style='color: #1a2c3d; font-size: 7px !important; margin-top: 6px; padding-bottom: 2px; text-align: center;'>Key Features</h5>
-            <ul>
-              ${getFeaturesList()}
-            </ul>
+
+          <div style='background: rgb(245, 191, 67); width: 211px; height: 32px; padding-bottom: 2px; margin-top: 5px;'>
+            <h5 style='color: #fff; font-size: 9px; margin-top: 20px; margin-left: 19px; padding-top: 3px;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
+            <h6 style='color: #fff; font-size: 6px; margin-top: 7px; margin-left: 19px;'>${this.subTitle}</h6>
           </div>
-          <img style='width: 110px; max-height: 140px; object-fit: fill; padding: 27px 0px 0px 24px;' margin-left: 26px; src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
+          
+            <div style='display: inline-block; width: 90px; margin-top: 38px; padding-left: 19px; position: relative; z-index: 2; '>
+              <h5 style='color: #1a2c3d; font-size: 7px !important; margin-top: 7px; padding-bottom: 2px;'>Key Features</h5>
+              <ul style='list-style-type: disk !important;'>
+                ${getFeaturesList()}
+              </ul>
+            </div>
+          
+          <img style='width: 110px; max-height: 140px; object-fit: fill; position: absolute; top: 114px; left: 87px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
         </div>
     </div>
 
@@ -198,6 +203,23 @@ export class CreateHTMLService {
       ${await this.getImages(this.images, "IMAGES", false)}
     </div>
     
+    <footer style='height: 35px; width: 211px; background-color: #203548; padding: 3px 0px; position: absolute; bottom: 0px;  color: white;'>
+      <div class="information">
+        <div class="logo">
+            <img src="./assets/footer/white-logo.png" style='width: 38px; margin-left: 83px;' alt="ITELITE company logo.">
+        </div>
+        <div class="contact" style='font-size: 4px; display: flex; justify-content: space-around;'>
+            <p>Email: <a style='color: white; text-decoration: none;' href="mailto: sales@itelite.net">sales@itelite.net</a></p>
+            <p>Phone: +48.71.323.0180</p>
+            <p>Address: ul.Terenowa 42, 52-231 Wroclaw Poland</p>
+        </div>
+        <div class="line"></div>
+        <div class="rights" style='font-size: 4px; margin-top: 4px; display: flex; justify-content: space-around;'>
+            <p style='text-align: center;'>&#64;2024 ITELITE | All Copy Right</p>
+            <p style='text-align: center;'>www.itelite.net</p>
+        </div>
+      </div>
+    </footer>
   `;
 
   this.counter = 0;

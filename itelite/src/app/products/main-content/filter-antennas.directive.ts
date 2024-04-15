@@ -157,7 +157,8 @@ import { Subject, debounceTime } from "rxjs";
       if(this.flag) return;
 
       this.flag = true;
-      const scrollElement: HTMLElement = element.querySelector(".list-elements")!;
+      const scrollElement: HTMLElement = element.querySelector("ul")!;
+      console.log(element);
 
       const widthToScroll: number = Number((element.getBoundingClientRect().width / 1.5).toFixed(0));
       let currentScrollX: number = scrollElement.scrollLeft;

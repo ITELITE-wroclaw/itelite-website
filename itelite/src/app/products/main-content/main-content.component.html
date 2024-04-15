@@ -7,9 +7,9 @@
     </div>
 
     <div class="bands filter-list box">
-        <h2 class="box">Bands</h2>
         
         <div class="antenna list-elements list box">
+            <h2>Bands</h2>
             <div class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
                 <p>{{item[0] | uppercase}}</p>
             </div>
@@ -17,24 +17,24 @@
     </div>
     
     <div class="frequencies-span filter-list box">
-
-        <h2 class="box">Frequency</h2>
-        <div>
+        
+        <div list-elements class="list-elements">
             <div class="arrow arrow-left" data-arrow="left"><i class="fa-solid fa-chevron-left"></i></div>
-                <ul class="list-elements">
+            <h2>Frequency</h2>
+                <ul>
+                    
                     <li class="child" *ngFor="let e of frequecies" [attr.data-filter]="JSON.stringify({param: 'frequency', value: e})">
                         {{e}}
                     </li>
                 </ul>
             <div class="arrow arrow-right" data-arrow="right"><i class="fa-solid fa-chevron-right"></i></div>
         </div>
-        
     </div>
 
     <div class="features filter-list box">
-
-        <h2 class="box">Features</h2>
+        
         <div class="list-elements list">
+            <h2>Features</h2>
             <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
                 <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
                 <figcaption>{{e[0]}}</figcaption>
@@ -44,9 +44,9 @@
     </div>
 
     <div class="radios filter-list box" style="display: none;">
-        <h2 class="box">Radio Companies</h2>
-
+        
         <div class="list-elements list">
+            <h2 class="box">Radio Companies</h2>
             <div class="company" *ngFor="let e of radios_companies">{{e}}</div>
         </div>
     </div>
