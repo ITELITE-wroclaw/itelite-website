@@ -1,8 +1,10 @@
 <nav>
+
     <img class="logo" [src]="logo" alt="Logo of ITELITE company">
     <div #burgerMenu class="burger-menu" (click)="toggleList()"><i class="fa-solid fa-bars"></i></div>
     
     <div class="list" *ngIf="displayMenu.flag">
+
         <ul>
             <li routerLink="/">Home</li>
             <li routerLink="/products" >Products</li>
@@ -10,8 +12,16 @@
             <li routerLink="/company">Company</li>
             <li routerLink="/order">Order</li>
         </ul>
+
         <button routerLink="/contact-us" class="dark">Contact Us</button>
+
+        <div #search class="search" (mousemove)="appService.showSearchElement(search)" (mouseleave)="appService.hideTheSearchElement(search)">
+            <input #inpSearch (input)="appService.searchInputEvent(inpSearch.value)" type="text">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        
     </div>
+
 </nav>
 
 <header>

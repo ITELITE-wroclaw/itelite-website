@@ -136,4 +136,23 @@ export class AppService {
 
     this.currentComponentID = 0;
   }
+
+  private inputContainValue: boolean = false;
+
+  public showSearchElement(searchElement: HTMLElement)
+  {
+    searchElement.classList.add("show");
+  }
+
+  public hideTheSearchElement(searchElement: HTMLElement)
+  {
+    if(this.inputContainValue) return;
+
+    searchElement.classList.remove("show");
+  }
+
+  public searchInputEvent(inputText: string)
+  {
+    this.inputContainValue = !!inputText.length;
+  }
 }

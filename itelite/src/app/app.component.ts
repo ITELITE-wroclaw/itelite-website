@@ -53,7 +53,7 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private store: Store<{ provideHomeView: { view: View } }>,
     @Inject(PLATFORM_ID) private platform_id: string,
-    private appService: AppService,
+    protected appService: AppService,
     private apolloService: ApolloService
   ) {}
 

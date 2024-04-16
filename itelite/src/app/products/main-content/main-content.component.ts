@@ -59,8 +59,10 @@ export class MainContentComponent implements OnInit, OnDestroy{
 
   private subscribeStore()
   {
-    this.subscriptions.push( this.store.select("provideAntennas") 
-    .subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];}) );
+    this.subscriptions
+    .push( 
+      this.store.select("provideAntennas").subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];}) 
+    );
     
     if(this.mainService) this.mainService.scrollSub = fromEvent(window, "scroll")
     .subscribe( (e) => this.mainService?.scrollEvent(this.mainService));

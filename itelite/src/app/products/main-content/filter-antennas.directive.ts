@@ -43,26 +43,25 @@ import { Subject, debounceTime } from "rxjs";
 
       function filterElementTop()
       {
-        const top: number = this.elementRef.nativeElement.getBoundingClientRect().top;
+        
+        const top: number = document.body.querySelector('.results').getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
 
-        if(top > 90 && filterElement.clientHeight == 65) {
+        if(top > 15 && filterElement.clientHeight == 65) {
           setTimeout(() => {
             flag = true;
           }, 500);
           
           filterElement.classList.remove("sticky");
-          document.querySelector(".results").classList.remove("sticky");
 
           document.querySelector(".filter button").classList.remove("show");
           document.querySelector(".filter button").classList.add("hiden");
         };
         
-        if(top == 90 && flag) {
+        if(top < 15 && flag) {
           flag = false;
 
           filterElement.classList.add("sticky");
-          document.querySelector(".results").classList.add("sticky");
 
           document.querySelector(".filter button").classList.remove("hiden");
           document.querySelector(".filter button").classList.add("show");
