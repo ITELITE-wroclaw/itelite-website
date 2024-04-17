@@ -1,12 +1,13 @@
 
 import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, Renderer2, ViewContainerRef } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Route, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { View } from '@types';
 
-import { Subscription, filter, fromEvent, merge } from 'rxjs';
+import { Subject, Subscription, debounceTime, filter, fromEvent, merge } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { searchHTML } from '../searchAtWebsite';
 
 @Injectable({
   providedIn: 'root'
@@ -25,14 +26,25 @@ export class AppService {
   private subscriptions!: Subscription[];
   private currentRoute: string | undefined;
 
+  private inputContainValue: boolean = false;
+
+  public searchResults: {id: number, text: string, path: string, data?: string}[] = [];
+  private searchSubject: Subject<string> = new Subject<string>();
+
   constructor(
     private changeDetRef: ChangeDetectorRef,
     private store: Store<{provideHomeView: {view: View } }>,
+
     private componentFactory: ComponentFactoryResolver,
     private router: Router,
+    
     private apollo: Apollo,
-    private renderer: Renderer2
-  ){}
+    private renderer: Renderer2,
+
+    private activatedRoute: ActivatedRoute
+  ){
+    this.subSearchSubject();
+  }
 
   public init(): void
   {
@@ -137,8 +149,6 @@ export class AppService {
     this.currentComponentID = 0;
   }
 
-  private inputContainValue: boolean = false;
-
   public showSearchElement(searchElement: HTMLElement)
   {
     searchElement.classList.add("show");
@@ -154,5 +164,59 @@ export class AppService {
   public searchInputEvent(inputText: string)
   {
     this.inputContainValue = !!inputText.length;
+    this.searchSubject.next(inputText);
+  }
+
+  private subSearchSubject()
+  {
+
+    this.searchSubject
+    .pipe(debounceTime(320))
+    .subscribe((inputText: string) => {
+      this.searchResults = [];
+      if(!inputText.length) return;
+
+      this.inputContainValue = !!inputText.length;
+      const componentsNames = Object.keys(searchHTML);
+  
+      componentsNames.forEach((e) => {
+        const values: string | string[] = Object.keys(searchHTML[`${e}`]);
+  
+        const checkContent = (parentObjName: string, valueName: string) =>
+        {
+          const value = searchHTML[`${parentObjName}`][`${valueName}`];
+
+          if(valueName.includes("_")) {
+            value.forEach( (y: string) => {
+              if( y.toLowerCase().includes(inputText.toLowerCase()) ) {
+      
+                const id: number = searchHTML[`${parentObjName}`][`${valueName.replace("_", "")}`];
+                this.searchResults.push({id, text: parentObjName, path: valueName.replace("_", "") + " / " +y, data: y});
+              }
+            });
+  
+            return;
+          }
+    
+
+          if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) this.searchResults.push({id: value, text: parentObjName, path: valueName});
+        }
+
+        values.forEach((y) => {
+          checkContent(e, y);
+        })
+  
+      })
+
+      this.changeDetRef.detectChanges();
+    })
+  }
+
+  public revealComponents()
+  {
+
+   this.router.events.subscribe((e) => {
+    if(e instanceof NavigationStart) console.log(this.activatedRoute.snapshot.paramMap.get("id"))
+   }) 
   }
 }

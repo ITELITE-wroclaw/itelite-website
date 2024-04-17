@@ -5,6 +5,7 @@ import {
   ElementRef,
   Inject,
   Input,
+  OnInit,
   PLATFORM_ID,
   ViewChild,
   ViewChildren,
@@ -13,7 +14,7 @@ import {
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Route, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { HomeViewComponent } from './home-view/home-view.component';
@@ -39,13 +40,15 @@ export class DockerElement{
   providers: [Store, AppService],
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ],
-  imports: [CommonModule, RouterOutlet, HomeViewComponent, RouterModule, DockerElement ],
+  imports: [CommonModule, RouterOutlet, HomeViewComponent, RouterModule, DockerElement],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
   title = 'itelite';
 
   protected readonly logo: string = files.nav;
   protected displayMenu: {flag: boolean} = {flag: false};
+
+  protected JSON: JSON = JSON;
 
   @ViewChild('burgerMenu') private burgerMenu!: ElementRef;
   @ViewChildren(DockerElement, { read: ViewContainerRef }) private docker_elements!: ViewContainerRef[];
@@ -54,8 +57,13 @@ export class AppComponent implements AfterViewInit {
     private store: Store<{ provideHomeView: { view: View } }>,
     @Inject(PLATFORM_ID) private platform_id: string,
     protected appService: AppService,
-    private apolloService: ApolloService
+    private apolloService: ApolloService,
+    private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.appService.revealComponents();
+  }
 
   ngAfterViewInit(): void {
 
@@ -82,4 +90,15 @@ export class AppComponent implements AfterViewInit {
   {
     this.displayMenu.flag = !this.displayMenu.flag;
   }
+
+  protected navigateIntoView(event: Event)
+  {
+    const searchData = JSON.parse( ( event.target as HTMLElement ).getAttribute("data-search") );
+
+    const component: string = searchData.component.toLowerCase();
+    const id: number = searchData.id;
+
+    this.router.navigate([`/${component}/${id}/${searchData.value? `${searchData.value}`: ""}` ]);
+  }
+
 }

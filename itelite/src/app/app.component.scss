@@ -81,7 +81,20 @@ nav{
       }
     }
 
-    
+    .searchResults{
+      position: absolute;
+      top: 114px;
+      right: 75px;
+      background-color: #fff;
+      max-height: 345px;
+      width: fit-content;
+      overflow-y: scroll;
+
+      ul > li{
+        list-style-type: none;
+        padding: 13px 18px;
+      }
+    }
 }
 
 header {

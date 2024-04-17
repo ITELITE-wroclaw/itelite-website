@@ -22,6 +22,12 @@
         
     </div>
 
+    <div class="searchResults">
+        <ul (click)="navigateIntoView($event)">
+            <li #searchLi *ngFor="let e of appService.searchResults" [attr.data-search]="JSON.stringify({component: e.text, id: e.id, value: e.data})">{{e.text}} / {{e.path}}</li>
+        </ul>
+    </div>
+
 </nav>
 
 <header>

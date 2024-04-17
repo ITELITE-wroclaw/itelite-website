@@ -43,6 +43,7 @@ import { Subject, debounceTime } from "rxjs";
 
       function filterElementTop()
       {
+        if(!window.location.pathname.includes('products')) return;
         
         const top: number = document.body.querySelector('.results').getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
