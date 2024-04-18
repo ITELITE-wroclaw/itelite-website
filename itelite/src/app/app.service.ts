@@ -1,12 +1,13 @@
 
-import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, Renderer2, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Route, Router } from '@angular/router';
+import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, Renderer2, ViewContainerRef, reflectComponentType } from '@angular/core';
+import { ActivatedRoute, ChildActivationEnd, NavigationStart, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { View } from '@types';
 
 import { Subject, Subscription, debounceTime, filter, fromEvent, merge } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+
 import { searchHTML } from '../searchAtWebsite';
 
 @Injectable({
@@ -68,7 +69,7 @@ export class AppService {
       this.currentRoute = e.url;
     }
 
-    return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView)
+    return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView);
   }
 
   // here components from subscription are set and initial header component is inject
@@ -100,8 +101,8 @@ export class AppService {
     this.changeDetRef.detectChanges();
   }
 
-  private checkSize(displayMenu: {flag: boolean}) {
-
+  private checkSize(displayMenu: {flag: boolean})
+  {
     fromEvent(window, "resize")
     .subscribe(() => {
       displayMenu.flag = window.innerWidth > 980;
@@ -117,18 +118,18 @@ export class AppService {
       fromEvent(window, "scroll")
     )
     .subscribe((e: WheelEvent | any) => {
-      this.renderComponent(this.currentComponentID + 1)
+      this.renderComponent(this.currentComponentID + 1, false);
     })
 
   }
 
   // dynamiczne generowanie komponentów
-  private renderComponent(id: number)
-  {    
+  private renderComponent(id: number, flag: boolean)
+  {
     if(!id || !this.componentsList[`${id}`]) return;
     const body: HTMLElement = this.renderer.selectRootElement("body", true);
 
-    if( !(body.getBoundingClientRect().bottom < window.innerHeight + 450) ) return;
+    if( !(body.getBoundingClientRect().bottom < window.innerHeight + 450) &&  !flag) return;
     this.currentComponentID++;
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
@@ -141,11 +142,7 @@ export class AppService {
 
   public purgeSubscriptions(): void
   {
-    this.subscriptions
-    ?.forEach((e) => {
-      e.unsubscribe()
-    })
-
+    this.subscriptions?.forEach((e) => e.unsubscribe());
     this.currentComponentID = 0;
   }
 
@@ -157,7 +154,6 @@ export class AppService {
   public hideTheSearchElement(searchElement: HTMLElement)
   {
     if(this.inputContainValue) return;
-
     searchElement.classList.remove("show");
   }
 
@@ -171,7 +167,7 @@ export class AppService {
   {
 
     this.searchSubject
-    .pipe(debounceTime(320))
+    .pipe(debounceTime(300))
     .subscribe((inputText: string) => {
       this.searchResults = [];
       if(!inputText.length) return;
@@ -216,7 +212,28 @@ export class AppService {
   {
 
    this.router.events.subscribe((e) => {
-    if(e instanceof NavigationStart) console.log(this.activatedRoute.snapshot.paramMap.get("id"))
+
+    if(e instanceof ChildActivationEnd)
+    {
+      const newComponent = e.snapshot.children[0].component;
+      const id: number = Number(newComponent.prototype?.route?.snapshot.paramMap.get("id"));
+
+      if( !isNaN(id) && id > 0 ) {
+
+        for(let i=1; i<id+1; i++) setTimeout(() => {
+          this.renderComponent(i, true);
+        }, 10);
+
+        setTimeout(() => {
+
+          const selector = reflectComponentType(this.componentsList[id]).selector;
+          const element: HTMLElement = document.getElementsByTagName(selector)[0] as HTMLElement;
+          
+          element.scrollIntoView({behavior: "smooth", block: "start"});
+        }, 670);
+      }
+    }
+    
    }) 
   }
 }

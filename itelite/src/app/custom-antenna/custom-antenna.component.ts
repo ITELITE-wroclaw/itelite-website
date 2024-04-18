@@ -11,6 +11,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { MountingComponent } from './mounting/mounting.component';
 
 import { ContactComponent } from './contact/contact.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-custom-antenna',
@@ -21,14 +22,19 @@ import { ContactComponent } from './contact/contact.component';
 })
 export class CustomAntennaComponent implements OnDestroy {
 
+  route: any;
+
   constructor(
     private appService: AppService,
-    @Inject(PLATFORM_ID) private platform_id: string
+    @Inject(PLATFORM_ID) private platform_id: string,
+
+    private activatedRoute: ActivatedRoute
   ){
     appService.componentsList = [HeaderComponent, EnclosuresComponent, AntennasCollectionComponent, MountingComponent, ContactComponent, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
+    CustomAntennaComponent.prototype.route = activatedRoute;
   }
 
   ngOnDestroy(): void {

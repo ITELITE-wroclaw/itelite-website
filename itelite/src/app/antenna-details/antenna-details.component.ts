@@ -31,6 +31,8 @@ import { Subscription, fromEvent, map, merge } from 'rxjs';
 })
 export class AntennaDetailsComponent implements AfterViewInit{
 
+  route: any;
+
   private readonly optionalComponents:{ [key: string]: [number, any]} | any = {
     "gain": GainComponent,
     "dimensions":  DimensionsComponent,
@@ -50,6 +52,8 @@ export class AntennaDetailsComponent implements AfterViewInit{
     private renderer: Renderer2
   )
   {
+    AntennaDetailsComponent.prototype.route = activatedRoute;
+
     appService.componentsList = [
       HeaderComponent, 
       FeaturesComponent, 

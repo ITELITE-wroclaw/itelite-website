@@ -18,6 +18,8 @@ import * as leaflet from 'leaflet';
 })
 export class ContactUsComponent implements AfterViewInit{
 
+  route: any;
+
   constructor(
     private appService: AppService,
     @Inject(PLATFORM_ID) private platform_id: string,
@@ -27,6 +29,7 @@ export class ContactUsComponent implements AfterViewInit{
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
+    ContactUsComponent.prototype.route = activatedRoute;
   }
 
   protected map!: leaflet.Map;

@@ -10,6 +10,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { EnclosuresComponent } from './enclosures/enclosures.component';
 import { AccessoriesComponent } from './accessories/accessories.component';
 
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -18,14 +20,19 @@ import { AccessoriesComponent } from './accessories/accessories.component';
 })
 export class ProductsComponent{
 
+  route: any;
+
   constructor(
     private appService: AppService,
-    @Inject(PLATFORM_ID) private platform_id: string
+    @Inject(PLATFORM_ID) private platform_id: string,
+
+    public activatedRoute: ActivatedRoute
   ){
     appService.componentsList = [HeaderComponent, MainContentComponent, EnclosuresComponent, AccessoriesComponent, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
+    ProductsComponent.prototype.route = activatedRoute;
   }
 
   ngOnDestroy(): void {

@@ -45,7 +45,7 @@ import { Subject, debounceTime } from "rxjs";
       {
         if(!window.location.pathname.includes('products')) return;
         
-        const top: number = document.body.querySelector('.results').getBoundingClientRect().top;
+        const top: number = document.body.querySelector('.results')?.getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
 
         if(top > 15 && filterElement.clientHeight == 65) {

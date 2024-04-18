@@ -5,6 +5,7 @@ import { ContentComponent } from './content/content.component';
 import { FooterComponent } from '../footer/footer.component';
 
 import { isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company',
@@ -15,14 +16,19 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class CompanyComponent {
 
+  route: any;
+
   constructor(
     private appService: AppService,
-    @Inject(PLATFORM_ID) private platform_id: string
+    @Inject(PLATFORM_ID) private platform_id: string,
+
+    private activatedRoute: ActivatedRoute
   ){
     appService.componentsList = [ContentComponent, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
+    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
+    CompanyComponent.prototype.route = activatedRoute;
   }
 
   ngOnDestroy(): void {

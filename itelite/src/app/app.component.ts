@@ -14,7 +14,7 @@ import {
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
-import { Route, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { HomeViewComponent } from './home-view/home-view.component';

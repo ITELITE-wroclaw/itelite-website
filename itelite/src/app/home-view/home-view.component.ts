@@ -8,6 +8,7 @@ import { HowItWorksComponent } from './how-it-works/how-it-works.component';
 import { FooterComponent } from '../footer/footer.component';
 
 import { isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home-view',
@@ -17,14 +18,19 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class HomeViewComponent implements OnDestroy{
   
+  route: any;
+
   constructor(
     private appService: AppService,
-    @Inject(PLATFORM_ID) private platform_id: string
+    @Inject(PLATFORM_ID) private platform_id: string,
+
+    private activatedRoute: ActivatedRoute
   ){
     appService.componentsList = [HeaderComponent, MainContentComponent, HowItWorksComponent, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
+    HomeViewComponent.prototype.route = activatedRoute;
   }
 
   ngOnDestroy(): void {
