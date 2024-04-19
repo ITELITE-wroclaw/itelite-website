@@ -6,6 +6,10 @@ import { Antenna } from '@types';
 import { Apollo, TypedDocumentNode, gql } from 'apollo-angular';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 
+export const canScroll = {
+  flag: true
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -50,7 +54,7 @@ export class MainService {
 
   public getAllAntennas(skip: number): Observable<unknown> {
 
-    if (this.scrollSub.closed) this.restartScrollListener();
+    if(this.scrollSub.closed) this.restartScrollListener();
 
     const GET_ANTENNAS = gql`
       {
@@ -91,7 +95,7 @@ export class MainService {
   /* <--- Here begin code regarding with scrollEvent ---> */
 
   async scrollEvent(that: any) {
-    if (that.flag) return;
+    if (that.flag || !canScroll.flag) return;
 
     const clousure: HTMLElement = document.querySelector('.clousure')!;
     if (!( clousure?.clientHeight + clousure?.offsetTop - window.outerHeight * 1.75 < window.scrollY )) return;

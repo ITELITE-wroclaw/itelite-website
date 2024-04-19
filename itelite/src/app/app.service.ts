@@ -9,6 +9,7 @@ import { Subject, Subscription, debounceTime, filter, fromEvent, merge } from 'r
 import { Apollo } from 'apollo-angular';
 
 import { searchHTML } from '../searchAtWebsite';
+import { canScroll } from './products/main-content/main-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,8 @@ export class AppService {
 
   public searchResults: {id: number, text: string, path: string, data?: string}[] = [];
   private searchSubject: Subject<string> = new Subject<string>();
+
+  private isFocus: boolean = false;
 
   constructor(
     private changeDetRef: ChangeDetectorRef,
@@ -153,14 +156,22 @@ export class AppService {
 
   public hideTheSearchElement(searchElement: HTMLElement)
   {
-    if(this.inputContainValue) return;
+    if(this.inputContainValue || this.isFocus) return;
     searchElement.classList.remove("show");
   }
 
   public searchInputEvent(inputText: string)
   {
+    this.isFocus = true;
     this.inputContainValue = !!inputText.length;
     this.searchSubject.next(inputText);
+  }
+
+  public inputOut(inputText: string, searchElement: HTMLElement) {
+
+    this.isFocus = false;
+    this.inputContainValue = !!inputText.length;
+    if(!this.inputContainValue) searchElement.classList.remove("show");
   }
 
   private subSearchSubject()
@@ -229,7 +240,13 @@ export class AppService {
           const selector = reflectComponentType(this.componentsList[id]).selector;
           const element: HTMLElement = document.getElementsByTagName(selector)[0] as HTMLElement;
           
+          canScroll.flag = false;
           element.scrollIntoView({behavior: "smooth", block: "start"});
+
+          setTimeout(() => {
+            canScroll.flag = true;
+          }, 4100);
+          
         }, 670);
       }
     }

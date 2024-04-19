@@ -8,7 +8,6 @@ import { images } from './images';
 import { text } from './text';
 
 import { Store } from '@ngrx/store';
-import { Antenna } from '@types';
 
 @Component({
   selector: 'app-header',
@@ -40,9 +39,11 @@ export class HeaderComponent {
       this.titleExtended = details.titleExtended;
     }
 
+    console.log(images[`${param}`]);
+
     if(!param) [this.background = images['home'].background, this.product = images['home'].antenna, this.homeView = true, this.homeText.header = text['home'].header, this.homeText.paragraph = text['home'].paragraph];
     else if(param == "antenna-details") [this.background = images[`${param}`].background, this.homeText.header = header, this.antenna = true, this.custom = true, this.product = false, store.select("provideAntennaDetails").subscribe(setTitle) ];
-    else [this.background = images[`${param}`].background, this.custom = true, this.product = images[`${param}`].antenna, this.homeText.header = text[`${param}`].header, this.homeText.paragraph = text[`${param}`].paragraph ];
+    else [ this.background = images[`${param}`].background, this.custom = true, this.product = images[`${param}`].antenna, this.homeText.header = text[`${param}`].header, this.homeText.paragraph = text[`${param}`].paragraph ];
   }
 
   protected titleExtended!: string;

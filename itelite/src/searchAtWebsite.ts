@@ -27,7 +27,7 @@ export const searchHTML = {
       ],
       Accessories: 3
     },
-    'Custom-Antenna': { Enclosures: 1, 'Cables connections': 2, 'Contact us': 3 },
+    'Custom-Antenna': { Enclosures: 1, 'Cables connections': 2, 'Contact us': 4 },
     Company: {
       'Wire Transfer Instruction': 1,
       NIP: 1,

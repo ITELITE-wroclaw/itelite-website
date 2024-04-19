@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 
 import { files } from '@files';
 import { GetAntennasService } from './get-antennas.service';
@@ -7,12 +7,11 @@ import { GetAntennasService } from './get-antennas.service';
 import { Store } from '@ngrx/store';
 import { Antenna, FilterInterface } from '@types';
 
-import { Subscription, filter, fromEvent, of, switchMap } from 'rxjs';
-
+import { Subscription, fromEvent, switchMap } from 'rxjs';
 import { MainService } from './main-service.service';
+
 import { FilterDirective } from './filter-antennas.directive';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
-import { Apollo } from 'apollo-angular';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-main-content',
@@ -60,7 +59,7 @@ export class MainContentComponent implements OnInit, OnDestroy{
   private subscribeStore()
   {
     this.subscriptions
-    .push( 
+    .push(
       this.store.select("provideAntennas").subscribe((e) =>{!!e?.antennas?.length? this.mainService.antennas.push(...e.antennas): this.mainService.antennas = [];}) 
     );
     
@@ -69,7 +68,8 @@ export class MainContentComponent implements OnInit, OnDestroy{
 
     let top: number;
 
-    this.subscriptions.push( this.store
+    this.subscriptions.push(
+      this.store
       .select("provideFilter")
       .pipe(
         switchMap((e: any): any => {

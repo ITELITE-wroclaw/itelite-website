@@ -16,7 +16,7 @@
         <button routerLink="/contact-us" class="dark">Contact Us</button>
 
         <div #search class="search" (mousemove)="appService.showSearchElement(search)" (mouseleave)="appService.hideTheSearchElement(search)">
-            <input #inpSearch (input)="appService.searchInputEvent(inpSearch.value)" type="text">
+            <input #inpSearch (input)="appService.searchInputEvent(inpSearch.value)" (focusout)="appService.inputOut(inpSearch.value, search)" type="text">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         

@@ -9,7 +9,7 @@
     <div class="bands filter-list box">
         
         <div class="antenna list-elements list box">
-            <h2>Bands</h2>
+            <h2>Type</h2>
             <div class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
                 <p>{{item[0] | uppercase}}</p>
             </div>
