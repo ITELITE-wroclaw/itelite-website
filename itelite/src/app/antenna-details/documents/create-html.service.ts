@@ -111,7 +111,7 @@ export class CreateHTMLService {
         if(id === 0) text += `<h5 style='position: absolute; top: 5px; color: #1a2c3d; font-size: 7px; margin-left: 2px; z-index: 999;'>${title}</h5>`;
       }
 
-      const imgData = await getImg('https://itelite.net/wp-content/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
+      const imgData = await getImg('https://itelite.net/wp-content/getAnImage.php/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
 
       let bigger;
       let imgSizes = "width: 120px; margin-top: 25px;";

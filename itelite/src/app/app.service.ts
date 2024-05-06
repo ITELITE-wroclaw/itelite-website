@@ -30,7 +30,7 @@ export class AppService {
 
   private inputContainValue: boolean = false;
 
-  public searchResults: {id: number, text: string, path: string, data?: string}[] = [];
+  public searchResults: Subject<{id: number, text: string, path: string, data?: string}[]> = new Subject();
   private searchSubject: Subject<string> = new Subject<string>();
 
   private isFocus: boolean = false;
@@ -180,11 +180,14 @@ export class AppService {
     this.searchSubject
     .pipe(debounceTime(300))
     .subscribe((inputText: string) => {
-      this.searchResults = [];
+      
+      this.searchResults.next([]);
       if(!inputText.length) return;
 
       this.inputContainValue = !!inputText.length;
       const componentsNames = Object.keys(searchHTML);
+
+      const arr = [];
   
       componentsNames.forEach((e) => {
         const values: string | string[] = Object.keys(searchHTML[`${e}`]);
@@ -198,7 +201,7 @@ export class AppService {
               if( y.toLowerCase().includes(inputText.toLowerCase()) ) {
       
                 const id: number = searchHTML[`${parentObjName}`][`${valueName.replace("_", "")}`];
-                this.searchResults.push({id, text: parentObjName, path: valueName.replace("_", "") + " / " +y, data: y});
+                arr.push({id, text: parentObjName, path: valueName.replace("_", "") + " / " +y, data: y});
               }
             });
   
@@ -206,7 +209,7 @@ export class AppService {
           }
     
 
-          if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) this.searchResults.push({id: value, text: parentObjName, path: valueName});
+          if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) arr.push({id: value, text: parentObjName, path: valueName});
         }
 
         values.forEach((y) => {
@@ -215,6 +218,7 @@ export class AppService {
   
       })
 
+      this.searchResults.next(arr.length? arr: [undefined]);
       this.changeDetRef.detectChanges();
     })
   }

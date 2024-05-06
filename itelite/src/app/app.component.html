@@ -24,8 +24,16 @@
 
     <div class="searchResults">
         <ul (click)="navigateIntoView($event)">
-            <li #searchLi *ngFor="let e of appService.searchResults" [attr.data-search]="JSON.stringify({component: e.text, id: e.id, value: e.data})">{{e.text}} / {{e.path}}</li>
+            <li #searchLi *ngFor="let e of (appService.searchResults | async)" [attr.data-search]="JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
+                <p *ngIf="e; else emptyList">{{e.text}} / {{e.path}}</p>
+                <ng-template #emptyList>
+                    <p>There is no results.</p>
+                </ng-template>
+            </li>
         </ul>
+
+        
+        
     </div>
 
 </nav>

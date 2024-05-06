@@ -1,9 +1,10 @@
-import { isPlatformServer } from '@angular/common';
+
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Apollo, gql } from 'apollo-angular';
+
 import { of, switchMap } from 'rxjs';
 
 @Injectable({

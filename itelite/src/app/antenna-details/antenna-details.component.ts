@@ -70,6 +70,7 @@ export class AntennaDetailsComponent implements AfterViewInit{
     .pipe(
       map((e: any) => {
         const details = Object.assign({}, e.data.data.antennasFilter[0]);
+        console.log(details);
 
         const electricalProperties: any[] = [];
         const enclosureProperties: any[] = [];

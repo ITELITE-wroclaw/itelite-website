@@ -24,6 +24,11 @@ export class HeaderComponent {
   protected homeView: boolean = false;
   protected antenna!: boolean;
 
+  protected titleExtended!: string;
+
+  protected readonly background: string = files.products.header.backround;
+  protected product: string | false = files.products.header.product;
+
   constructor(private activatedRoute: ActivatedRoute, private store: Store<{provideAntennaDetails: any}>)
   {
     const data = activatedRoute.snapshot as any;
@@ -39,16 +44,10 @@ export class HeaderComponent {
       this.titleExtended = details.titleExtended;
     }
 
-    console.log(images[`${param}`]);
-
     if(!param) [this.background = images['home'].background, this.product = images['home'].antenna, this.homeView = true, this.homeText.header = text['home'].header, this.homeText.paragraph = text['home'].paragraph];
     else if(param == "antenna-details") [this.background = images[`${param}`].background, this.homeText.header = header, this.antenna = true, this.custom = true, this.product = false, store.select("provideAntennaDetails").subscribe(setTitle) ];
     else [ this.background = images[`${param}`].background, this.custom = true, this.product = images[`${param}`].antenna, this.homeText.header = text[`${param}`].header, this.homeText.paragraph = text[`${param}`].paragraph ];
   }
 
-  protected titleExtended!: string;
-
-  protected readonly background: string = files.products.header.backround;
-  protected product: string | false = files.products.header.product;
-
+  
 }
