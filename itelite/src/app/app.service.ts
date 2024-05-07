@@ -11,6 +11,7 @@ import { Apollo } from 'apollo-angular';
 import { searchHTML } from '../searchAtWebsite';
 import { canScroll } from './products/main-content/main-service.service';
 import { FindAntennasByAnyService } from './find-antennas-by-any.service';
+import { ApolloService } from './apollo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,9 @@ export class AppService {
     private router: Router,
     
     private renderer: Renderer2,
-    private findAntennasByAny: FindAntennasByAnyService
+    private findAntennasByAny: FindAntennasByAnyService,
+
+    private apolloService: ApolloService
   ){
     this.subSearchSubject();
   }
