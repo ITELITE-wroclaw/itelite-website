@@ -91,7 +91,7 @@ export class CreateHTMLService {
       }) 
     }
 
-    if(flag) return (await getImg("https://itelite.net/wp-content/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
+    if(flag) return (await getImg("https://itelite.net/wp-content/getAnImage.php/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
 
     let text = `
       <div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>

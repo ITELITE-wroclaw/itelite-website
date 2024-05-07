@@ -57,7 +57,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     private store: Store<{ provideHomeView: { view: View } }>,
     @Inject(PLATFORM_ID) private platform_id: string,
     protected appService: AppService,
-    private apolloService: ApolloService,
     private router: Router
   ) {}
 

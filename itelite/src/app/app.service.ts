@@ -10,6 +10,7 @@ import { Apollo } from 'apollo-angular';
 
 import { searchHTML } from '../searchAtWebsite';
 import { canScroll } from './products/main-content/main-service.service';
+import { FindAntennasByAnyService } from './find-antennas-by-any.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +43,8 @@ export class AppService {
     private componentFactory: ComponentFactoryResolver,
     private router: Router,
     
-    private apollo: Apollo,
     private renderer: Renderer2,
-
-    private activatedRoute: ActivatedRoute
+    private findAntennasByAny: FindAntennasByAnyService
   ){
     this.subSearchSubject();
   }
@@ -164,6 +163,7 @@ export class AppService {
   {
     this.isFocus = true;
     this.inputContainValue = !!inputText.length;
+
     this.searchSubject.next(inputText);
   }
 
