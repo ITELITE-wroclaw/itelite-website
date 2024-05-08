@@ -1,16 +1,16 @@
 
 import { ChangeDetectorRef, ComponentFactoryResolver, Injectable, Renderer2, ViewContainerRef, reflectComponentType } from '@angular/core';
-import { ActivatedRoute, ChildActivationEnd, NavigationStart, Router } from '@angular/router';
+import { ChildActivationEnd, NavigationStart, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { View } from '@types';
 
-import { Subject, Subscription, debounceTime, filter, fromEvent, merge } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-
+import { Observable, Subject, Subscription, combineLatest, debounceTime, filter, fromEvent, merge, of, switchMap } from 'rxjs';
 import { searchHTML } from '../searchAtWebsite';
+
 import { canScroll } from './products/main-content/main-service.service';
 import { FindAntennasByAnyService } from './find-antennas-by-any.service';
+
 import { ApolloService } from './apollo.service';
 
 @Injectable({
@@ -32,10 +32,21 @@ export class AppService {
 
   private inputContainValue: boolean = false;
 
-  public searchResults: Subject<{id: number, text: string, path: string, data?: string}[]> = new Subject();
+  public searchResults: Subject<
+    {
+      ant_name: string, ant_type: string, freq_name: string, 
+      guid: string, flat_panel: boolean, mimo_2x2: boolean, 
+      mimo_3x3: boolean, multi_mimo: boolean, radio_space: boolean, 
+      single_pol: boolean
+      id: number, text: string, path: string, data?: string
+    }[]
+  > = new Subject();
   private searchSubject: Subject<string> = new Subject<string>();
 
+  private observableSearchSubj: Observable<any>;
   private isFocus: boolean = false;
+
+  private subscription = new Subscription();
 
   constructor(
     private changeDetRef: ChangeDetectorRef,
@@ -167,6 +178,25 @@ export class AppService {
     this.isFocus = true;
     this.inputContainValue = !!inputText.length;
 
+    const antennasFromAPI = this.findAntennasByAny.getAntennasByAnyProperty(inputText);
+    const combine = combineLatest(antennasFromAPI, this.observableSearchSubj);
+
+    if(this.subscription) this.subscription.unsubscribe();
+    this.subscription = new Subscription();
+
+    this.subscription.add( 
+      combine
+      .subscribe(([val_1, val_2]) => {
+
+        console.log(val_1['data']['getAntennaByAny']);
+
+        this.searchResults.next(val_1['data']['getAntennaByAny']);
+        this.searchResults.next(val_2);
+
+        this.subscription.unsubscribe();
+      })
+    );
+    
     this.searchSubject.next(inputText);
   }
 
@@ -180,50 +210,53 @@ export class AppService {
   private subSearchSubject()
   {
 
-    this.searchSubject
-    .pipe(debounceTime(300))
-    .subscribe((inputText: string) => {
-      
-      this.searchResults.next([]);
-      if(!inputText.length) return;
+    this.observableSearchSubj = this.searchSubject
+    .pipe(
+      debounceTime(300),
+      switchMap((inputText: string) => {
 
-      this.inputContainValue = !!inputText.length;
-      const componentsNames = Object.keys(searchHTML);
+        if(!inputText.length) return of([]);
+        this.searchResults.next([]);
 
-      const arr = [];
+        this.inputContainValue = !!inputText.length;
+        const componentsNames = Object.keys(searchHTML);
+
+        const arr = [];
   
-      componentsNames.forEach((e) => {
-        const values: string | string[] = Object.keys(searchHTML[`${e}`]);
-  
-        const checkContent = (parentObjName: string, valueName: string) =>
-        {
-          const value = searchHTML[`${parentObjName}`][`${valueName}`];
+        componentsNames
+        .forEach((e) => {
+          const values: string | string[] = Object.keys(searchHTML[`${e}`]);
+    
+          const checkContent = (parentObjName: string, valueName: string) =>
+          {
+            const value = searchHTML[`${parentObjName}`][`${valueName}`];
 
-          if(valueName.includes("_")) {
-            value.forEach( (y: string) => {
-              if( y.toLowerCase().includes(inputText.toLowerCase()) ) {
-      
+            if(valueName.includes("_")) {
+              value
+              .filter((y: string) => y.toLowerCase().includes(inputText.toLowerCase()))
+              .forEach( (y: string) => {
                 const id: number = searchHTML[`${parentObjName}`][`${valueName.replace("_", "")}`];
                 arr.push({id, text: parentObjName, path: valueName.replace("_", "") + " / " +y, data: y});
-              }
-            });
-  
-            return;
-          }
+              });
     
+              return;
+            }
+      
 
-          if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) arr.push({id: value, text: parentObjName, path: valueName});
-        }
+            if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) arr.push({id: value, text: parentObjName, path: valueName});
+          }
 
-        values.forEach((y) => {
-          checkContent(e, y);
-        })
+          values.forEach((y) => {
+            checkContent(e, y);
+          })
   
-      })
+        })
 
-      this.searchResults.next(arr.length? arr: [undefined]);
-      this.changeDetRef.detectChanges();
-    })
+        return of(arr);
+      })
+    )
+
+
   }
 
   public revealComponents()

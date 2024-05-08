@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { of, switchMap } from 'rxjs';
+import { debounceTime, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class FindAntennasByAnyService {
   {
     const GET_ANTENNAS = gql`
       {
-        getAntennaByAny(parameters: [ [ "ant_name", ""] ], skip: 0){
+        getAntennaByAny(parameter: "${findByText}"){
           ant_name
           ant_type
           ant_image_1
@@ -25,8 +25,6 @@ export class FindAntennasByAnyService {
           multi_mimo
           freq_name
           guid
-          images
-          icon
         }
       }
     `;
@@ -37,6 +35,7 @@ export class FindAntennasByAnyService {
     })
     .valueChanges
     .pipe(
+      debounceTime(300),
       switchMap(of)
     )
   }
