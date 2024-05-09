@@ -24,18 +24,26 @@
 
     <div class="searchResults">
         <ul (click)="navigateIntoView($event)">
-            <li #searchLi *ngFor="let e of (appService.searchResults | async)" [attr.data-search]="e.ant_name? JSON.stringify({component: 'antenna_'+e.ant_name, id: e?.id, value: e?.data}): JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
-                <p *ngIf="e; else emptyList">{{e.text}} / {{e.path}}</p>
+            <li #searchLi *ngFor="let e of (appService.searchResults | async)" [attr.data-search]="e.ant_name? JSON.stringify({component: 'antenna_'+e.ant_name}): JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
+                <p *ngIf="e && !e.ant_name; else antenna;">{{e.text}} / {{e.path}}</p>
+                <ng-template #antenna>
+                    <div [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">
+                        <figcaption [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">
+                            <img [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})" [src]="e.guid" alt="Antenna photo." role="Icon which presents antenna image.">
+                            <div>
+                                <p [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">{{e.ant_name}}</p>
+                                <span [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">{{e.freq_name}}</span>
+                                <span [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">{{e.ant_type}}</span>
+                            </div>
+                        </figcaption>
+                    </div>
+                </ng-template>
                 <ng-template #emptyList>
                     <p>There is no results.</p>
                 </ng-template>
             </li>
         </ul>
-
-        
-        
     </div>
-
 </nav>
 
 <header>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { AppService } from '@appService';
 
 import { HeaderComponent } from '@header';
@@ -17,7 +17,7 @@ import { PicturesComponent } from './pictures/pictures.component';
 import { DocumentsComponent } from './documents/documents.component';
 
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 import { currentAntennaDetails } from '@reducer';
 import { Subscription, fromEvent, map, merge } from 'rxjs';
@@ -29,7 +29,7 @@ import { Subscription, fromEvent, map, merge } from 'rxjs';
   templateUrl: './antenna-details.component.html',
   styleUrl: './antenna-details.component.scss'
 })
-export class AntennaDetailsComponent implements AfterViewInit{
+export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
 
   route: any;
 
@@ -49,9 +49,11 @@ export class AntennaDetailsComponent implements AfterViewInit{
     private store: Store<{}>,
     private activatedRoute: ActivatedRoute,
     @Inject(PLATFORM_ID) private platform_id: string,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   )
   {
+    console.log("test")
     AntennaDetailsComponent.prototype.route = activatedRoute;
 
     appService.componentsList = [
@@ -153,6 +155,7 @@ export class AntennaDetailsComponent implements AfterViewInit{
 
       this.investigateImg(imagesCollection, id);
     })
+
   }
 
   ngOnDestroy(): void {
@@ -175,6 +178,7 @@ export class AntennaDetailsComponent implements AfterViewInit{
     }
 
     if(e?.classList.contains("imgDisplay")) return;
+
     this.imgDisplay?.remove();
     this.imgDisplay = undefined;
   };

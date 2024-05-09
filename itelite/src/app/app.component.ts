@@ -90,13 +90,15 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.displayMenu.flag = !this.displayMenu.flag;
   }
 
-  protected navigateIntoView(event: Event)
+  protected navigateIntoView(event: Event): any
   {
+    console.log(event.target)
     const searchData = JSON.parse( ( event.target as HTMLElement ).getAttribute("data-search") );
-
     const component: string = searchData.component.toLowerCase();
-    const id: number = searchData.id;
 
+    if(component.includes("antenna_")) return this.router.navigate([`/antenna-details`, component.split("_")[1].toUpperCase()]);
+
+    const id: number = searchData.id;
     this.router.navigate([`/${component}/${id}/${searchData.value? `${searchData.value}`: ""}` ]);
   }
 

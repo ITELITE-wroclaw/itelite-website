@@ -100,6 +100,8 @@ export class AppService {
     this.footer = footer;
     this.header = header;
 
+    console.log(main)
+
     // header component
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
     const component = header.createComponent(_componentFactory);
@@ -188,11 +190,9 @@ export class AppService {
       combine
       .subscribe(([val_1, val_2]) => {
 
-        console.log(val_1['data']['getAntennaByAny']);
+        const newBunchOfData = (val_1['data']['getAntennaByAny'] as []).concat(val_2);
 
-        this.searchResults.next(val_1['data']['getAntennaByAny']);
-        this.searchResults.next(val_2);
-
+        this.searchResults.next(newBunchOfData);
         this.subscription.unsubscribe();
       })
     );
@@ -200,8 +200,8 @@ export class AppService {
     this.searchSubject.next(inputText);
   }
 
-  public inputOut(inputText: string, searchElement: HTMLElement) {
-
+  public inputOut(inputText: string, searchElement: HTMLElement)
+  {
     this.isFocus = false;
     this.inputContainValue = !!inputText.length;
     if(!this.inputContainValue) searchElement.classList.remove("show");
@@ -255,7 +255,6 @@ export class AppService {
         return of(arr);
       })
     )
-
 
   }
 

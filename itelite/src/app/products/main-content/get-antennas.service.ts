@@ -29,7 +29,7 @@ export class GetAntennasService implements Resolve<any> {
           flat_panel
           single_pol
           mimo_2x2
-          mimox_3x3
+          mimo_3x3
           multi_mimo
           freq_name
           parameters1
