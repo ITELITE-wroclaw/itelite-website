@@ -25,7 +25,7 @@
     <div class="searchResults">
         <ul (click)="navigateIntoView($event)">
             <li #searchLi *ngFor="let e of (appService.searchResults | async)" [attr.data-search]="e.ant_name? JSON.stringify({component: 'antenna_'+e.ant_name}): JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
-                <p *ngIf="e && !e.ant_name; else antenna;">{{e.text}} / {{e.path}}</p>
+                <p [attr.data-search]="JSON.stringify({component: e?.text, id: e?.id, value: e?.data})" *ngIf="e && !e.ant_name; else antenna;">{{e.text}} / {{e.path}}</p>
                 <ng-template #antenna>
                     <div [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">
                         <figcaption [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">

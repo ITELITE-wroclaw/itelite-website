@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { files } from '@files';
@@ -29,7 +29,7 @@ export class HeaderComponent {
   protected readonly background: string = files.products.header.backround;
   protected product: string | false = files.products.header.product;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store<{provideAntennaDetails: any}>)
+  constructor(private activatedRoute: ActivatedRoute, private store: Store<{provideAntennaDetails: any}>, private changeDetRef: ChangeDetectorRef)
   {
     const data = activatedRoute.snapshot as any;
 
@@ -42,6 +42,7 @@ export class HeaderComponent {
 
       this.product = details.icon;
       this.titleExtended = details.titleExtended;
+
     }
 
     if(!param) [this.background = images['home'].background, this.product = images['home'].antenna, this.homeView = true, this.homeText.header = text['home'].header, this.homeText.paragraph = text['home'].paragraph];

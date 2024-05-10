@@ -17,7 +17,7 @@ import { PicturesComponent } from './pictures/pictures.component';
 import { DocumentsComponent } from './documents/documents.component';
 
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { currentAntennaDetails } from '@reducer';
 import { Subscription, fromEvent, map, merge } from 'rxjs';
@@ -53,7 +53,6 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
     private router: Router
   )
   {
-    console.log("test")
     AntennaDetailsComponent.prototype.route = activatedRoute;
 
     appService.componentsList = [
@@ -127,7 +126,7 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
         details.titleExtended = details.titleExtended.replaceAll(" ,", ",");
         
         return details;
-        })
+      })
     )
     .subscribe((data: any) => {
 
@@ -135,7 +134,6 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
 
       Object.keys(this.optionalComponents)
       .forEach((e: any) => {
-
         if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex((x) => x == this.optionalComponents[`${e}`]), 1); 
       })
       

@@ -75,14 +75,21 @@ export class AppService {
   // after each router swap the view is purge
   private routerSubscribe(): Subscription
   {
+
     const ifClearView = (e: any) =>
     {
-      this.header.clear()
+      this.currentRoute = e.url;
+      
       this.footer.clear();
       this.main.clear();
 
+      
+
+      if(window.location.href.includes("antenna-details") && e.url.includes("antenna-details")) return;
+      this.header.clear();
+
       this.componentsList = [];
-      this.currentRoute = e.url;
+      
     }
 
     return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView);
@@ -99,8 +106,6 @@ export class AppService {
     this.main = main;
     this.footer = footer;
     this.header = header;
-
-    console.log(main)
 
     // header component
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[0]);
@@ -144,6 +149,9 @@ export class AppService {
   // dynamiczne generowanie komponentów
   private renderComponent(id: number, flag: boolean)
   {
+    console.log(id);
+    console.log(this.componentsList)
+
     if(!id || !this.componentsList[`${id}`]) return;
     const body: HTMLElement = this.renderer.selectRootElement("body", true);
 
@@ -190,7 +198,7 @@ export class AppService {
       combine
       .subscribe(([val_1, val_2]) => {
 
-        const newBunchOfData = (val_1['data']['getAntennaByAny'] as []).concat(val_2);
+        const newBunchOfData = (val_1['data']? val_1['data']['getAntennaByAny'] as []: []).concat(val_2);
 
         this.searchResults.next(newBunchOfData);
         this.subscription.unsubscribe();

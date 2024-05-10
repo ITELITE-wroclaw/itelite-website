@@ -95,15 +95,16 @@ export class MainService {
   /* <--- Here begin code regarding with scrollEvent ---> */
 
   async scrollEvent(that: any) {
+
     if (that.flag || !canScroll.flag) return;
 
     const clousure: HTMLElement = document.querySelector('.clousure')!;
     if (!( clousure?.clientHeight + clousure?.offsetTop - window.outerHeight * 1.75 < window.scrollY )) return;
 
     that.flag = true;
+    that.skipAntennas++;
 
     const newAntennas: Observable<Antenna[] | any> = that.isFilter? that.getFilterAntennas(that.currentAntennasFilter): that.getAllAntennas(that.skipAntennas);
-    that.skipAntennas++;
 
     newAntennas.subscribe(
       (e: { data: { allAntennas?: Antenna[]; antennasFilter?: Antenna[] } }) => {

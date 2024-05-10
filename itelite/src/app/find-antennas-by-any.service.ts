@@ -11,6 +11,8 @@ export class FindAntennasByAnyService {
 
   public getAntennasByAnyProperty(findByText: string)
   {
+    if(!findByText) return of([]);
+
     const GET_ANTENNAS = gql`
       {
         getAntennaByAny(parameter: "${findByText}"){

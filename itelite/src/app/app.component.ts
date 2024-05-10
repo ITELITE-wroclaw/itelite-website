@@ -92,7 +92,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   protected navigateIntoView(event: Event): any
   {
-    console.log(event.target)
     const searchData = JSON.parse( ( event.target as HTMLElement ).getAttribute("data-search") );
     const component: string = searchData.component.toLowerCase();
 
