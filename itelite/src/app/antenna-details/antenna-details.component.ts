@@ -138,7 +138,6 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
         if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex((x) => x == this.optionalComponents[`${e}`]), 1); 
       })
       
-      console.log(appService.componentsList);
     })
 
     appService.init();

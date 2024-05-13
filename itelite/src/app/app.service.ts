@@ -81,11 +81,13 @@ export class AppService {
     {
       this.currentRoute = e.url;
 
-      if(window.location.href.includes("antenna-details") && e.url.includes("antenna-details")) return;
-
-      this.header.clear();
       this.main.clear();
       this.footer.clear();
+
+      if(window.location.href.includes("antenna-details") && e.url.includes("antenna-details")) return;
+      
+      this.header.clear();
+      this.componentsList = [];
     }
 
     return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView);
