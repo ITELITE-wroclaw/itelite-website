@@ -19,8 +19,9 @@ import { ApolloService } from './apollo.service';
 export class AppService {
 
   public currentComponentID: number = 0;
-  public componentsList: any[] = [];
+  public originComponentsList: any[] = [];
 
+  public componentsList: any[] = [];
   private availedComponents: any = {};
 
   private main!: ViewContainerRef;
@@ -79,17 +80,12 @@ export class AppService {
     const ifClearView = (e: any) =>
     {
       this.currentRoute = e.url;
-      
-      this.footer.clear();
-      this.main.clear();
-
-      
 
       if(window.location.href.includes("antenna-details") && e.url.includes("antenna-details")) return;
-      this.header.clear();
 
-      this.componentsList = [];
-      
+      this.header.clear();
+      this.main.clear();
+      this.footer.clear();
     }
 
     return this.router.events.pipe(filter(e => e instanceof NavigationStart)).subscribe(ifClearView);
@@ -149,8 +145,6 @@ export class AppService {
   // dynamiczne generowanie komponentów
   private renderComponent(id: number, flag: boolean)
   {
-    console.log(id);
-    console.log(this.componentsList)
 
     if(!id || !this.componentsList[`${id}`]) return;
     const body: HTMLElement = this.renderer.selectRootElement("body", true);
@@ -160,7 +154,7 @@ export class AppService {
 
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
   
-    const component = id == this.componentsList.length - 1? 
+    const component = id == this.componentsList.length - 1?
     this.footer?.createComponent(_componentFactory): this.main?.createComponent(_componentFactory);
 
     this.availedComponents[`${id}`] = component;
@@ -250,7 +244,6 @@ export class AppService {
               return;
             }
       
-
             if(valueName.toLowerCase().includes(inputText.toLowerCase()) ) arr.push({id: value, text: parentObjName, path: valueName});
           }
 

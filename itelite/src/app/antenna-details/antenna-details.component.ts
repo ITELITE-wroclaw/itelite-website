@@ -55,7 +55,7 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
   {
     AntennaDetailsComponent.prototype.route = activatedRoute;
 
-    appService.componentsList = [
+    appService.originComponentsList = [
       HeaderComponent, 
       FeaturesComponent, 
       SpecificationComponent,
@@ -131,12 +131,14 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
     .subscribe((data: any) => {
 
       store.dispatch(currentAntennaDetails({details: data}));
+      appService.componentsList = [].concat(appService.originComponentsList);
 
       Object.keys(this.optionalComponents)
       .forEach((e: any) => {
         if(!data[`${e}`] || data[`${e}`] == null) appService.componentsList.splice( appService.componentsList.findIndex((x) => x == this.optionalComponents[`${e}`]), 1); 
       })
       
+      console.log(appService.componentsList);
     })
 
     appService.init();
