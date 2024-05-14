@@ -1,8 +1,8 @@
-<div class="box">
+<div *ngIf="images.length && images[0]" class="box">
     <h2>Pictures</h2>
     <div class="pictures_gather">
-        <div class="antenna_picture" *ngFor="let im of images">
-            <img class="peep" [src]="im" alt="Antenna image.">
+        <div class="antenna_picture" *ngFor="let img of images">
+            <img class="peep" [src]="img" alt="Antenna image.">
         </div>
     </div>
     

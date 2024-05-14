@@ -41,12 +41,12 @@ export class HeaderComponent {
       const details: any = e.details.details;
 
       this.product = details.icon;
-      this.titleExtended = details.titleExtended;
+      this.titleExtended =  details.titleExtended;
 
     }
 
     if(!param) [this.background = images['home'].background, this.product = images['home'].antenna, this.homeView = true, this.homeText.header = text['home'].header, this.homeText.paragraph = text['home'].paragraph];
-    else if(param == "antenna-details") [this.background = images[`${param}`].background, this.homeText.header = header, this.antenna = true, this.custom = true, this.product = false, store.select("provideAntennaDetails").subscribe(setTitle) ];
+    else if(param == "antenna-details") [this.background = images[`${param}`].background, this.homeText.header = decodeURIComponent( header ), this.antenna = true, this.custom = true, this.product = false, store.select("provideAntennaDetails").subscribe(setTitle) ];
     else [ this.background = images[`${param}`].background, this.custom = true, this.product = images[`${param}`].antenna, this.homeText.header = text[`${param}`].header, this.homeText.paragraph = text[`${param}`].paragraph ];
   }
 

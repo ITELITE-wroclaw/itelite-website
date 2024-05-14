@@ -14,7 +14,7 @@ export class CreateHTMLService {
   public antennaDetailsToDatasheet!: Antenna;
   public subTitle!: string;
 
-  private readonly logo: string = files.nav;
+  private readonly pdf_begin: string = files.antenna_details.pdf_begin;
   public plots: string[] | undefined;
   public images!: string[];
   public dimensions: string[] | undefined;
@@ -66,6 +66,9 @@ export class CreateHTMLService {
   private counter: number = 0;
   private getImagesCall: number = 0;
 
+  private arraysAmount: number;
+  private currentArrayId: number = 1;
+
   public async getImages (images: string[] | any, title: string, flag: boolean)
   {
     if(!images || !images.length) return "";
@@ -93,12 +96,9 @@ export class CreateHTMLService {
 
     if(flag) return (await getImg("https://itelite.net/wp-content/getAnImage.php/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
 
-    let text = `
-      <div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>
-    `;
-    //<h5 style='color: #1a2c3d; box-sizing: border-box; font-size: 7px; margin-left: 2px; position: relative; z-index: 4;'>${title}</h5>
-
+    let text = "<div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>";
     let id = 0;
+
     const that = this;
 
     async function setImages(): Promise<string | void>
@@ -113,23 +113,25 @@ export class CreateHTMLService {
 
       const imgData = await getImg('https://itelite.net/wp-content/getAnImage.php/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
 
+      const rule = that.currentArrayId == that.arraysAmount && id >= images.length - 2
       let bigger;
-      let imgSizes = "width: 120px; margin-top: 25px;";
+      let imgSizes = rule? 
+      "width: 92px; margin-top: 25px;" : "width: 120px; margin-top: 25px;";
 
       if(imgData.size.height > imgData.size.width) bigger = {size: imgData.size.height, height: true};
       if(imgData.size.height < imgData.size.width) bigger = {size: imgData.size.width, width: true};
       
-      if(bigger?.height) {
-        imgSizes = `height: 127px; padding-left: 40px; padding-right: 40px; margin-top: 10px;`;
-      };
+      if(bigger?.height){
+        rule? 
+        imgSizes = `height: 91px; padding-left: 50px; padding-right: 50px; margin-top: 10px;`: imgSizes = `height: 127px; padding-left: 40px; padding-right: 40px; margin-top: 10px;`;
+      }
 
       if(bigger?.width){
-        imgSizes = `width: 147px; padding-left: 10px; margin-top: 25px;`;
-      };
-
-      if(!bigger){
-        imgSizes += "padding-left: 19px;"
+        rule? 
+        imgSizes = `width: 107px; padding-left: 23px; margin-top: 25px;` :imgSizes = `width: 147px; padding-left: 10px; margin-top: 25px;`;
       }
+
+      if(!bigger) rule? imgSizes += "padding-left: 34px;" : imgSizes += "padding-left: 19px;"
 
       const linkImg = imgData.base64;
       text += `<img src='${linkImg}' style=' ${imgSizes} position: relative; z-index: 4; margin-right: 9px;'>`;
@@ -159,35 +161,38 @@ export class CreateHTMLService {
       let list = "";
 
       gather?.forEach((val) => {
-        list += "<li style='color: #1a2c3d; font-size: 5px; border-bottom: 1px solid #e5e5e5; width: fit-content; padding-bottom: 1px; margin-top: 3px;'><b>"+val+"</b></li>";
+        list += "<li style='color: #203548; font-size: 5px; width: fit-content; padding-bottom: 1px; margin-top: 3px;'>"+val+"</li>";
       });
 
       return list;
     }
 
-    this.subTitle = this.subTitle.replaceAll(" ,", ",")
+    this.subTitle = this.subTitle.replaceAll(" ,", ",");
+    const plotsLen: number = !!this.plots?.length? 1: 0;
+    const dimensionsLen: number = !!this.dimensions?.length? 1: 0;
+    const imagesLen: number = !!this.images.length? 1: 0;
+
+    this.arraysAmount = plotsLen + dimensionsLen + imagesLen;
 
     const html: string = `
-    <header style='display: block; width: 250px; border-bottom: 1px solid #F5F5F5; padding: 5px 0px 2px 0px;'>
-      <img style='width: 62px; height: auto; margin-left: 22px;' src='${this.logo}'>
-    </header>
+    <div style='postition: relative; padding-top: 8px; height: 288px;'>
 
-    <div style='padding-top: 8px; height: 260px;'>
+        <img src='${this.pdf_begin}' style='position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 210px;'>
         <div style='display: inline-block; width: 205px;'>
 
-          <div style='background: rgb(245, 191, 67); width: 211px; height: 32px; padding-bottom: 2px; margin-top: 5px;'>
-            <h5 style='color: #fff; font-size: 9px; margin-top: 20px; margin-left: 19px; padding-top: 3px;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
-            <h6 style='color: #fff; font-size: 6px; margin-top: 7px; margin-left: 19px;'>${this.subTitle}</h6>
+          <div style=' position: absolute; width: 211px; height: 27px; padding-bottom: 3px; margin-top: 54px;'>
+            <h5 style='color: #203548; font-size: 9px; margin-top: 1px; margin-left: 19px; padding-top: 3px;'>${this.antennaDetailsToDatasheet.ant_name}</h5>
+            <p style='color: #203548; font-size: 5px; margin-top: 2px; margin-left: 19px; letter-spacing: 1px;'>${this.subTitle}</p>
           </div>
           
-            <div style='display: inline-block; width: 90px; margin-top: 38px; padding-left: 19px; position: relative; z-index: 2; '>
-              <h5 style='color: #1a2c3d; font-size: 7px !important; margin-top: 7px; padding-bottom: 2px;'>Key Features</h5>
+            <div style='display: inline-block; width: 90px; margin-top: 101px; padding-left: 111px; position: relative; z-index: 2; '>
+              <h5 style='color: #203548; font-size: 8px !important; margin-top: 7px; padding-bottom: 2px;'>Key <span style='color: #324759;'>Features</span></h5>
               <ul style='list-style-type: disk !important;'>
                 ${getFeaturesList()}
               </ul>
             </div>
           
-          <img style='width: 110px; max-height: 140px; object-fit: fill; position: absolute; top: 114px; left: 87px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
+          <img style='width: 100px; max-height: 130px; object-fit: fill; position: absolute; top: 91px; left: 3px;' src='${ await this.getImages([this.antennaDetailsToDatasheet.icon], "", true) }'>
         </div>
     </div>
 

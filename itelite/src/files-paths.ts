@@ -108,7 +108,9 @@ export const files = Object.freeze({
 
     antenna_details: {
         mask: "/assets/antenna_details/mask.webp",
-        download: "/assets/antenna_details/document-download.webp"
+        download: "/assets/antenna_details/document-download.webp",
+
+        pdf_begin: "/assets/antenna_details/pdf_begin.png"
     },
 
     footer:{

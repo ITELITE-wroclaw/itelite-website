@@ -47,6 +47,22 @@ nav{
         li{
           padding: 0px 8px;
           line-height: $nav-list-height;
+          cursor: pointer;
+          position: relative;
+
+          &::after{
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            height: 1px;
+            width: 0px;
+            left: 0;
+            background-color: #1a2c3d;
+          }
+
+          &:hover::after{
+            animation: navListShowLine .4s ease-in forwards;
+          }
         }
       }
 
@@ -178,10 +194,19 @@ main{
   padding: 0px 80px;
 }
 
+@keyframes navListShowLine {
+  0%{
+    width: 0;
+  }
+  100%{
+    width: 100%;
+  }
+}
+
 @media (max-width: 1500px)
 {
+
   header {
-  
     ::ng-deep img.background {
       clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%) !important;
     }

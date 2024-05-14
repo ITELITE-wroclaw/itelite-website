@@ -7,6 +7,8 @@ import { FooterComponent } from '../footer/footer.component';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
+import { ContactUsComponent } from '../contact-us/contact-us.component';
+
 @Component({
   selector: 'app-company',
   standalone: true,
@@ -24,7 +26,7 @@ export class CompanyComponent {
 
     private activatedRoute: ActivatedRoute
   ){
-    appService.componentsList = [ContentComponent, FooterComponent];
+    appService.componentsList = [ContentComponent, ContactUsComponent, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();

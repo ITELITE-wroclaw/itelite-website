@@ -16,8 +16,6 @@ export class PicturesComponent {
 
   constructor(private store: Store<{provideAntennaDetails: any}>){
     store.select("provideAntennaDetails")
-    .subscribe((e) => {
-      this.images = e.details.details.images;
-    })
+    .subscribe((e) => this.images = e.details.details.images)
   }
 }

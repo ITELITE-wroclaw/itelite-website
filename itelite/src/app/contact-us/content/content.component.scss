@@ -4,6 +4,7 @@ $map-margin: 190px;
 .contact{
 
     padding: 0px calc($map-margin + 70px) 0px 70px;
+    position: relative;
 
     .form{
         max-width: $form-width;
