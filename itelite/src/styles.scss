@@ -67,7 +67,7 @@ h2 {
   margin: auto;
 }
 
-header .details {
+ header .details, main>app-content header {
   background: url("./assets/home/header/background.webp");
   clip-path: polygon(0 0, 100% 0, 100% 87%, 0 100%);
   height: 215px;
@@ -78,11 +78,16 @@ header .details {
   position: relative;
   z-index: 2;
 
-  h1 {
+  h1, h2 {
     text-align: center;
     line-height: 215px;
     font-weight: 600;
   }
+}
+
+main>app-content header {
+  left: -80px;
+  width: calc(100vw + 80px);
 }
 
 // enclosure and mounting elements

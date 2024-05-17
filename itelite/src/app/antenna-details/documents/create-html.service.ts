@@ -71,7 +71,7 @@ export class CreateHTMLService {
 
   public async getImages (images: string[] | any, title: string, flag: boolean)
   {
-    if(!images || !images.length) return "";
+    if((!images || !images.length) || !images[0]) return "";
 
     const replace = (url: string, protocol: string) => url.replace(protocol+'://itelite.net/wp-content/uploads', "")
     const getImg = (url: string): Promise<{base64: string, size: {height: number, width: number}}> =>
@@ -94,6 +94,7 @@ export class CreateHTMLService {
       }) 
     }
 
+    console.log(images)
     if(flag) return (await getImg("https://itelite.net/wp-content/getAnImage.php/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
 
     let text = "<div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>";
@@ -157,13 +158,9 @@ export class CreateHTMLService {
     const getFeaturesList = () =>
     {
       const gather = this.antennaDetailsToDatasheet.applications?.split("\r\n").filter(e => e.length);
-
       let list = "";
 
-      gather?.forEach((val) => {
-        list += "<li style='color: #203548; font-size: 5px; width: fit-content; padding-bottom: 1px; margin-top: 3px;'>"+val+"</li>";
-      });
-
+      gather?.forEach((val) => list += "<li style='color: #203548; font-size: 5px; width: fit-content; padding-bottom: 1px; margin-top: 3px;'>"+val+"</li>");
       return list;
     }
 
@@ -185,7 +182,7 @@ export class CreateHTMLService {
             <p style='color: #203548; font-size: 5px; margin-top: 2px; margin-left: 19px; letter-spacing: 1px;'>${this.subTitle}</p>
           </div>
           
-            <div style='display: inline-block; width: 90px; margin-top: 101px; padding-left: 111px; position: relative; z-index: 2; '>
+            <div style='display: inline-block; width: 90px; margin-top: 99px; padding-left: 111px; position: relative; z-index: 2; '>
               <h5 style='color: #203548; font-size: 8px !important; margin-top: 7px; padding-bottom: 2px;'>Key <span style='color: #324759;'>Features</span></h5>
               <ul style='list-style-type: disk !important;'>
                 ${getFeaturesList()}
@@ -197,9 +194,9 @@ export class CreateHTMLService {
     </div>
 
     <div style='width: 220px; max-height: 298px; height: 298px; padding-left: 3px; position: relative; font-size: 7px;'>
-      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("ELECTRICAL&nbsp; PROPERTIES", this.electricalProperties)}</div>
-      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("MECHANICAL PROPERTIES", this.mechanicalProperties)}</div>
-      <div style='display: inline-block; width: 127px; margin-top: 17px; margin-left: 38px;'>${this.createList("ENCLOSURE &nbsp; PROPERTIES", this.enclosureProperties)}</div>
+      <div style='display: inline-block; width: 127px; margin-top: 15px; margin-left: 38px;'>${this.createList("ELECTRICAL&nbsp; PROPERTIES", this.electricalProperties)}</div>
+      <div style='display: inline-block; width: 127px; margin-top: 15px; margin-left: 38px;'>${this.createList("MECHANICAL PROPERTIES", this.mechanicalProperties)}</div>
+      <div style='display: inline-block; width: 127px; margin-top: 15px; margin-left: 38px;'>${this.createList("ENCLOSURE &nbsp; PROPERTIES", this.enclosureProperties)}</div>
     </div>
 
     <div style='width: 210px; display: block; position: relative;'>
@@ -208,18 +205,18 @@ export class CreateHTMLService {
       ${await this.getImages(this.images, "IMAGES", false)}
     </div>
     
-    <footer style='height: 35px; width: 211px; background-color: #203548; padding: 3px 0px; position: absolute; bottom: 0px;  color: white;'>
+    <footer style='height: 31px; width: 211px; background-color: #203548; padding: 1px 0px; position: absolute; bottom: 0px;  color: white;'>
       <div class="information">
         <div class="logo">
-            <img src="./assets/footer/white-logo.png" style='width: 38px; margin-left: 83px;' alt="ITELITE company logo.">
+            <img src="./assets/footer/white-logo.png" style='width: 33px; margin-left: 84px;' alt="ITELITE company logo.">
         </div>
-        <div class="contact" style='font-size: 4px; display: flex; justify-content: space-around;'>
+        <div class="contact" style='font-size: 3px; display: flex; justify-content: space-around;'>
             <p>Email: <a style='color: white; text-decoration: none;' href="mailto: sales@itelite.net">sales@itelite.net</a></p>
             <p>Phone: +48.71.323.0180</p>
             <p>Address: ul.Terenowa 42, 52-231 Wroclaw Poland</p>
         </div>
         <div class="line"></div>
-        <div class="rights" style='font-size: 4px; margin-top: 4px; display: flex; justify-content: space-around;'>
+        <div class="rights" style='font-size: 3px; margin-top: 2px; display: flex; justify-content: space-around;'>
             <p style='text-align: center;'>&#64;2024 ITELITE | All Copy Right</p>
             <p style='text-align: center;'>www.itelite.net</p>
         </div>

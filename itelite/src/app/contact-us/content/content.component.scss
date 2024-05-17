@@ -61,12 +61,20 @@ $map-margin: 190px;
 
     .background{
         position: absolute;
-        right: 0;
-        bottom: -100px;
-        top: 0;
+        right: calc( ((100vw - 1300px) / 2) * -1);
+        bottom: 2px;
+        top: -100px;
         display: block;
-        width: 35%;
+        width: 54vw;
         background-color: #203548;
+    }
+}
+
+@media (max-width: 1400px)
+{
+    .contact .background{
+        right: -80px;
+        width: 52vw;
     }
 }
 

@@ -68,3 +68,17 @@ $dark: #1a2c3d;
     }
     
 }
+
+@media (max-width: 1434px) {
+    h2{
+        text-align: center;
+    }
+}
+
+@media (max-width: 900px) {
+    h2{
+        width: 327px;
+        text-align: left;
+        margin: auto;
+    }
+}

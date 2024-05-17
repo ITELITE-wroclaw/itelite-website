@@ -10,10 +10,10 @@ export const files = Object.freeze({
         },
         main:{
             antennas:[
-                "/assets/home/main/antennas/antenna-1.webp",
-                "/assets/home/main/antennas/antenna-2.webp",
-                "/assets/home/main/antennas/antenna-3.webp",
-                "/assets/home/main/antennas/antenna-4.webp"
+                ["/assets/home/main/antennas/antenna-1.webp", "Directional"],
+                ["/assets/home/main/antennas/antenna-2.webp", "Dish"],
+                ["/assets/home/main/antennas/antenna-3.webp", "Sector"],
+                ["/assets/home/main/antennas/antenna-4.webp", "Omnidirectional"]
             ],
             textBackgroundImage: "/assets/home/main/text/text-background.webp",
             gif: "/assets/home/main/how-it-works/how-it-works.webp"

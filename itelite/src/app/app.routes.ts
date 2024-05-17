@@ -19,8 +19,6 @@ export const routes: Routes = [
     { path: "order/:id", loadComponent: () => import("./order/order.component").then(c => ({default: c.OrderComponent}) )  },
     { path: "order", loadComponent: () => import("./order/order.component").then(c => ({default: c.OrderComponent}) )  },
 
-    { path: "contact-us/:id", resolve: {data: GetMapResolver}, loadComponent: () => import("../app/contact-us/contact-us.component").then(c => ({default: c.ContactUsComponent}) )  },
     { path: "antenna-details/:antena-name", resolve: {data: GetAntennaDetails}, loadComponent: () => import("./antenna-details/antenna-details.component").then(c => ({default: c.AntennaDetailsComponent}) ) },
-    
     { path: "**", loadComponent: () => import('./home-view/home-view.component').then(c => ({ default: c.HomeViewComponent })) }
 ];

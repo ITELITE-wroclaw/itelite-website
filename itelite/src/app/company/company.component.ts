@@ -8,6 +8,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { ContactUsComponent } from '../contact-us/contact-us.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+
+import { ContentComponent as _contentComponentContactUs } from '../contact-us/content/content.component';
 
 @Component({
   selector: 'app-company',
@@ -26,11 +29,13 @@ export class CompanyComponent {
 
     private activatedRoute: ActivatedRoute
   ){
-    appService.componentsList = [ContentComponent, ContactUsComponent, FooterComponent];
+
+    appService.componentsList = [ContentComponent, AboutUsComponent, _contentComponentContactUs, FooterComponent];
     appService.init();
     
     if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
     CompanyComponent.prototype.route = activatedRoute;
+
   }
 
   ngOnDestroy(): void {

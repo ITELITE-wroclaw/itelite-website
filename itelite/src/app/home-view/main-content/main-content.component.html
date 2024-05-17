@@ -5,12 +5,11 @@
     <div class="antennas">
         <div class="antennas-img">
             <div *ngFor="let antenna of files.antennas">
-                <img [src]="antenna" alt="Antenna image">
-            </div>
-        </div>
-        <div class="antennas-img">
-            <div *ngFor="let antenna of files.antennas">
-                <img [src]="antenna" alt="Antenna image">
+                <figcaption>
+                    <img [src]="antenna[0]" alt="Antenna image">
+                    <span>{{antenna[1]}}</span>
+                </figcaption>
+                
             </div>
         </div>
     </div>
@@ -19,12 +18,11 @@
 
 <div class="description">
     <img [src]="files.textBackgroundImage" alt="Background image with assemblied antennas.">
-    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, 
-        eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. 
-        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, 
-        sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. 
-        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, 
-        sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
-        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+    <p>
+        If you need a custom antenna, our company is ready to take on the challenge. 
+        We create customized antennas to meet the specific requirements of our customers, 
+        providing solutions that are perfectly tailored to your needs. 
+        Regardless of your industry or application, our experts will design an antenna that meets all your expectations.
+        Beyond antennas we can custom everything from housing mounting to connectors.
     </p>
 </div>

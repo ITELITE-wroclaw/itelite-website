@@ -13,7 +13,7 @@
             <li routerLink="/order">Order</li>
         </ul>
 
-        <button routerLink="/contact-us" class="dark">Contact Us</button>
+        <button [routerLink]="['/company', '3']" class="dark">Contact Us</button>
 
         <div #search class="search" (mousemove)="appService.showSearchElement(search)" (mouseleave)="appService.hideTheSearchElement(search)">
             <input #inpSearch (input)="appService.searchInputEvent(inpSearch.value)" (focusout)="appService.inputOut(inpSearch.value, search)" type="text">
