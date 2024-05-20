@@ -17,14 +17,14 @@
 
         <div #search class="search" (mousemove)="appService.showSearchElement(search)" (mouseleave)="appService.hideTheSearchElement(search)">
             <input #inpSearch (input)="appService.searchInputEvent(inpSearch.value)" (focusout)="appService.inputOut(inpSearch.value, search)" type="text">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i routerLink="search" class="fa-solid fa-magnifying-glass"></i>
         </div>
         
     </div>
 
     <div class="searchResults">
-        <ul (click)="navigateIntoView($event)">
-            <li #searchLi *ngFor="let e of (appService.searchResults | async)" [attr.data-search]="e.ant_name? JSON.stringify({component: 'antenna_'+e.ant_name}): JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
+        <ul (click)="appService.navigateIntoView($event)" *ngIf="canShowSearchResults">
+            <li #searchLi *ngFor="let e of searchResults" [attr.data-search]="e.ant_name? JSON.stringify({component: 'antenna_'+e.ant_name}): JSON.stringify({component: e?.text, id: e?.id, value: e?.data})">
                 <p [attr.data-search]="JSON.stringify({component: e?.text, id: e?.id, value: e?.data})" *ngIf="e && !e.ant_name; else antenna;">{{e.text}} / {{e.path}}</p>
                 <ng-template #antenna>
                     <div [attr.data-search]="JSON.stringify({component: 'antenna_'+e.ant_name})">

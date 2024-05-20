@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   Directive,
   ElementRef,
@@ -14,7 +15,7 @@ import {
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { HomeViewComponent } from './home-view/home-view.component';
@@ -25,6 +26,7 @@ import { View } from '@types';
 
 import { sendMainViewElements } from '@reducer';
 import { ApolloService } from './apollo.service';
+import { filter } from 'rxjs';
 
 @Directive({
   standalone: true,
@@ -49,6 +51,9 @@ export class AppComponent implements AfterViewInit, OnInit {
   protected displayMenu: {flag: boolean} = {flag: false};
 
   protected JSON: JSON = JSON;
+  protected canShowSearchResults: boolean = true;
+
+  protected searchResults;
 
   @ViewChild('burgerMenu') private burgerMenu!: ElementRef;
   @ViewChildren(DockerElement, { read: ViewContainerRef }) private docker_elements!: ViewContainerRef[];
@@ -57,11 +62,23 @@ export class AppComponent implements AfterViewInit, OnInit {
     private store: Store<{ provideHomeView: { view: View } }>,
     @Inject(PLATFORM_ID) private platform_id: string,
     protected appService: AppService,
-    private router: Router
+    private router: Router,
+    private changeDetRef: ChangeDetectorRef,
+    private reducer: Store<{provideSearchResults: any}>
   ) {}
 
   ngOnInit(): void {
     this.appService.revealComponents();
+    this.router.events
+    .pipe(
+      filter((e: any) => e instanceof NavigationStart)
+    )
+    .subscribe((e) => {
+      this.canShowSearchResults = !!!e.url.includes("search");
+    })
+
+    this.reducer.select("provideSearchResults")
+    .subscribe((e) => this.searchResults = e?.view.data.flat())
   }
 
   ngAfterViewInit(): void {
@@ -88,17 +105,6 @@ export class AppComponent implements AfterViewInit, OnInit {
   toggleList()
   {
     this.displayMenu.flag = !this.displayMenu.flag;
-  }
-
-  protected navigateIntoView(event: Event): any
-  {
-    const searchData = JSON.parse( ( event.target as HTMLElement ).getAttribute("data-search") );
-    const component: string = searchData.component.toLowerCase();
-
-    if(component.includes("antenna_")) return this.router.navigate([`/antenna-details`, component.split("_")[1].toUpperCase()]);
-
-    const id: number = searchData.id;
-    this.router.navigate([`/${component}/${id}/${searchData.value? `${searchData.value}`: ""}` ]);
   }
 
 }

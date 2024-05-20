@@ -12,6 +12,7 @@ import { canScroll } from './products/main-content/main-service.service';
 import { FindAntennasByAnyService } from './find-antennas-by-any.service';
 
 import { ApolloService } from './apollo.service';
+import { anyAntennaAction } from '@reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -32,16 +33,6 @@ export class AppService {
   private currentRoute: string | undefined;
 
   private inputContainValue: boolean = false;
-
-  public searchResults: Subject<
-    {
-      ant_name: string, ant_type: string, freq_name: string, 
-      guid: string, flat_panel: boolean, mimo_2x2: boolean, 
-      mimo_3x3: boolean, multi_mimo: boolean, radio_space: boolean, 
-      single_pol: boolean
-      id: number, text: string, path: string, data?: string
-    }[]
-  > = new Subject();
   private searchSubject: Subject<string> = new Subject<string>();
 
   private observableSearchSubj: Observable<any>;
@@ -59,7 +50,8 @@ export class AppService {
     private renderer: Renderer2,
     private findAntennasByAny: FindAntennasByAnyService,
 
-    private apolloService: ApolloService
+    private apolloService: ApolloService,
+    private reducer: Store<{provideSearchResults: any}>
   ){
     this.subSearchSubject();
   }
@@ -68,7 +60,7 @@ export class AppService {
   {
     this.store.select("provideHomeView")
     .subscribe((data) => this.setElementsFromView(data));
-
+    
     this.subscriptions = [];
     this.subscriptions?.push(this.routerSubscribe());
   }
@@ -194,9 +186,7 @@ export class AppService {
       combine
       .subscribe(([val_1, val_2]) => {
 
-        const newBunchOfData = (val_1['data']? val_1['data']['getAntennaByAny'] as []: []).concat(val_2);
-
-        this.searchResults.next(newBunchOfData);
+        this.reducer.dispatch(anyAntennaAction({data: [val_1, val_2]}));
         this.subscription.unsubscribe();
       })
     );
@@ -220,7 +210,6 @@ export class AppService {
       switchMap((inputText: string) => {
 
         if(!inputText.length) return of([]);
-        this.searchResults.next([]);
 
         this.inputContainValue = !!inputText.length;
         const componentsNames = Object.keys(searchHTML);
@@ -294,5 +283,16 @@ export class AppService {
     }
     
    }) 
+  }
+
+  public navigateIntoView(event: Event): any
+  {
+    const searchData = JSON.parse( ( event.target as HTMLElement ).getAttribute("data-search") );
+    const component: string = searchData.component.toLowerCase();
+
+    if(component.includes("antenna_")) return this.router.navigate([`/antenna-details`, component.split("_")[1].toUpperCase()]);
+
+    const id: number = searchData.id;
+    this.router.navigate([`/${component}/${id}/${searchData.value? `${searchData.value}`: ""}` ]);
   }
 }
