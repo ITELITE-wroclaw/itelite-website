@@ -67,7 +67,7 @@
         position: absolute;
         left: -80px;
         height: 315px;
-        width: calc(100vw - 17px);
+        width: 100vw;
         object-fit: cover;
         background-color: #203548;
         clip-path: polygon(0 18%, 100% 0, 100% 100%, 0% 100%);
@@ -161,5 +161,12 @@
             }
 
         }
+    }
+}
+
+@media (max-width: 580px)
+{
+    .description img{
+        left: -25px;
     }
 }

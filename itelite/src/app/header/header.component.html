@@ -6,8 +6,6 @@
     <h1 [innerHTML]="homeText.header"></h1>
     <h2 class="extended_text" *ngIf="antenna">{{titleExtended}}</h2>
     <p [innerHTML]="homeText.paragraph"></p>
-  
-    <button *ngIf="homeView" class="dark">More Details</button>
   </div>
   
   <div class="image" [ngClass]="homeView? 'home_image': ''">

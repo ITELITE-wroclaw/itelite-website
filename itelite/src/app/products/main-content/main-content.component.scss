@@ -32,6 +32,11 @@
         display: flex;
         padding-top: 23px;
 
+        div{
+            display: flex;
+            overflow-y: auto;
+        }
+
         input{
             margin: 15px auto;
             border-radius: 7px;
@@ -124,6 +129,10 @@
 
         .list {
 
+            .arrow{
+                display: none;
+            }
+
             figure{
                 padding: 10px 35px;
                 display: flex;
@@ -162,6 +171,8 @@
     .filter-list:first-child {
         display: flex;
         align-items: center;
+
+      
 
         h2{
             border-right: none;
@@ -270,13 +281,24 @@
     }
 }
 
-@media (max-width: 1200px)
+@media (max-width: 1260px)
 {
     .results{
         width: 510px;
 
         .clousure .antenna{
             width: 230px;
+        }
+    }
+
+    .filter .filter-list {
+
+        .arrow{
+            display: block !important;
+        }
+
+        .list figure, div{
+            min-width: 112px;
         }
     }
 }

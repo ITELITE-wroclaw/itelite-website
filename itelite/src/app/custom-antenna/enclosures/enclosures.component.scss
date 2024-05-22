@@ -1,4 +1,5 @@
 $list-gap: 52px;
+$lines-sizes: 74px, 74px, 92px, 75px;
 
 .container-custom-antenna{
     display: flex;
@@ -20,19 +21,24 @@ $list-gap: 52px;
                 &::before {
                     position: absolute;
                     left: -23px;
-                    top: -4px;
+                    top: -9px;
                     content: "\2022"; /* Unicode dla kropki */
                     font-size: 1.8em; /* Można dostosować wielkość kropki według potrzeb */
                     margin-right: 0.5em; /* Dodatkowy margines między kropką a tekstem */
                 }
 
+                @for $i from 1 through 4{
+                    &:nth-of-type(#{$i})::after{
+                        height: nth($lines-sizes, $i);
+                    }
+                }
+
                 &::after{
                     content: "";
                     position: absolute;
-                    top: 18px;
+                    top: 11px;
                     left: -15px;
                     transform: translate(-50%, 0%);
-                    height: 87px;
                     width: 1px;
                     background-color: black;
                 }

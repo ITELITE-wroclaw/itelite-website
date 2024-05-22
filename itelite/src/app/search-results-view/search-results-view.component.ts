@@ -1,25 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 
 import { AppService } from '@appService';
-import { Store } from '@ngrx/store';
+import { FooterComponent } from '../footer/footer.component';
+import { ContentComponent } from './content/content.component';
 
 @Component({
   selector: 'app-search-results-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './search-results-view.component.html',
   styleUrl: './search-results-view.component.scss'
 })
-export class SearchResultsViewComponent implements OnInit{
-
-  protected JSON = JSON;
-  protected searchResults;
-
-  constructor(protected appService: AppService, private reducer: Store<{provideSearchResults: any}>){}
-
-  ngOnInit(): void {
-    this.reducer.select("provideSearchResults")
-    .subscribe((e) => this.searchResults = e?.view.data);
+export class SearchResultsViewComponent {
+  
+  constructor(
+    protected appService: AppService,
+    @Inject(PLATFORM_ID) private platform_id: string,
+  ){
+    appService.componentsList = [ContentComponent, FooterComponent ];
+    appService.init();
+    
+    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
   }
+
 }

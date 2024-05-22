@@ -35,10 +35,17 @@
         
         <div class="list-elements list">
             <h2>Features</h2>
-            <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
-                <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
-                <figcaption>{{e[0]}}</figcaption>
-            </figure>
+            
+            <div>
+                <div class="arrow arrow-left" data-arrow="left"><i class="fa-solid fa-chevron-left"></i></div>
+            
+                <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
+                    <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
+                    <figcaption>{{e[0]}}</figcaption>
+                </figure>
+                <div class="arrow arrow-right" data-arrow="right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            
         </div>
         
     </div>

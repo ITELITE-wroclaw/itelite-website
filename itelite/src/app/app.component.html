@@ -1,6 +1,6 @@
 <nav>
 
-    <img class="logo" [src]="logo" alt="Logo of ITELITE company">
+    <img class="logo" [src]="logo" alt="Logo of ITELITE company" routerLink="/">
     <div #burgerMenu class="burger-menu" (click)="toggleList()"><i class="fa-solid fa-bars"></i></div>
     
     <div class="list" *ngIf="displayMenu.flag">
