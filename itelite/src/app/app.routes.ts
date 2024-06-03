@@ -2,7 +2,6 @@
 import { Routes } from '@angular/router';
 import { GetAntennasService } from './products/main-content/get-antennas.service';
 
-import { GetMapResolver } from './contact-us/get-map.resolver';
 import { GetAntennaDetails } from './antenna-details/get-atenna-details.resolver';
 
 export const routes: Routes = [
