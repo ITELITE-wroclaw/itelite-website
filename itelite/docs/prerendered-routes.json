@@ -3,6 +3,7 @@
     "/company",
     "/custom-antenna",
     "/order",
-    "/products"
+    "/products",
+    "/search"
   ]
 }

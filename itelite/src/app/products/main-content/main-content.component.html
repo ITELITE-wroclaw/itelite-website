@@ -10,9 +10,12 @@
         
         <div class="antenna list-elements list box">
             <h2>Type</h2>
-            <div class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
-                <p>{{item[0] | uppercase}}</p>
+            <div class="type-content">
+                <div class="bands-list-element child" *ngFor="let item of bands_img" [attr.data-filter]="JSON.stringify({param: 'type', value: item[0]})">
+                    <p>{{item[0] | uppercase}}</p>
+                </div>
             </div>
+            
         </div>
     </div>
     
@@ -36,14 +39,11 @@
         <div class="list-elements list">
             <h2>Features</h2>
             
-            <div>
-                <div class="arrow arrow-left" data-arrow="left"><i class="fa-solid fa-chevron-left"></i></div>
-            
+            <div class="scroll">
                 <figure class="features-list-element child" *ngFor="let e of features_img" [attr.data-filter]="JSON.stringify( {param: 'feature', value: e[0].toLowerCase().replace(' ', '_')} )">
                     <img [src]="e[1]" alt="Image presents the antenna feature to choose.">
                     <figcaption>{{e[0]}}</figcaption>
                 </figure>
-                <div class="arrow arrow-right" data-arrow="right"><i class="fa-solid fa-chevron-right"></i></div>
             </div>
             
         </div>

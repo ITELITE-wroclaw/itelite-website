@@ -29,12 +29,15 @@
     }
 
     .filter-list{
-        display: flex;
         padding-top: 23px;
 
         div{
             display: flex;
+        }
+
+        .scroll{
             overflow-y: auto;
+            width: 100%;
         }
 
         input{
@@ -69,6 +72,7 @@
                 line-height: 42px;
                 background-color: rgb(245, 249, 254);
                 z-index: 3;
+                display: block;
             }
 
             .arrow-left{
@@ -101,18 +105,34 @@
             align-items: center;
             list-style-type: none;
             border-radius: 13px;
-            overflow-x: auto;
             width: 100%;
             scrollbar-width: none;
             margin: 0px auto;
             position: relative;
             padding: 0px 17px;
+            box-sizing: border-box;
 
             li, .company{
                 padding: 11px 17px;
                 margin: auto;
                 white-space: pre;
             }
+        }
+
+        .list-elements{
+            display: flex;
+            justify-content: start !important;
+
+            .type-content{
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
+            
+        }
+
+        ul, .list-elements>div{
+            overflow-x: auto;
         }
 
         .list-elements{
@@ -295,10 +315,6 @@
 
         .arrow{
             display: block !important;
-        }
-
-        .list figure, div{
-            min-width: 112px;
         }
     }
 }
