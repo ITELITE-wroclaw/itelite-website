@@ -7,7 +7,7 @@ import { GetAntennasService } from './get-antennas.service';
 import { Store } from '@ngrx/store';
 import { Antenna, FilterInterface } from '@types';
 
-import { Subscription, fromEvent, switchMap } from 'rxjs';
+import { Subscription, fromEvent, switchMap, tap } from 'rxjs';
 import { MainService } from './main-service.service';
 
 import { FilterDirective } from './filter-antennas.directive';

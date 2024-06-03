@@ -43,7 +43,7 @@ import { Subject, debounceTime } from "rxjs";
 
       function filterElementTop()
       {
-        if(!window.location.pathname.includes('products')) return;
+        if(!window.location.href.includes('products')) return;
         
         const top: number = document.body.querySelector('.results')?.getBoundingClientRect().top;
         const filterElement: HTMLElement = this.elementRef.nativeElement;
@@ -155,7 +155,6 @@ import { Subject, debounceTime } from "rxjs";
     moveScroll(element: HTMLElement, direction: string)
     {
       if(this.flag) return;
-      console.log(element);
 
       this.flag = true;
       const scrollElement: HTMLElement = element.querySelector("ul")! || element;
@@ -199,6 +198,5 @@ import { Subject, debounceTime } from "rxjs";
   onInput(value: string) {
     this.inputSubject.next(value);
   }
-
 
 }
