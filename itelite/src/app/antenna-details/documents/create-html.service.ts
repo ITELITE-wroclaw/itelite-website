@@ -94,7 +94,6 @@ export class CreateHTMLService {
       }) 
     }
 
-    console.log(images)
     if(flag) return (await getImg("https://itelite.net/wp-content/getAnImage.php/?file=" + replace(images[0], images[0].includes("https")? "https": "http"))).base64;
 
     let text = "<div style='width: 222px; padding: 0px 0px 0px 22px; box-sizing: border-box;'>";
@@ -114,22 +113,23 @@ export class CreateHTMLService {
 
       const imgData = await getImg('https://itelite.net/wp-content/getAnImage.php/?file='+replace(images[id], images[id].includes("https")? "https": "http"));
 
-      const rule = that.currentArrayId == that.arraysAmount && id >= images.length - 2
+      const rule = that.currentArrayId == that.arraysAmount && id >= images.length - 2;
+      
       let bigger;
       let imgSizes = rule? 
-      "width: 92px; margin-top: 25px;" : "width: 120px; margin-top: 25px;";
+      "width: 89px; margin-top: 25px;" : "width: 120px; margin-top: 25px;";
 
       if(imgData.size.height > imgData.size.width) bigger = {size: imgData.size.height, height: true};
       if(imgData.size.height < imgData.size.width) bigger = {size: imgData.size.width, width: true};
       
       if(bigger?.height){
         rule? 
-        imgSizes = `height: 91px; padding-left: 50px; padding-right: 50px; margin-top: 10px;`: imgSizes = `height: 127px; padding-left: 40px; padding-right: 40px; margin-top: 10px;`;
+        imgSizes = `height: 85px; padding-left: 50px; padding-right: 50px; margin-top: 10px;`: imgSizes = `height: 127px; padding-left: 40px; padding-right: 40px; margin-top: 10px;`;
       }
 
       if(bigger?.width){
         rule? 
-        imgSizes = `width: 107px; padding-left: 23px; margin-top: 25px;` :imgSizes = `width: 147px; padding-left: 10px; margin-top: 25px;`;
+        imgSizes = `width: 97px; padding-left: 23px; margin-top: 25px;` :imgSizes = `width: 147px; padding-left: 10px; margin-top: 25px;`;
       }
 
       if(!bigger) rule? imgSizes += "padding-left: 34px;" : imgSizes += "padding-left: 19px;"
@@ -145,6 +145,7 @@ export class CreateHTMLService {
     }
     
     await setImages();
+    that.currentArrayId++;
 
     text += "</div>";
     this.counter++;
