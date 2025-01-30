@@ -19,6 +19,37 @@
     margin-top: 100px;
 }
 
+.hide_antennas{
+    display: none !important;
+}
+
+.antennas-images{
+    display: flex;
+
+    .thumbnail {
+
+        img{
+            max-width: 180px;
+            filter: drop-shadow(20px 7px 4px #8a8a8f);
+        }
+    }
+
+    .highlighted{
+        border-bottom: 2px solid rgb(129, 129, 129);
+    }
+}
+
+#image{
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img{
+        width: fit-content;
+    }
+}
+
 .min-header-width{
     max-width: 455px !important;
     padding-right: 38px;

@@ -25,7 +25,6 @@ import { files } from '@files';
 import { View } from '@types';
 
 import { sendMainViewElements } from '@reducer';
-import { ApolloService } from './apollo.service';
 import { filter } from 'rxjs';
 
 @Directive({
@@ -54,6 +53,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   protected canShowSearchResults: boolean = true;
 
   protected searchResults;
+  protected isFocus: boolean;
 
   @ViewChild('burgerMenu') private burgerMenu!: ElementRef;
   @ViewChildren(DockerElement, { read: ViewContainerRef }) private docker_elements!: ViewContainerRef[];
@@ -100,11 +100,32 @@ export class AppComponent implements AfterViewInit, OnInit {
         })
       )
     }
+
+    this.vanishSearchResults()
   }
 
   toggleList()
   {
     this.displayMenu.flag = !this.displayMenu.flag;
+  }
+
+  vanishSearchResults()
+  {
+    document.body.addEventListener("click", (ev) => {
+
+      setTimeout(() => {
+        if((this.searchResults && !this.searchResults.length) || this.isFocus) return;
+
+        const searchEl: DOMRect = document.getElementsByClassName("searchResults").item(0).getBoundingClientRect();
+        const {left, right, top, bottom} = searchEl;
+
+        if(ev.x < left || ev.x > right) this.canShowSearchResults = false;
+        if(ev.y < bottom || ev.y > top) this.canShowSearchResults = false;
+      }, 0);
+      
+      
+    });
+
   }
 
 }

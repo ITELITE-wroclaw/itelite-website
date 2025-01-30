@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { files } from '@files';
 
 import { images } from './images';
 import { text } from './text';
 
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -25,11 +26,18 @@ export class HeaderComponent {
   protected antenna!: boolean;
 
   protected titleExtended!: string;
+  private subscription!: Subscription;
 
   protected readonly background: string = files.products.header.backround;
   protected product: string | false = files.products.header.product;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store<{provideAntennaDetails: any}>, private changeDetRef: ChangeDetectorRef)
+  protected isProductPath: boolean = false;
+  protected rotateImg: string = files.products.header.rotate;
+
+  @ViewChild("headerImage")
+  public headerImage: ElementRef;
+
+  constructor(private activatedRoute: ActivatedRoute, private store: Store<{provideAntennaDetails: any}>, private changeDetRef: ChangeDetectorRef, private router: Router)
   {
     const data = activatedRoute.snapshot as any;
 
@@ -42,13 +50,15 @@ export class HeaderComponent {
 
       this.product = details.icon;
       this.titleExtended =  details.titleExtended;
-
     }
+
+    this.subscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) this.isProductPath = event.url == "/products"
+    });
 
     if(!param) [this.background = images['home'].background, this.product = images['home'].antenna, this.homeView = true, this.homeText.header = text['home'].header, this.homeText.paragraph = text['home'].paragraph];
     else if(param == "antenna-details") [this.background = images[`${param}`].background, this.homeText.header = decodeURIComponent( header ), this.antenna = true, this.custom = true, this.product = false, store.select("provideAntennaDetails").subscribe(setTitle) ];
     else [ this.background = images[`${param}`].background, this.custom = true, this.product = images[`${param}`].antenna, this.homeText.header = text[`${param}`].header, this.homeText.paragraph = text[`${param}`].paragraph ];
   }
 
-  
 }

@@ -16,14 +16,15 @@ export const files = Object.freeze({
                 ["/assets/home/main/antennas/antenna-4.webp", "Omnidirectional"]
             ],
             textBackgroundImage: "/assets/home/main/text/text-background.webp",
-            gif: "/assets/home/main/how-it-works/how-it-works.webp"
+            gif: "/assets/home/main/how-it-works/Antenna.webp"
         }
     },
 
     products: {
         header: {
             backround: "/assets/products/header/header_background.webp",
-            product: "/assets/products/header/header_antenna.webp" 
+            product: "/assets/products/header/Whitespace/Whitespace-1.png",
+            rotate: "/assets/products/header/360 view.png"
         },
 
         main: {

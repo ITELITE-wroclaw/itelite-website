@@ -9,11 +9,14 @@ import bootstrap from './src/main.server';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
+
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
+  console.log(import.meta.url)
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
@@ -29,6 +32,8 @@ export function app(): express.Express {
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
+
+    console.log("host: " + headers.host)
 
     commonEngine
       .render({
@@ -47,10 +52,16 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 3000;
+  console.log(port)
 
   // Start up the Node server
   const server = app();
-  server.listen('0.0.0.0', () => {
+  console.log(server);
+
+  server.listen(
+    port,
+    // REMEMBER TO UNCOMMENT THIS BEFORE PRODUCTION DEPLOYING --> '0.0.0.0', 
+    () => {
   });
 }
 

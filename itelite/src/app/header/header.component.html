@@ -8,8 +8,22 @@
     <p [innerHTML]="homeText.paragraph"></p>
   </div>
   
-  <div class="image" [ngClass]="homeView? 'home_image': ''">
-      <img [ngClass]="custom? 'custom': ''" [src]="product" alt="Image of state-of-the-art kind antenna.">
+  <div #headerImage class="image" id="image" data-id="1" [ngClass]="homeView? 'home_image': ''">
+      <img src="/assets/products/header/Whitespace/Whitespace-1.png" [ngClass]="custom? 'custom': ''" draggable="false" [src]="product" alt="Image of state-of-the-art kind antenna.">
+      <img style="margin-top: -125px;" *ngIf="isProductPath" [src]="rotateImg" alt="Image of rotating.">
+
+      <div [ngClass]="!isProductPath? 'hide_antennas': ''" class="antennas-images">
+        <div class="thumbnail">
+          <img data-name="SRA" src="/assets/products/header/SRA/SRA-6.png" alt="Antenna image">
+        </div>
+        <div class="thumbnail">
+          <img data-name="OMD" src="/assets/products/header/OMD/OMD-22.png" alt="Antenna image">
+        </div>
+        <div class="thumbnail highlighted">
+          <img data-name="Whitespace" src="/assets/products/header/Whitespace/Whitespace-1.png" alt="Antenna image">
+        </div>
+      </div>
+      
   </div>
 
 </div>
