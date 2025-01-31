@@ -16,7 +16,6 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
-  console.log(import.meta.url)
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
@@ -51,18 +50,11 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 3000;
-  console.log(port)
+  const port = Number(process.env['PORT']) || 3000;
 
   // Start up the Node server
   const server = app();
-  console.log(server);
-
-  server.listen(
-    port,
-    // REMEMBER TO UNCOMMENT THIS BEFORE PRODUCTION DEPLOYING --> '0.0.0.0', 
-    () => {
-  });
+  server.listen(port, '0.0.0.0', () => {});
 }
 
 run();
