@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "build": "node ",
+        "start": "nodemon ./server/server.mjs"
+    }
+}
