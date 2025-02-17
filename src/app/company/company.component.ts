@@ -4,10 +4,7 @@ import { AppService } from '@appService';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from '../footer/footer.component';
 
-import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-
-import { ContactUsComponent } from '../contact-us/contact-us.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 
 import { ContentComponent as _contentComponentContactUs } from '../contact-us/content/content.component';
