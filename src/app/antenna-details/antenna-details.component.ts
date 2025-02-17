@@ -141,7 +141,6 @@ export class AntennaDetailsComponent implements AfterViewInit, OnDestroy{
     })
 
     appService.init();
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
   }
   
   ngAfterViewInit(): void {

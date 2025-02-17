@@ -33,7 +33,6 @@ export class CustomAntennaComponent implements OnDestroy {
     appService.componentsList = [HeaderComponent, EnclosuresComponent, AntennasCollectionComponent, MountingComponent, ContactComponent, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
     CustomAntennaComponent.prototype.route = activatedRoute;
   }
 

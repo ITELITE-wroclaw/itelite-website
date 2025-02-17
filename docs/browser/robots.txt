@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Allow: /#/products
-Allow: /#/custom-antenna
-Allow: /#/company
-Allow: /#/order
-Sitemap: https://itelite-website-5pnd.onrender.com/#/sitemap.xml

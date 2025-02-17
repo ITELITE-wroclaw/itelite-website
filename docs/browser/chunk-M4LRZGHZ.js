@@ -1,4 +1,4 @@
-import{La as l,Ma as m,Na as p,Qa as c,n as s,q as o}from"./chunk-TK6MJPQE.js";var g=(()=>{let t=class t{constructor(r,a){this.apollo=r,this.store=a}resolve(r,a){let f=m`
+import{La as l,Ma as m,Na as p,Qa as c,n as s,q as o}from"./chunk-J2NAWHMB.js";var g=(()=>{let t=class t{constructor(r,a){this.apollo=r,this.store=a}resolve(r,a){let f=m`
       {
         allAntennas(skip: 0){
           ant_name

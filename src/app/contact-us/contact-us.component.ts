@@ -28,7 +28,6 @@ export class ContactUsComponent implements AfterViewInit{
     appService.componentsList = [ContentComponent, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
     ContactUsComponent.prototype.route = activatedRoute;
   }
 

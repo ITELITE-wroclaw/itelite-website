@@ -42,7 +42,7 @@ export class ProductsComponent implements AfterViewInit, OnInit
     appService.componentsList = [HeaderComponent, MainContentComponent, EnclosuresComponent, AccessoriesComponent, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
+    
     ProductsComponent.prototype.route = activatedRoute;
   }
 

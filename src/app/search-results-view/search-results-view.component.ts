@@ -20,8 +20,7 @@ export class SearchResultsViewComponent {
   ){
     appService.componentsList = [ContentComponent, FooterComponent ];
     appService.init();
-    
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
+  
   }
 
 }

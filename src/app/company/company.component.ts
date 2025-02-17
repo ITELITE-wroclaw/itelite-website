@@ -33,7 +33,6 @@ export class CompanyComponent {
     appService.componentsList = [ContentComponent, AboutUsComponent, _contentComponentContactUs, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent();
     CompanyComponent.prototype.route = activatedRoute;
 
   }

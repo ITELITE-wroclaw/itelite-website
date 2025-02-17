@@ -19,7 +19,6 @@ import { anyAntennaAction } from '@reducer';
 })
 export class AppService {
 
-  public currentComponentID: number = 0;
   public originComponentsList: any[] = [];
 
   public componentsList: any[] = [];
@@ -63,6 +62,8 @@ export class AppService {
     
     this.subscriptions = [];
     this.subscriptions?.push(this.routerSubscribe());
+
+    for(let i=1; i<this.componentsList.length; i++) this.renderComponent(i); 
   }
 
   // after each router swap the view is purge
@@ -122,32 +123,14 @@ export class AppService {
     })
   }
 
-  // during user scroll event the components ough to be inject dynamically
-  public scrollEvent()
-  {
-    merge(
-      fromEvent(window, "wheel"),
-      fromEvent(window, "touchmove"),
-      fromEvent(window, "scroll")
-    )
-    .subscribe((e: WheelEvent | any) => {
-      this.renderComponent(this.currentComponentID + 1, false);
-    })
-
-  }
 
   // dynamiczne generowanie komponentów
-  private renderComponent(id: number, flag: boolean)
+  public renderComponent(id: number)
   {
 
-    if(!id || !this.componentsList[`${id}`]) return;
     const body: HTMLElement = this.renderer.selectRootElement("body", true);
 
-    if( !(body.getBoundingClientRect().bottom < window.innerHeight + 450) &&  !flag) return;
-    this.currentComponentID++;
-
     const _componentFactory = this.componentFactory.resolveComponentFactory(this.componentsList[id]);
-  
     const component = id == this.componentsList.length - 1?
     this.footer?.createComponent(_componentFactory): this.main?.createComponent(_componentFactory);
 
@@ -157,7 +140,6 @@ export class AppService {
   public purgeSubscriptions(): void
   {
     this.subscriptions?.forEach((e) => e.unsubscribe());
-    this.currentComponentID = 0;
   }
 
   public showSearchElement(searchElement: HTMLElement)
@@ -263,7 +245,7 @@ export class AppService {
       if( !isNaN(id) && id > 0 ) {
 
         for(let i=1; i<id+1; i++) setTimeout(() => {
-          this.renderComponent(i, true);
+          this.renderComponent(i);
         }, 10);
 
         setTimeout(() => {

@@ -27,7 +27,6 @@ export class OrderComponent {
     appService.componentsList = [ContentComponent, FooterComponent];
     appService.init();
     
-    if(isPlatformBrowser(platform_id)) this.appService.scrollEvent(); 
     OrderComponent.prototype.route = activatedRoute;
   }
 
